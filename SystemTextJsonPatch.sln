@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemTextJsonPatch", "src\SystemTextJsonPatch.csproj", "{245FB7D6-88EC-4898-B3FE-D79A0DF26B5E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemTextJsonPatch.Tests", "test\SystemTextJsonPatch.Tests.csproj", "{BE6578FD-27B1-44EF-974A-C36DD8DA3B08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{245FB7D6-88EC-4898-B3FE-D79A0DF26B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{245FB7D6-88EC-4898-B3FE-D79A0DF26B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{245FB7D6-88EC-4898-B3FE-D79A0DF26B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{245FB7D6-88EC-4898-B3FE-D79A0DF26B5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE6578FD-27B1-44EF-974A-C36DD8DA3B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE6578FD-27B1-44EF-974A-C36DD8DA3B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE6578FD-27B1-44EF-974A-C36DD8DA3B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE6578FD-27B1-44EF-974A-C36DD8DA3B08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2351186-FE78-4401-AD58-1B769DC4C98A}
+	EndGlobalSection
+EndGlobal

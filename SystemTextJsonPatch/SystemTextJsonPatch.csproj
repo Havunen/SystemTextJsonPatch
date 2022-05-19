@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>ASP.NET Core support for JSON PATCH.</Description>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>aspnetcore;json;jsonpatch;system.text.json;</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Internal\DictionaryAdapterOfTU.cs" />
+    <Compile Remove="Internal\DynamicObjectAdapter.cs" />
+  </ItemGroup>
+
+</Project>

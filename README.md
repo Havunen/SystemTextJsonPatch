@@ -1,4 +1,4 @@
-<img src="./logo.png" alt="logo"/>
+![SystemTextJsonPatchLogo](https://raw.githubusercontent.com/Havunen/SystemTextJsonPatch/main/logo.png)
 
 # SystemTextJsonPatch
 

@@ -1,21 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>ASP.NET Core support for JSON PATCH. Using System.Text.Json</Description>
+    <Description>SystemTextJson is JSON JSON Patch (JsonPatchDocument) RFC 6902 implementation for .NET using System.Text.Json</Description>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageTags>aspnetcore;json;jsonpatch;system.text.json;</PackageTags>
+    <PackageTags>aspnetcore;json;jsonpatch;system.text.json;rfc6902;</PackageTags>
     <LangVersion>10</LangVersion>
     <Version>0.0.1</Version>
     <RepositoryUrl>https://github.com/Havunen/SystemTextJsonPatch.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <AnalysisLevel>6.0-all</AnalysisLevel>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Havunen/SystemTextJsonPatch</PackageProjectUrl>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Internal\DictionaryAdapterOfTU.cs" />
     <Compile Remove="Internal\DynamicObjectAdapter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

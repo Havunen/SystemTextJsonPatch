@@ -12,6 +12,10 @@ public class JsonPatchException : Exception
     {
     }
 
+    public JsonPatchException(string message) : base(message)
+    {
+    }
+
     public JsonPatchException(JsonPatchError jsonPatchError, Exception innerException)
         : base(jsonPatchError.ErrorMessage, innerException)
     {

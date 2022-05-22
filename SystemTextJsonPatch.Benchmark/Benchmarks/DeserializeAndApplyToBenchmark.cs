@@ -21,7 +21,7 @@ public class DeserializeAndApplyToBenchmark
         };
     }
 
-    private static string patchDocJson = string.Format(
+    public static string DeserializePatchDocJson = string.Format(
         "[" +
         "{{\"op\": \"replace\", \"path\": \"number\", \"value\": 86632}}," +
         "{{\"op\": \"replace\", \"path\": \"text\", \"value\": \"testing-performance\"}}," +
@@ -35,21 +35,21 @@ public class DeserializeAndApplyToBenchmark
     [Benchmark]
     public void SystemTextJson()
     {
-        var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(patchDocJson, systemTextJsonSerializerOptions);
+        var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson, systemTextJsonSerializerOptions);
         patchDoc.ApplyTo(new TestModel());
     }
 
     [Benchmark]
     public void MarvinJsonPatch()
     {
-        var patchDoc = Newtonsoft.Json.JsonConvert.DeserializeObject<Marvin.JsonPatch.JsonPatchDocument<TestModel>>(patchDocJson);
+        var patchDoc = Newtonsoft.Json.JsonConvert.DeserializeObject<Marvin.JsonPatch.JsonPatchDocument<TestModel>>(DeserializePatchDocJson);
         patchDoc.ApplyTo(new TestModel());
     }
 
     [Benchmark]
     public void AspNetCoreJsonPatch()
     {
-        var patchDoc = Newtonsoft.Json.JsonConvert.DeserializeObject<Microsoft.AspNetCore.JsonPatch.JsonPatchDocument<TestModel>>(patchDocJson);
+        var patchDoc = Newtonsoft.Json.JsonConvert.DeserializeObject<Microsoft.AspNetCore.JsonPatch.JsonPatchDocument<TestModel>>(DeserializePatchDocJson);
         patchDoc.ApplyTo(new TestModel());
     }
 }

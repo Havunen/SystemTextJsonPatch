@@ -101,10 +101,10 @@ public class JSonObjectAdapter : IAdapter
             errorMessage = Resources.FormatValueForTargetSegmentCannotBeNullOrEmpty(segment);
             return false;
         }
-
-        if (!string.Equals(JsonSerializer.Serialize(currentValue), JsonSerializer.Serialize(value), StringComparison.Ordinal))
+        
+        if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(value)?.ToString(), StringComparison.Ordinal))
         {
-            errorMessage = Resources.FormatValueNotEqualToTestValue(currentValue, value, segment);
+            errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
             return false;
         }
 

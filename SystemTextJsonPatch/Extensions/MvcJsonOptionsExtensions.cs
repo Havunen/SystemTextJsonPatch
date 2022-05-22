@@ -3,7 +3,7 @@ using SystemTextJsonPatch.Converters;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
-public static class JsonOptionsExtensions
+public static class MvcJsonOptionsExtensions
 {
     /// <summary>
     /// Adds <see cref="SystemTextJsonPatch.JsonPatchDocument"/> and serializer to System.Text.Json.

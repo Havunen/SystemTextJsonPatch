@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SystemTextJsonPatch.AspNet\SystemTextJsonPatch.AspNet.csproj" />
     <ProjectReference Include="..\SystemTextJsonPatch\SystemTextJsonPatch.csproj" />
   </ItemGroup>
 

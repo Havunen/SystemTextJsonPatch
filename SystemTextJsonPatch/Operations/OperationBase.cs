@@ -40,7 +40,7 @@ public abstract class OperationBase
     }
 
     [JsonPropertyName("from")]
-    public string from { get; set; }
+    public string? from { get; set; }
 
     public OperationBase()
     {

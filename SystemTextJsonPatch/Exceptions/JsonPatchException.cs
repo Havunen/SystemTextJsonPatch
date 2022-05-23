@@ -1,20 +1,13 @@
 using System;
+using System.Text.Json;
 using SystemTextJsonPatch.Operations;
 
 namespace SystemTextJsonPatch.Exceptions;
 
-public class JsonPatchException : Exception
+public class JsonPatchException : JsonException
 {
     public Operation FailedOperation { get; }
     public object AffectedObject { get; }
-
-    public JsonPatchException()
-    {
-    }
-
-    public JsonPatchException(string message) : base(message)
-    {
-    }
 
     public JsonPatchException(JsonPatchError jsonPatchError, Exception innerException)
         : base(jsonPatchError.ErrorMessage, innerException)

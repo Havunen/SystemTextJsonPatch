@@ -6,12 +6,14 @@ namespace SystemTextJsonPatch.Internal;
 /// </summary>
 public class ConversionResult
 {
-    public ConversionResult(bool canBeConverted, object convertedInstance)
+    public ConversionResult(bool canBeConverted, object convertedInstance, string? errorMessage = null)
     {
         CanBeConverted = canBeConverted;
         ConvertedInstance = convertedInstance;
+        ErrorMessage = errorMessage;
     }
 
     public bool CanBeConverted { get; }
     public object ConvertedInstance { get; }
+    public string? ErrorMessage { get; }
 }

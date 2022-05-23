@@ -217,7 +217,7 @@ public class ListAdapter : IAdapter
         return true;
     }
 
-    protected virtual bool TryConvertValue(
+    protected bool TryConvertValue(
         object originalValue,
         Type listTypeArgument,
         string segment,
@@ -233,7 +233,7 @@ public class ListAdapter : IAdapter
             out errorMessage);
     }
 
-    protected virtual bool TryConvertValue(
+    protected bool TryConvertValue(
         object originalValue,
         Type listTypeArgument,
         string segment,
@@ -245,7 +245,7 @@ public class ListAdapter : IAdapter
         if (!conversionResult.CanBeConverted)
         {
             convertedValue = null;
-            errorMessage = Resources.FormatInvalidValueForProperty(originalValue);
+            errorMessage = conversionResult.ErrorMessage ?? Resources.FormatInvalidValueForProperty(originalValue);
             return false;
         }
 
@@ -254,7 +254,7 @@ public class ListAdapter : IAdapter
         return true;
     }
 
-    protected virtual bool TryGetListTypeArgument(IList list, out Type listTypeArgument, out string errorMessage)
+    protected bool TryGetListTypeArgument(IList list, out Type listTypeArgument, out string errorMessage)
     {
         // Arrays are not supported as they have fixed size and operations like Add, Insert do not make sense
         var listType = list.GetType();
@@ -346,7 +346,7 @@ public class ListAdapter : IAdapter
             candidate.GetGenericTypeDefinition() == interfaceType;
     }
 
-    protected virtual bool TryGetPositionInfo(
+    protected bool TryGetPositionInfo(
         IList list,
         string segment,
         OperationType operationType,

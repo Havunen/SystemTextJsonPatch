@@ -729,7 +729,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
             {
                 op.Apply(objectToApplyTo, adapter);
             }
-            catch (JsonPatchException jsonPatchException)
+            catch (JsonException jsonPatchException)
             {
                 var errorReporter = logErrorAction ?? ErrorReporter.Default;
                 errorReporter(new JsonPatchError(objectToApplyTo, op, jsonPatchException.Message));

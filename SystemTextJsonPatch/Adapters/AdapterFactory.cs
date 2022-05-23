@@ -32,17 +32,7 @@ public class AdapterFactory : IAdapterFactory
             return new ListAdapter();
         }
 
-        //if (jsonContract is JsonDictionaryContract jsonDictionaryContract)
-        //{
-        //    var type = typeof(DictionaryAdapter<,>).MakeGenericType(jsonDictionaryContract.DictionaryKeyType, jsonDictionaryContract.DictionaryValueType);
-        //    return (IAdapter)Activator.CreateInstance(type);
-        //}
-        //if (jsonContract is JsonDynamicContract)
-        //{
-        //    return new DynamicObjectAdapter();
-        //}
         return new PocoAdapter();
-        throw new NotSupportedException("Create PocoAdapter?");
     }
 }
 

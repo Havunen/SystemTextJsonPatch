@@ -21,11 +21,12 @@ public static class ConversionResultProvider
             return new ConversionResult(IsNullableType(typeToConvertTo), null);
         }
 
-        if (typeToConvertTo.IsAssignableFrom(value.GetType()))
+        if (typeToConvertTo.IsInstanceOfType(value))
         {
             // No need to convert
             return new ConversionResult(true, value);
         }
+
         try
         {
             if (options == null)
@@ -35,12 +36,18 @@ public static class ConversionResultProvider
             }
             else
             {
-                var deserialized = JsonSerializer.Deserialize(JsonSerializer.Serialize(value, options), typeToConvertTo, options);
+                var deserialized =
+                    JsonSerializer.Deserialize(JsonSerializer.Serialize(value, options), typeToConvertTo, options);
 
                 return new ConversionResult(true, deserialized);
             }
         }
-        catch
+        catch (JsonException jsonException)
+        {
+            // Do not change application layer JsonException messages, but hide errors from System.Text.Json
+            return new ConversionResult(canBeConverted: false, convertedInstance: null, "System.Text.Json".Equals(jsonException.Source, StringComparison.Ordinal) ? null : jsonException.Message);
+        }
+        catch (Exception)
         {
             return new ConversionResult(canBeConverted: false, convertedInstance: null);
         }

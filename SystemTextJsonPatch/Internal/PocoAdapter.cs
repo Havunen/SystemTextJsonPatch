@@ -35,9 +35,9 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!TryConvertValue(value, jsonProperty.PropertyType, options, out var convertedValue))
+        if (!TryConvertValue(value, jsonProperty.PropertyType, options, out var convertedValue, out var conversionErrorMessage))
         {
-            errorMessage = Resources.FormatInvalidValueForProperty(value);
+            errorMessage = conversionErrorMessage ?? Resources.FormatInvalidValueForProperty(value);
             return false;
         }
 
@@ -125,9 +125,9 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!TryConvertValue(value, jsonProperty.PropertyType, options, out var convertedValue))
+        if (!TryConvertValue(value, jsonProperty.PropertyType, options, out var convertedValue, out var conversionErrorMessage))
         {
-            errorMessage = Resources.FormatInvalidValueForProperty(value);
+            errorMessage = conversionErrorMessage ?? Resources.FormatInvalidValueForProperty(value);
             return false;
         }
 
@@ -156,9 +156,9 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!TryConvertValue(value, jsonProperty.PropertyType, options, out var convertedValue))
+        if (!TryConvertValue(value, jsonProperty.PropertyType, options, out var convertedValue, out var conversionErrorMessage))
         {
-            errorMessage = Resources.FormatInvalidValueForProperty(value);
+            errorMessage = conversionErrorMessage ?? Resources.FormatInvalidValueForProperty(value);
             return false;
         }
 
@@ -260,21 +260,18 @@ public class PocoAdapter : IAdapter
         return null;
     }
 
-    protected virtual bool TryConvertValue(object value, Type propertyType, out object convertedValue)
-    {
-        return TryConvertValue(value, propertyType, null, out convertedValue); 
-    }
-
-    protected virtual bool TryConvertValue(object value, Type propertyType, JsonSerializerOptions options, out object convertedValue)
+    protected bool TryConvertValue(object value, Type propertyType, JsonSerializerOptions options, out object convertedValue, out string? errorMessage)
     {
         var conversionResult = ConversionResultProvider.ConvertTo(value, propertyType, options);
         if (!conversionResult.CanBeConverted)
         {
             convertedValue = null;
+            errorMessage = conversionResult.ErrorMessage;
             return false;
         }
 
         convertedValue = conversionResult.ConvertedInstance;
+        errorMessage = null;
         return true;
     }
 }

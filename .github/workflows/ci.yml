@@ -1,0 +1,38 @@
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  DOTNET_VERSION: "6.0.x"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: dotnet build
+        run: dotnet build
+
+      - name: dotnet test
+        run: dotnet test --no-build --no-restore --logger "junit;LogFilePath=unit-tests.xml"
+
+      - name: publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: "**/*-tests.xml"
+          check_name: "Unit Test Results"

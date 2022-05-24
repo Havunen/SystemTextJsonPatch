@@ -236,27 +236,6 @@ public class PocoAdapter : IAdapter
         }
 
 
-        var allProperties = target.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-        // First check through all properties if property name matches JsonPropertyNameAttribute
-        foreach (var propertyInfo in allProperties)
-        {
-            var jsonPropertyNameAttr = propertyInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
-            if (jsonPropertyNameAttr != null && string.Equals(jsonPropertyNameAttr.Name, name, StringComparison.OrdinalIgnoreCase))
-            {
-                return new PropertyProxy(propertyInfo);
-            }
-        }
-
-        // If it didn't find match by JsonPropertyName then use property name
-        foreach (var propertyInfo in allProperties)
-        {
-            if (string.Equals(propertyInfo.Name, name, StringComparison.OrdinalIgnoreCase))
-            {
-                return new PropertyProxy(propertyInfo);
-            }
-        }
-
-        return null;
+        return PropertyProxyCache.GetPropertyProxy(target.GetType(), propertyName);
     }
 }

@@ -7,7 +7,7 @@ namespace SystemTextJsonPatch.Operations;
 public class Operation : OperationBase
 {
     [JsonPropertyName("value")]
-    public object value { get; set; }
+    public object? value { get; set; }
 
     public Operation()
     {

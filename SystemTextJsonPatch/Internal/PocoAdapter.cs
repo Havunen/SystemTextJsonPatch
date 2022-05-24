@@ -35,7 +35,7 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!TryConvertValue(value, jsonProperty.PropertyType, options, out var convertedValue, out var conversionErrorMessage))
+        if (!ConversionResultProvider.TryConvertTo(value, jsonProperty.PropertyType, options, out var convertedValue, out var conversionErrorMessage))
         {
             errorMessage = conversionErrorMessage ?? Resources.FormatInvalidValueForProperty(value);
             return false;
@@ -125,7 +125,7 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!TryConvertValue(value, jsonProperty.PropertyType, options, out var convertedValue, out var conversionErrorMessage))
+        if (!ConversionResultProvider.TryConvertTo(value, jsonProperty.PropertyType, options, out var convertedValue, out var conversionErrorMessage))
         {
             errorMessage = conversionErrorMessage ?? Resources.FormatInvalidValueForProperty(value);
             return false;
@@ -156,7 +156,7 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!TryConvertValue(value, jsonProperty.PropertyType, options, out var convertedValue, out var conversionErrorMessage))
+        if (!ConversionResultProvider.TryConvertTo(value, jsonProperty.PropertyType, options, out var convertedValue, out var conversionErrorMessage))
         {
             errorMessage = conversionErrorMessage ?? Resources.FormatInvalidValueForProperty(value);
             return false;
@@ -249,29 +249,14 @@ public class PocoAdapter : IAdapter
         }
 
         // If it didn't find match by JsonPropertyName then use property name
-        var directPropertyInfo = target.GetType()
-            .GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-
-        if (directPropertyInfo != null)
+        foreach (var propertyInfo in allProperties)
         {
-            return new PropertyProxy(directPropertyInfo);
+            if (string.Equals(propertyInfo.Name, name, StringComparison.OrdinalIgnoreCase))
+            {
+                return new PropertyProxy(propertyInfo);
+            }
         }
 
         return null;
-    }
-
-    protected bool TryConvertValue(object value, Type propertyType, JsonSerializerOptions options, out object convertedValue, out string? errorMessage)
-    {
-        var conversionResult = ConversionResultProvider.ConvertTo(value, propertyType, options);
-        if (!conversionResult.CanBeConverted)
-        {
-            convertedValue = null;
-            errorMessage = conversionResult.ErrorMessage;
-            return false;
-        }
-
-        convertedValue = conversionResult.ConvertedInstance;
-        errorMessage = null;
-        return true;
     }
 }

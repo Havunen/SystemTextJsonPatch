@@ -227,11 +227,10 @@ public class ObjectAdapter : IObjectAdapterWithTest
         if (TryGetValue(operation.from, objectToApplyTo, operation, out var propertyValue))
         {
             // Create deep copy
-            var copyResult = ConversionResultProvider.CopyTo(propertyValue, propertyValue?.GetType());
-            if (copyResult.CanBeConverted)
+            if (ConversionResultProvider.TryCopyTo(propertyValue, propertyValue?.GetType(), out object convertedValue))
             {
                 Add(operation.path,
-                    copyResult.ConvertedInstance,
+                    convertedValue,
                     objectToApplyTo,
                     operation);
             }

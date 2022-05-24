@@ -33,7 +33,7 @@ public class DeserializeAndApplyToBenchmark
 
 
     [Benchmark]
-    public void SystemTextJson()
+    public void SystemTextJsonPatch()
     {
         var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson, systemTextJsonSerializerOptions);
         patchDoc.ApplyTo(new TestModel());

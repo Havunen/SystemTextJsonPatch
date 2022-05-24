@@ -241,15 +241,11 @@ public class ListAdapter : IAdapter
         out object convertedValue,
         out string errorMessage)
     {
-        var conversionResult = ConversionResultProvider.ConvertTo(originalValue, listTypeArgument, options);
-        if (!conversionResult.CanBeConverted)
+        if (!ConversionResultProvider.TryConvertTo(originalValue, listTypeArgument, options, out convertedValue, out string? conversionErrorMessage))
         {
-            convertedValue = null;
-            errorMessage = conversionResult.ErrorMessage ?? Resources.FormatInvalidValueForProperty(originalValue);
+            errorMessage = conversionErrorMessage ?? Resources.FormatInvalidValueForProperty(originalValue);
             return false;
         }
-
-        convertedValue = conversionResult.ConvertedInstance;
         errorMessage = null;
         return true;
     }

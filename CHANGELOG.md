@@ -1,3 +1,6 @@
+## 0.0.5
+- Improved performance
+
 ## 0.0.4
 - Fixed an issue where null value was not accepted for patch operation
 

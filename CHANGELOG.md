@@ -1,3 +1,7 @@
+## 0.0.6
+- Changed property type cache to be thread safe #7e53a7d92f9cb9a3d4cd5ac7dcea915eeb825a82
+- Fixes an issue comparing decimals when applying patch document changes https://github.com/Havunen/SystemTextJsonPatch/issues/4
+
 ## 0.0.5
 - Improved performance
 

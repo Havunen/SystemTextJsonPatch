@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/github/workflow/status/Havunen/SystemTextJsonPatch/CI?logo=GitHub" alt="CI status" />
 </a>
 <a href="https://www.nuget.org/packages/SystemTextJsonPatch#readme-body-tab">
-  <img src="https://img.shields.io/nuget/v/SystemTextJsonPatch?color=teal&logo=Nuget" alt="CI status" />
+  <img src="https://img.shields.io/nuget/v/SystemTextJsonPatch?color=teal&logo=Nuget" alt="Nuget" />
 </a>
 
 # SystemTextJsonPatch

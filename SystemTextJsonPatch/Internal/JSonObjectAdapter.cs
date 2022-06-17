@@ -15,7 +15,7 @@ public class JSonObjectAdapter : IAdapter
     {
         var obj = (JsonObject)target;
 
-        obj[segment] = value != null ? JsonNode.Parse(JsonSerializer.Serialize(value, options)) : null;
+        obj[segment] = value != null ? JsonSerializer.SerializeToNode(value, options) : null;
 
         errorMessage = null;
         return true;
@@ -75,7 +75,7 @@ public class JSonObjectAdapter : IAdapter
             return false;
         }
         
-        obj[segment] = value != null ? JsonNode.Parse(JsonSerializer.Serialize(value, options)) : null;
+        obj[segment] = value != null ? JsonSerializer.SerializeToNode(value, options) : null;
 
         errorMessage = null;
         return true;

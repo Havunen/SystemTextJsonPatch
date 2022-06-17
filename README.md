@@ -1,7 +1,11 @@
 ![SystemTextJsonPatchLogo](https://raw.githubusercontent.com/Havunen/SystemTextJsonPatch/main/logo.png)
 
-![CI](https://img.shields.io/github/workflow/status/Havunen/SystemTextJsonPatch/CI?logo=GitHub)
-![Nuget](https://img.shields.io/nuget/v/SystemTextJsonPatch?color=teal&logo=Nuget)
+<a href="https://github.com/Havunen/SystemTextJsonPatch/actions/workflows/ci.yml">
+  <img src="https://img.shields.io/github/workflow/status/Havunen/SystemTextJsonPatch/CI?logo=GitHub" alt="CI status" />
+</a>
+<a href="https://www.nuget.org/packages/SystemTextJsonPatch#readme-body-tab">
+  <img src="https://img.shields.io/nuget/v/SystemTextJsonPatch?color=teal&logo=Nuget" alt="CI status" />
+</a>
 
 # SystemTextJsonPatch
 

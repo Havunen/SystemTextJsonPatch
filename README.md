@@ -1,5 +1,8 @@
 ![SystemTextJsonPatchLogo](https://raw.githubusercontent.com/Havunen/SystemTextJsonPatch/main/logo.png)
 
+![CI](https://img.shields.io/github/workflow/status/Havunen/SystemTextJsonPatch/CI?logo=GitHub)
+![Nuget](https://img.shields.io/nuget/v/SystemTextJsonPatch?color=teal&logo=Nuget)
+
 # SystemTextJsonPatch
 
 SystemTextJsonPatch is a JSON Patch (JsonPatchDocument) RFC 6902 implementation for .NET using System.Text.Json

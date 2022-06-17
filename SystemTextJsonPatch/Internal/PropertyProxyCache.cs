@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Internal.Proxies;
@@ -8,8 +8,8 @@ namespace SystemTextJsonPatch.Internal
 {
     internal static class PropertyProxyCache
     {
-        private static readonly Dictionary<Type, PropertyInfo[]> _CachedTypeProperties = new();
-        private static readonly Dictionary<(Type, string), PropertyProxy> _CachedPropertyProxies = new();
+        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _CachedTypeProperties = new();
+        private static readonly ConcurrentDictionary<(Type, string), PropertyProxy> _CachedPropertyProxies = new();
 
         internal static PropertyProxy GetPropertyProxy(Type type, string propName)
         {

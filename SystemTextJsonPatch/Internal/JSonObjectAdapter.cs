@@ -102,7 +102,7 @@ public class JSonObjectAdapter : IAdapter
             return false;
         }
         
-        if (!Equals(currentValue, value) && !string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(value)?.ToString(), StringComparison.Ordinal))
+        if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(value)?.ToString(), StringComparison.Ordinal))
         {
             errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
             return false;

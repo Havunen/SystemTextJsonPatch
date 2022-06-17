@@ -711,7 +711,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <param name="objectToApplyTo">Object to apply the JsonPatchDocument to</param>
     /// <param name="adapter">IObjectAdapter instance to use when applying</param>
     /// <param name="logErrorAction">Action to log errors</param>
-    public void ApplyTo(TModel objectToApplyTo, IObjectAdapter adapter, Action<JsonPatchError> logErrorAction)
+    public void ApplyTo(TModel objectToApplyTo, IObjectAdapter adapter, Action<JsonPatchError>? logErrorAction)
     {
         if (objectToApplyTo == null)
         {

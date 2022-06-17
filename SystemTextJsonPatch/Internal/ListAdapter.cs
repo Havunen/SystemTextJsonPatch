@@ -175,7 +175,7 @@ public class ListAdapter : IAdapter
         }
 
         var currentValue = list[positionInfo.Index];
-        if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString())) {
+        if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(), StringComparison.Ordinal)) {
             errorMessage = Resources.FormatValueAtListPositionNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, positionInfo.Index);
             return false;
         }

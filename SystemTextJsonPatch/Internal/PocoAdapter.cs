@@ -163,10 +163,23 @@ public class PocoAdapter : IAdapter
         }
 
         var currentValue = jsonProperty.GetValue(target);
-        if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(), StringComparison.Ordinal))
+
+        // all numeric values are handled as decimals
+        if (currentValue is decimal)
         {
-            errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
-            return false;
+            if (!decimal.Equals(currentValue, convertedValue))
+            {
+                errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
+                return false;
+            }
+        }
+        else
+        {
+            if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(), StringComparison.Ordinal))
+            {
+                errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
+                return false;
+            }
         }
 
         errorMessage = null;

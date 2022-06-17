@@ -113,9 +113,8 @@ namespace SystemTextJsonPatch.Converters
                         writer.WriteString("from", operation.from);
                     }
 
-                    var json = JsonSerializer.Serialize(operation.value, options);
                     writer.WritePropertyName("value");
-                    writer.WriteRawValue(json);
+                    JsonSerializer.Serialize(writer, operation.value, options);
                     writer.WriteEndObject();
                 }
 

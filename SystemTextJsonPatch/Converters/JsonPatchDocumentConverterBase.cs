@@ -7,7 +7,7 @@ using SystemTextJsonPatch.Operations;
 
 namespace SystemTextJsonPatch.Converters
 {
-    public abstract class JsonPatchDocumentConverterBase<TType, TOperation> : JsonConverter<TType> 
+    public abstract class JsonPatchDocumentConverterBase<TType, TOperation> : JsonConverter<TType>
         where TType : class, IJsonPatchDocument, new()
         where TOperation : Operation, new()
 
@@ -15,77 +15,87 @@ namespace SystemTextJsonPatch.Converters
     {
         protected List<TOperation> ParseOperations(ref Utf8JsonReader reader)
         {
-            if (JsonDocument.TryParseValue(ref reader, out JsonDocument doc))
+            if (reader.TokenType == JsonTokenType.StartArray)
             {
                 var operations = new List<TOperation>();
 
-                if (doc.RootElement.ValueKind == JsonValueKind.Array)
+                while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
                 {
-                    foreach (var jsonEl in doc.RootElement.EnumerateArray())
+                    if (reader.TokenType != JsonTokenType.StartObject)
                     {
-                        if (jsonEl.ValueKind != JsonValueKind.Object)
+                        throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+                    }
+
+                    string op = null;
+                    string path = null;
+                    string from = null;
+                    object val = null;
+
+                    while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
+                    {
+                        if (reader.TokenType != JsonTokenType.PropertyName)
                         {
                             throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
                         }
 
-                        string op = null;
-                        string path = null;
-                        string from = null;
-                        object val = null;
+                        var name = reader.GetString();
 
-                        foreach (var jsonObj in jsonEl.EnumerateObject())
+                        if (!reader.Read())
                         {
-                            if ("op".Equals(jsonObj.Name, StringComparison.OrdinalIgnoreCase))
-                            {
-                                op = jsonObj.Value.GetString();
-                            }
-                            else if ("path".Equals(jsonObj.Name, StringComparison.OrdinalIgnoreCase))
-                            {
-                                path = jsonObj.Value.GetString();
-                            }
-                            else if ("from".Equals(jsonObj.Name, StringComparison.OrdinalIgnoreCase))
-                            {
-                                from = jsonObj.Value.GetString();
-                            }
-                            else if ("value".Equals(jsonObj.Name, StringComparison.OrdinalIgnoreCase))
-                            {
-
-                                switch (jsonObj.Value.ValueKind)
-                                {
-                                    case JsonValueKind.String:
-                                        val = jsonObj.Value.GetString();
-                                        break;
-                                    case JsonValueKind.Number:
-                                        val = jsonObj.Value.GetDecimal();
-                                        break;
-                                    case JsonValueKind.True:
-                                    case JsonValueKind.False:
-                                        val = jsonObj.Value.GetBoolean();
-                                        break;
-                                    case JsonValueKind.Null:
-                                        val = null;
-                                        break;
-                                    default:
-                                        val = jsonObj.Value;
-                                        break;
-                                }
-                            }
-                            else
-                            {
-                                throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
-                            }
+                            throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
                         }
 
-                        var operation = new TOperation
+                        if ("op".Equals(name, StringComparison.OrdinalIgnoreCase))
                         {
-                            op = op,
-                            path = path,
-                            from = from,
-                            value = val
-                        };
-
-                        operations.Add(operation);
+                            op = reader.GetString();
+                        }
+                        else if ("path".Equals(name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            path = reader.GetString();
+                        }
+                        else if ("from".Equals(name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            from = reader.GetString();
+                        }
+                        else if ("value".Equals(name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            switch (reader.TokenType)
+                            {
+                                case JsonTokenType.String:
+                                    val = reader.GetString();
+                                    break;
+                                case JsonTokenType.Number:
+                                    val = reader.GetDecimal();
+                                    break;
+                                case JsonTokenType.True:
+                                    val = true;
+                                    break;
+                                case JsonTokenType.False:
+                                    val = false;
+                                    break;
+                                case JsonTokenType.Null:
+                                    val = null;
+                                    break;
+                                default:
+                                    val = JsonElement.ParseValue(ref reader);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+                        }
                     }
+
+                    var operation = new TOperation
+                    {
+                        op = op,
+                        path = path,
+                        from = from,
+                        value = val
+                    };
+
+                    operations.Add(operation);
                 }
 
                 return operations;

@@ -26,10 +26,10 @@ namespace SystemTextJsonPatch.Converters
                         throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
                     }
 
-                    string op = null;
-                    string path = null;
-                    string from = null;
-                    object val = null;
+                    string? op = null;
+                    string? path = null;
+                    string? from = null;
+                    object? val = null;
 
                     while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
                     {

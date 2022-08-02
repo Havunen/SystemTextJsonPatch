@@ -5,7 +5,6 @@ namespace SystemTextJsonPatch;
 
 public class SimpleObject
 {
-    public List<SimpleObject> SimpleObjectList { get; set; }
     public List<int> IntegerList { get; set; }
     public IList<int> IntegerIList { get; set; }
     public int IntegerValue { get; set; }

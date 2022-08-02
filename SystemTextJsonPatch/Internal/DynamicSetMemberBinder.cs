@@ -10,7 +10,7 @@ namespace SystemTextJsonPatch.Internal
         }
 
         public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value,
-            DynamicMetaObject errorSuggestion)
+            DynamicMetaObject? errorSuggestion)
         {
             throw new InvalidOperationException(typeof(DynamicSetMemberBinder).FullName + ".FallbackGetMember");
         }

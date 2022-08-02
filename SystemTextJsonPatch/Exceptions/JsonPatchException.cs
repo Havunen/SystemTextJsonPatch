@@ -9,7 +9,7 @@ public class JsonPatchException : JsonException
     public Operation FailedOperation { get; }
     public object AffectedObject { get; }
 
-    public JsonPatchException(JsonPatchError jsonPatchError, Exception innerException)
+    public JsonPatchException(JsonPatchError jsonPatchError, Exception? innerException)
         : base(jsonPatchError.ErrorMessage, innerException)
     {
         FailedOperation = jsonPatchError.Operation;
@@ -21,7 +21,7 @@ public class JsonPatchException : JsonException
     {
     }
 
-    public JsonPatchException(string message, Exception innerException)
+    public JsonPatchException(string message, Exception? innerException)
         : base(message, innerException)
     {
     }

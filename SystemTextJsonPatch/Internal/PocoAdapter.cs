@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Internal.Proxies;
 
 namespace SystemTextJsonPatch.Internal;
@@ -20,8 +18,8 @@ public class PocoAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage)
+        object? value,
+        out string? errorMessage)
     {
         if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
         {
@@ -29,7 +27,7 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!jsonProperty.CanWrite)
+        if (!jsonProperty!.CanWrite)
         {
             errorMessage = Resources.FormatCannotUpdateProperty(segment);
             return false;
@@ -51,8 +49,8 @@ public class PocoAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out object value,
-        out string errorMessage)
+        out object? value,
+        out string? errorMessage)
     {
         if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
         {
@@ -61,7 +59,7 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!jsonProperty.CanRead)
+        if (!jsonProperty!.CanRead)
         {
             errorMessage = Resources.FormatCannotReadProperty(segment);
             value = null;
@@ -77,7 +75,7 @@ public class PocoAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out string errorMessage)
+        out string? errorMessage)
     {
         if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
         {
@@ -85,7 +83,7 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!jsonProperty.CanWrite)
+        if (!jsonProperty!.CanWrite)
         {
             errorMessage = Resources.FormatCannotUpdateProperty(segment);
             return false;
@@ -93,14 +91,14 @@ public class PocoAdapter : IAdapter
 
         // Setting the value to "null" will use the default value in case of value types, and
         // null in case of reference types
-        object value = null;
+        object? value = null;
         if (jsonProperty.PropertyType.IsValueType
             && Nullable.GetUnderlyingType(jsonProperty.PropertyType) == null)
         {
             value = Activator.CreateInstance(jsonProperty.PropertyType);
         }
 
-        jsonProperty.SetValue(target, value);
+        jsonProperty.RemoveValue(target);
 
         errorMessage = null;
         return true;
@@ -110,8 +108,8 @@ public class PocoAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage)
+        object? value,
+        out string? errorMessage)
     {
         if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
         {
@@ -119,7 +117,7 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!jsonProperty.CanWrite)
+        if (!jsonProperty!.CanWrite)
         {
             errorMessage = Resources.FormatCannotUpdateProperty(segment);
             return false;
@@ -141,8 +139,8 @@ public class PocoAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage)
+        object? value,
+        out string? errorMessage)
     {
         if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
         {
@@ -150,7 +148,7 @@ public class PocoAdapter : IAdapter
             return false;
         }
 
-        if (!jsonProperty.CanRead)
+        if (!jsonProperty!.CanRead)
         {
             errorMessage = Resources.FormatCannotReadProperty(segment);
             return false;
@@ -167,7 +165,7 @@ public class PocoAdapter : IAdapter
         // all numeric values are handled as decimals
         if (currentValue is decimal)
         {
-            if (!decimal.Equals(currentValue, convertedValue))
+            if (!Equals(currentValue, convertedValue))
             {
                 errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
                 return false;
@@ -187,27 +185,27 @@ public class PocoAdapter : IAdapter
     }
 
     public bool TryTraverse(
-        object target,
+        object? target,
         string segment,
         JsonSerializerOptions options,
-        out object value,
-        out string errorMessage)
+        out object? nextTarget,
+        out string? errorMessage)
     {
         if (target == null)
         {
-            value = null;
+            nextTarget = null;
             errorMessage = null;
             return false;
         }
 
         if (TryGetJsonProperty(target, segment, options, out var jsonProperty))
         {
-            value = jsonProperty.GetValue(target);
+            nextTarget = jsonProperty!.GetValue(target);
             errorMessage = null;
             return true;
         }
 
-        value = null;
+        nextTarget = null;
         errorMessage = Resources.FormatTargetLocationAtPathSegmentNotFound(segment);
         return false;
     }
@@ -216,7 +214,7 @@ public class PocoAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out IPropertyProxy jsonProperty
+        out IPropertyProxy? jsonProperty
     )
     {
         jsonProperty = FindPropertyByName(segment, target, options);
@@ -224,7 +222,7 @@ public class PocoAdapter : IAdapter
         return jsonProperty != null;
     }
 
-    private static IPropertyProxy FindPropertyByName(string name, object target, JsonSerializerOptions options)
+    private static IPropertyProxy? FindPropertyByName(string name, object target, JsonSerializerOptions options)
     {
         var propertyName = options.PropertyNamingPolicy != null ? options.PropertyNamingPolicy.ConvertName(name) : name;
 
@@ -243,9 +241,9 @@ public class PocoAdapter : IAdapter
             return new DictionaryTypedPropertyProxy(typedDictionary, propertyName);
         }
 
-        if (target is JsonNode jsonElemnt)
+        if (target is JsonNode jsonElement)
         {
-            return new JsonNodeProxy(jsonElemnt, propertyName);
+            return new JsonNodeProxy(jsonElement, propertyName);
         }
 
 

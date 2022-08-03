@@ -8,7 +8,7 @@ namespace SystemTextJsonPatch;
 public class CustomNamingStrategyTests
 {
     [Fact]
-    public void AddProperty_ToDynamicTestObject_WithCustomNamingStrategy()
+    public void AddPropertyToDynamicTestObjectWithCustomNamingStrategy()
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -32,7 +32,7 @@ public class CustomNamingStrategyTests
     }
 
     [Fact]
-    public void CopyPropertyValue_ToDynamicTestObject_WithCustomNamingStrategy()
+    public void CopyPropertyValueToDynamicTestObjectWithCustomNamingStrategy()
     {
         // Arrange
         var options = new JsonSerializerOptions
@@ -58,7 +58,7 @@ public class CustomNamingStrategyTests
     }
 
     [Fact]
-    public void MovePropertyValue_ForExpandoObject_WithCustomNamingStrategy()
+    public void MovePropertyValueForExpandoObjectWithCustomNamingStrategy()
     {
         // Arrange
         var options = new JsonSerializerOptions
@@ -85,7 +85,7 @@ public class CustomNamingStrategyTests
     }
 
     [Fact]
-    public void RemoveProperty_DynamicTestObject_WithCustomNamingStrategy()
+    public void RemovePropertyDynamicTestObjectWithCustomNamingStrategy()
     {
         // Arrange
         var options = new JsonSerializerOptions
@@ -108,7 +108,7 @@ public class CustomNamingStrategyTests
     }
 
     [Fact]
-    public void RemoveProperty_FromDictionaryObject_WithCustomNamingStrategy()
+    public void RemovePropertyFromDictionaryObjectWithCustomNamingStrategy()
     {
         // Arrange
         var options = new JsonSerializerOptions
@@ -135,7 +135,7 @@ public class CustomNamingStrategyTests
     }
 
     [Fact]
-    public void ReplacePropertyValue_ForExpandoObject_WithCustomNamingStrategy()
+    public void ReplacePropertyValueForExpandoObjectWithCustomNamingStrategy()
     {
         // Arrange
         var options = new JsonSerializerOptions

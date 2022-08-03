@@ -15,8 +15,8 @@ public class ListAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage)
+        object? value,
+        out string? errorMessage)
     {
         var list = (IList)target;
 
@@ -52,8 +52,8 @@ public class ListAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out object value,
-        out string errorMessage)
+        out object? value,
+        out string? errorMessage)
     {
         var list = (IList)target;
 
@@ -71,7 +71,7 @@ public class ListAdapter : IAdapter
 
         if (positionInfo.Type == PositionType.EndOfList)
         {
-            value = list[list.Count - 1];
+            value = list[^1];
         }
         else
         {
@@ -86,7 +86,7 @@ public class ListAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out string errorMessage)
+        out string? errorMessage)
     {
         var list = (IList)target;
 
@@ -117,8 +117,8 @@ public class ListAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage)
+        object? value,
+        out string? errorMessage)
     {
         var list = (IList)target;
 
@@ -139,7 +139,7 @@ public class ListAdapter : IAdapter
 
         if (positionInfo.Type == PositionType.EndOfList)
         {
-            list[list.Count - 1] = convertedValue;
+            list[^1] = convertedValue;
         }
         else
         {
@@ -154,8 +154,8 @@ public class ListAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage)
+        object? value,
+        out string? errorMessage)
     {
         var list = (IList)target;
 
@@ -188,58 +188,42 @@ public class ListAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out object value,
-        out string errorMessage)
+        out object? nextTarget,
+        out string? errorMessage)
     {
         if (target is not IList list)
         {
-            value = null;
+            nextTarget = null;
             errorMessage = null;
             return false;
         }
 
         if (!int.TryParse(segment, out var index))
         {
-            value = null;
+            nextTarget = null;
             errorMessage = Resources.FormatInvalidIndexValue(segment);
             return false;
         }
 
         if (index < 0 || index >= list.Count)
         {
-            value = null;
+            nextTarget = null;
             errorMessage = Resources.FormatIndexOutOfBounds(segment);
             return false;
         }
 
-        value = list[index];
+        nextTarget = list[index];
         errorMessage = null;
         return true;
     }
 
     protected bool TryConvertValue(
-        object originalValue,
+        object? originalValue,
         Type listTypeArgument,
-        string segment,
-        out object convertedValue,
-        out string errorMessage)
-    {
-        return TryConvertValue(
-            originalValue,
-            listTypeArgument,
-            segment,
-            null,
-            out convertedValue,
-            out errorMessage);
-    }
-
-    protected bool TryConvertValue(
-        object originalValue,
-        Type listTypeArgument,
-        string segment,
+        string _,
         JsonSerializerOptions options,
-        out object convertedValue,
-        out string errorMessage)
+        out object? convertedValue,
+        out string? errorMessage)
     {
         if (!ConversionResultProvider.TryConvertTo(originalValue, listTypeArgument, options, out convertedValue, out string? conversionErrorMessage))
         {
@@ -250,7 +234,7 @@ public class ListAdapter : IAdapter
         return true;
     }
 
-    protected bool TryGetListTypeArgument(IList list, out Type listTypeArgument, out string errorMessage)
+    protected bool TryGetListTypeArgument(IList list, out Type? listTypeArgument, out string? errorMessage)
     {
         // Arrays are not supported as they have fixed size and operations like Add, Insert do not make sense
         var listType = list.GetType();
@@ -274,7 +258,7 @@ public class ListAdapter : IAdapter
         return true;
     }
 
-    private static Type ExtractGenericInterface(Type queryType, Type interfaceType)
+    private static Type? ExtractGenericInterface(Type queryType, Type interfaceType)
     {
         if (queryType == null)
         {
@@ -301,9 +285,9 @@ public class ListAdapter : IAdapter
         return GetGenericInstantiation(queryType, interfaceType);
     }
 
-    private static Type GetGenericInstantiation(Type queryType, Type interfaceType)
+    private static Type? GetGenericInstantiation(Type queryType, Type interfaceType)
     {
-        Type bestMatch = null;
+        Type? bestMatch = null;
         var interfaces = queryType.GetInterfaces();
         foreach (var @interface in interfaces)
         {
@@ -347,7 +331,7 @@ public class ListAdapter : IAdapter
         string segment,
         OperationType operationType,
         out PositionInfo positionInfo,
-        out string errorMessage)
+        out string? errorMessage)
     {
         if (segment == "-")
         {
@@ -397,6 +381,36 @@ public class ListAdapter : IAdapter
 
         public PositionType Type { get; }
         public int Index { get; }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is PositionInfo another)
+            {
+                return this.Equals(another);
+            }
+
+            return false;
+        }
+
+        public bool Equals(PositionInfo another)
+        {
+            return this.Type == another.Type && this.Index == another.Index;
+        }
+
+        public override int GetHashCode()
+        {
+            return Type.GetHashCode() ^ Index.GetHashCode();
+        }
+
+        public static bool operator ==(PositionInfo left, PositionInfo right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(PositionInfo left, PositionInfo right)
+        {
+            return !(left == right);
+        }
     }
 
     /// <summary>

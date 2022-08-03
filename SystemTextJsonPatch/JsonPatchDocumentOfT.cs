@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Adapters;
-using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Internal;
 using SystemTextJsonPatch.Operations;
 
@@ -764,7 +763,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         }
     }
 
-    IList<Operation> IJsonPatchDocument.GetOperations()
+    public IList<Operation> GetOperations()
     {
         var allOps = new List<Operation>(Operations?.Count ?? 0);
 
@@ -774,10 +773,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
             {
                 var untypedOp = new Operation
                 {
-                    op = op.op,
-                    value = op.value,
-                    path = op.path,
-                    from = op.from
+                    Op = op.Op,
+                    Value = op.Value,
+                    Path = op.Path,
+                    From = op.From
                 };
 
                 allOps.Add(untypedOp);
@@ -788,7 +787,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     }
 
     // Internal for testing
-    internal string GetPath<TProp>(Expression<Func<TModel, TProp>> expr, string position)
+    internal string GetPath<TProp>(Expression<Func<TModel, TProp>> expr, string? position)
     {
         var segments = GetPathSegments(expr.Body);
         var path = String.Join("/", segments);
@@ -829,7 +828,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
                 var memberExpression = expr as MemberExpression;
                 listOfSegments.AddRange(GetPathSegments(memberExpression.Expression));
                 // Get property name, respecting JsonProperty attribute
-                listOfSegments.Add(GetPropertyNameFromMemberExpression(memberExpression));
+                listOfSegments.Add(JsonPatchDocument<TModel>.GetPropertyNameFromMemberExpression(memberExpression));
                 return listOfSegments;
 
             case ExpressionType.Parameter:
@@ -841,7 +840,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         }
     }
 
-    private string GetPropertyNameFromMemberExpression(MemberExpression memberExpression)
+    private static string GetPropertyNameFromMemberExpression(MemberExpression memberExpression)
     {
         var jsonPropertyNameAttr = memberExpression.Member.GetCustomAttribute<JsonPropertyNameAttribute>();
 

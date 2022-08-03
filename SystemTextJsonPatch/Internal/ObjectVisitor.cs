@@ -26,7 +26,7 @@ public class ObjectVisitor
         _adapterFactory = adapterFactory ?? throw new ArgumentNullException(nameof(adapterFactory));
     }
 
-    public bool TryVisit(ref object target, out IAdapter adapter, out string errorMessage)
+    public bool TryVisit(ref object target, out IAdapter? adapter, out string? errorMessage)
     {
         if (target == null)
         {
@@ -40,20 +40,20 @@ public class ObjectVisitor
         // Traverse until the penultimate segment to get the target object and adapter
         for (var i = 0; i < _path.Segments.Count - 1; i++)
         {
-            if (!adapter.TryTraverse(target, _path.Segments[i], _options, out var next, out errorMessage))
+            if (!adapter.TryTraverse(target, _path.Segments[i], _options, out var val, out errorMessage))
             {
                 adapter = null;
                 return false;
             }
 
             // If we hit a null on an interior segment then we need to stop traversing.
-            if (next == null)
+            if (val == null)
             {
                 adapter = null;
                 return false;
             }
 
-            target = next;
+            target = val;
             adapter = SelectAdapter(target);
         }
 

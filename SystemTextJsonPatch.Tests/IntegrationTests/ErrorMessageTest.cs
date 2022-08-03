@@ -17,15 +17,15 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
         // https://github.com/dotnet/aspnetcore/issues/38872
         [Fact]
-        public void JsonPatch_Has_Error_Not_Used_In_Operation_DateTime()
+        public void JsonPatchHasErrorNotUsedInOperationDateTime()
         {
             var incomingOperations = new[]
             {
                 new Operation
                 {
-                    op = "test",
-                    path = "/utcDateTime",
-                    value = "2000-01-01T01:01:01"
+                    Op = "test",
+                    Path = "/utcDateTime",
+                    Value = "2000-01-01T01:01:01"
                 }
             };
 
@@ -37,8 +37,8 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
                 }
             };
 
-            var incomingJson = System.Text.Json.JsonSerializer.Serialize(incomingOperations, jsonOptions);
-            var document = System.Text.Json.JsonSerializer.Deserialize<JsonPatchDocument<Test>>(incomingJson, jsonOptions);
+            var incomingJson = JsonSerializer.Serialize(incomingOperations, jsonOptions);
+            var document = JsonSerializer.Deserialize<JsonPatchDocument<Test>>(incomingJson, jsonOptions);
 
             var existingEntity = new Test { UtcDateTime = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc) };
 

@@ -28,7 +28,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void AddNewProperty_ToTypedObject_InExpandoObject()
+    public void AddNewPropertyToTypedObjectInExpandoObject()
     {
         // Arrange
         dynamic dynamicProperty = new ExpandoObject();
@@ -50,7 +50,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void AddReplaces_ExistingProperty()
+    public void AddReplacesExistingProperty()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -67,7 +67,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void AddReplaces_ExistingProperty_InNestedExpandoObject()
+    public void AddReplacesExistingPropertyInNestedExpandoObject()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -86,7 +86,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void ShouldNotReplaceProperty_WithDifferentCase()
+    public void ShouldNotReplacePropertyWithDifferentCase()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -104,7 +104,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void TestIntegerProperty_IsSuccessful()
+    public void TestIntegerPropertyIsSuccessful()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -118,7 +118,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void TestEmptyProperty_IsSuccessful()
+    public void TestEmptyPropertyIsSuccessful()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -132,7 +132,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void TestValueAgainstEmptyProperty_ThrowsJsonPatchException_IsSuccessful()
+    public void TestValueAgainstEmptyPropertyThrowsJsonPatchExceptionIsSuccessful()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -153,7 +153,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void TestStringProperty_ThrowsJsonPatchException_IfTestFails()
+    public void TestStringPropertyThrowsJsonPatchExceptionIfTestFails()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -174,7 +174,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void CopyStringProperty_ToAnotherStringProperty()
+    public void CopyStringPropertyToAnotherStringProperty()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -193,7 +193,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void CopyNullStringProperty_ToAnotherStringProperty()
+    public void CopyNullStringPropertyToAnotherStringProperty()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -208,11 +208,12 @@ public class ExpandoObjectIntegrationTest
         patchDocument.ApplyTo(targetObject);
 
         // Assert
-        Assert.False(((IDictionary<string, object>)targetObject).ContainsKey("AnotherStringProperty"));
+        Assert.True(((IDictionary<string, object>)targetObject).ContainsKey("AnotherStringProperty"));
+        Assert.Null(targetObject.AnotherStringProperty);
     }
 
     [Fact]
-    public void MoveIntegerValue_ToAnotherIntegerProperty()
+    public void MoveIntegerValueToAnotherIntegerProperty()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -235,7 +236,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void Move_ToNonExistingProperty()
+    public void MoveToNonExistingProperty()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();
@@ -335,7 +336,7 @@ public class ExpandoObjectIntegrationTest
     }
 
     [Fact]
-    public void RemoveNestedProperty_MixedCase_ThrowsPathNotFoundException()
+    public void RemoveNestedPropertyMixedCaseThrowsPathNotFoundException()
     {
         // Arrange
         dynamic targetObject = new ExpandoObject();

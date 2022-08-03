@@ -27,13 +27,8 @@ public class JsonPatchDocument : IJsonPatchDocument
 
     public JsonPatchDocument(List<Operation> operations, JsonSerializerOptions options)
     {
-        if (operations == null)
-        {
-            throw new ArgumentNullException(nameof(operations));
-        }
-
         Options = options ?? new JsonSerializerOptions();
-        Operations = operations;
+        Operations = operations ?? throw new ArgumentNullException(nameof(operations));
     }
 
     /// <summary>
@@ -43,7 +38,7 @@ public class JsonPatchDocument : IJsonPatchDocument
     /// <param name="path">target location</param>
     /// <param name="value">value</param>
     /// <returns>The <see cref="JsonPatchDocument"/> for chaining.</returns>
-    public JsonPatchDocument Add(string path, object value)
+    public JsonPatchDocument Add(string path, object? value)
     {
         if (path == null)
         {
@@ -78,7 +73,7 @@ public class JsonPatchDocument : IJsonPatchDocument
     /// <param name="path">target location</param>
     /// <param name="value">value</param>
     /// <returns>The <see cref="JsonPatchDocument"/> for chaining.</returns>
-    public JsonPatchDocument Replace(string path, object value)
+    public JsonPatchDocument Replace(string path, object? value)
     {
         if (path == null)
         {
@@ -96,7 +91,7 @@ public class JsonPatchDocument : IJsonPatchDocument
     /// <param name="path">target location</param>
     /// <param name="value">value</param>
     /// <returns>The <see cref="JsonPatchDocument"/> for chaining.</returns>
-    public JsonPatchDocument Test(string path, object value)
+    public JsonPatchDocument Test(string path, object? value)
     {
         if (path == null)
         {
@@ -246,10 +241,10 @@ public class JsonPatchDocument : IJsonPatchDocument
             {
                 var untypedOp = new Operation();
 
-                untypedOp.op = op.op;
-                untypedOp.value = op.value;
-                untypedOp.path = op.path;
-                untypedOp.from = op.from;
+                untypedOp.Op = op.Op;
+                untypedOp.Value = op.Value;
+                untypedOp.Path = op.Path;
+                untypedOp.From = op.From;
 
                 allOps.Add(untypedOp);
             }

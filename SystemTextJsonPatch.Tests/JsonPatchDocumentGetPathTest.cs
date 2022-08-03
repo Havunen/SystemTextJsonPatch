@@ -7,7 +7,7 @@ namespace SystemTextJsonPatch;
 public class JsonPatchDocumentGetPathTest
 {
     [Fact]
-    public void ExpressionType_MemberAccess()
+    public void ExpressionTypeMemberAccess()
     {
         // Arrange
         var patchDocument = new JsonPatchDocument<SimpleObjectWithNestedObject>();
@@ -20,7 +20,7 @@ public class JsonPatchDocumentGetPathTest
     }
 
     [Fact]
-    public void ExpressionType_ArrayIndex()
+    public void ExpressionTypeArrayIndex()
     {
         // Arrange
         var patchDocument = new JsonPatchDocument<int[]>();
@@ -33,7 +33,7 @@ public class JsonPatchDocumentGetPathTest
     }
 
     [Fact]
-    public void ExpressionType_Call()
+    public void ExpressionTypeCall()
     {
         // Arrange
         var patchDocument = new JsonPatchDocument<Dictionary<string, int>>();
@@ -46,7 +46,7 @@ public class JsonPatchDocumentGetPathTest
     }
 
     [Fact]
-    public void ExpressionType_Parameter_NullPosition()
+    public void ExpressionTypeParameterNullPosition()
     {
         // Arrange
         var patchDocument = new JsonPatchDocument<SimpleObject>();
@@ -59,7 +59,7 @@ public class JsonPatchDocumentGetPathTest
     }
 
     [Fact]
-    public void ExpressionType_Parameter_WithPosition()
+    public void ExpressionTypeParameterWithPosition()
     {
         // Arrange
         var patchDocument = new JsonPatchDocument<SimpleObject>();
@@ -72,7 +72,7 @@ public class JsonPatchDocumentGetPathTest
     }
 
     [Fact]
-    public void ExpressionType_Convert()
+    public void ExpressionTypeConvert()
     {
         // Arrange
         var patchDocument = new JsonPatchDocument<NestedObjectWithDerivedClass>();
@@ -85,7 +85,7 @@ public class JsonPatchDocumentGetPathTest
     }
 
     [Fact]
-    public void ExpressionType_NotSupported()
+    public void ExpressionTypeNotSupported()
     {
         // Arrange
         var patchDocument = new JsonPatchDocument<SimpleObject>();

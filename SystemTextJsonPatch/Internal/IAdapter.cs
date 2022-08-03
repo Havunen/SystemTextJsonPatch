@@ -12,40 +12,40 @@ public interface IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out object nextTarget,
-        out string errorMessage);
+        out object? nextTarget,
+        out string? errorMessage);
 
     bool TryAdd(
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage);
+        object? value,
+        out string? errorMessage);
 
     bool TryRemove(
         object target,
         string segment,
         JsonSerializerOptions options,
-        out string errorMessage);
+        out string? errorMessage);
 
     bool TryGet(
         object target,
         string segment,
         JsonSerializerOptions options,
-        out object value,
-        out string errorMessage);
+        out object? value,
+        out string? errorMessage);
 
     bool TryReplace(
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage);
+        object? value,
+        out string? errorMessage);
 
     bool TryTest(
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage);
+        object? value,
+        out string? errorMessage);
 }

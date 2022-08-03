@@ -24,7 +24,7 @@ public class SimpleObjectIntegrationTest
     }
 
     [Fact]
-    public void CopyStringProperty_ToAnotherStringProperty()
+    public void CopyStringPropertyToAnotherStringProperty()
     {
         // Arrange
         var targetObject = new SimpleObject()
@@ -44,7 +44,7 @@ public class SimpleObjectIntegrationTest
     }
 
     [Fact]
-    public void CopyNullStringProperty_ToAnotherStringProperty()
+    public void CopyNullStringPropertyToAnotherStringProperty()
     {
         // Arrange
         var targetObject = new SimpleObject()
@@ -64,7 +64,7 @@ public class SimpleObjectIntegrationTest
     }
 
     [Fact]
-    public void MoveIntegerProperty_ToAnotherIntegerProperty()
+    public void MoveIntegerPropertyToAnotherIntegerProperty()
     {
         // Arrange
         var targetObject = new SimpleObject()
@@ -145,7 +145,7 @@ public class SimpleObjectIntegrationTest
 
     // https://github.com/dotnet/aspnetcore/issues/3634
     [Fact]
-    public void Regression_AspNetCore3634()
+    public void RegressionAspNetCore3634()
     {
         // Assert
         var document = new JsonPatchDocument();
@@ -154,7 +154,7 @@ public class SimpleObjectIntegrationTest
         dynamic @object = new ExpandoObject();
         @object.hello = "world";
 
-        var target = new Regression_AspNetCore3634_Object();
+        var target = new RegressionAspNetCore3634Object();
         target.Object = @object;
 
         // Act
@@ -164,7 +164,7 @@ public class SimpleObjectIntegrationTest
         Assert.Equal("For operation 'move', the target location specified by path '/Object/goodbye' was not found.", ex.Message);
     }
 
-    private class Regression_AspNetCore3634_Object
+    private class RegressionAspNetCore3634Object
     {
         public dynamic Object { get; set; }
     }

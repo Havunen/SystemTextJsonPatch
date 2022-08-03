@@ -7,7 +7,7 @@ namespace SystemTextJsonPatch.IntegrationTests;
 public class DictionaryTest
 {
     [Fact]
-    public void TestIntegerValue_IsSuccessful()
+    public void TestIntegerValueIsSuccessful()
     {
         // Arrange
         var model = new IntDictionary();
@@ -21,7 +21,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void AddIntegerValue_Succeeds()
+    public void AddIntegerValueSucceeds()
     {
         // Arrange
         var model = new IntDictionary();
@@ -41,7 +41,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void RemoveIntegerValue_Succeeds()
+    public void RemoveIntegerValueSucceeds()
     {
         // Arrange
         var model = new IntDictionary();
@@ -59,7 +59,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void MoveIntegerValue_Succeeds()
+    public void MoveIntegerValueSucceeds()
     {
         // Arrange
         var model = new IntDictionary();
@@ -77,7 +77,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void ReplaceIntegerValue_Succeeds()
+    public void ReplaceIntegerValueSucceeds()
     {
         // Arrange
         var model = new IntDictionary();
@@ -96,7 +96,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void CopyIntegerValue_Succeeds()
+    public void CopyIntegerValueSucceeds()
     {
         // Arrange
         var model = new IntDictionary();
@@ -136,7 +136,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void TestPocoObject_Succeeds()
+    public void TestPocoObjectSucceeds()
     {
         // Arrange
         var key1 = 100;
@@ -151,7 +151,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void TestPocoObject_FailsWhenTestValueIsNotEqualToObjectValue()
+    public void TestPocoObjectFailsWhenTestValueIsNotEqualToObjectValue()
     {
         // Arrange
         var key1 = 100;
@@ -172,7 +172,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void AddReplacesPocoObject_Succeeds()
+    public void AddReplacesPocoObjectSucceeds()
     {
         // Arrange
         var key1 = 100;
@@ -196,7 +196,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void RemovePocoObject_Succeeds()
+    public void RemovePocoObjectSucceeds()
     {
         // Arrange
         var key1 = 100;
@@ -218,7 +218,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void MovePocoObject_Succeeds()
+    public void MovePocoObjectSucceeds()
     {
         // Arrange
         var key1 = 100;
@@ -241,7 +241,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void CopyPocoObject_Succeeds()
+    public void CopyPocoObjectSucceeds()
     {
         // Arrange
         var key1 = 100;
@@ -265,7 +265,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void ReplacePocoObject_Succeeds()
+    public void ReplacePocoObjectSucceeds()
     {
         // Arrange
         var key1 = 100;
@@ -289,7 +289,7 @@ public class DictionaryTest
     }
 
     [Fact]
-    public void ReplacePocoObject_WithEscaping_Succeeds()
+    public void ReplacePocoObjectWithEscapingSucceeds()
     {
         // Arrange
         var key1 = "Foo/Name";

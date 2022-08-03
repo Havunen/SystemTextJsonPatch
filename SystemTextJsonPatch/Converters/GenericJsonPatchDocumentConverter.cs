@@ -9,7 +9,7 @@ public class GenericJsonPatchDocumentConverter<TModel> : JsonPatchDocumentConver
     where TModel : class
 {
 
-    public override JsonPatchDocument<TModel> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override JsonPatchDocument<TModel>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
         {

@@ -40,7 +40,7 @@ public class ObjectVisitorTest
 
     [Theory]
     [MemberData(nameof(ReturnsListAdapterData))]
-    public void Visit_ValidPathToArray_ReturnsListAdapter(object targetObject, string path, object expectedTargetObject)
+    public void VisitValidPathToArrayReturnsListAdapter(object targetObject, string path, object expectedTargetObject)
     {
         // Arrange
         var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions()
@@ -79,7 +79,7 @@ public class ObjectVisitorTest
 
     [Theory]
     [MemberData(nameof(ReturnsDictionaryAdapterData))]
-    public void Visit_ValidPathToDictionary_ReturnsDictionaryAdapter(object targetObject, string path, object expectedTargetObject)
+    public void VisitValidPathToDictionaryReturnsDictionaryAdapter(object targetObject, string path, object expectedTargetObject)
     {
         // Arrange
         var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions()
@@ -114,7 +114,7 @@ public class ObjectVisitorTest
 
     [Theory]
     [MemberData(nameof(ReturnsExpandoAdapterData))]
-    public void Visit_ValidPathToExpandoObject_ReturnsExpandoAdapter(object targetObject, string path, object expectedTargetObject)
+    public void VisitValidPathToExpandoObjectReturnsExpandoAdapter(object targetObject, string path, object expectedTargetObject)
     {
         // Arrange
         var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions()
@@ -152,7 +152,7 @@ public class ObjectVisitorTest
 
     [Theory]
     [MemberData(nameof(ReturnsPocoAdapterData))]
-    public void Visit_ValidPath_ReturnsExpandoAdapter(object targetObject, string path, object expectedTargetObject)
+    public void VisitValidPathReturnsExpandoAdapter(object targetObject, string path, object expectedTargetObject)
     {
         // Arrange
         var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions()
@@ -176,7 +176,7 @@ public class ObjectVisitorTest
     [Theory]
     [InlineData("0")]
     [InlineData("-1")]
-    public void Visit_InvalidIndexToArray_Fails(string position)
+    public void VisitInvalidIndexToArrayFails(string position)
     {
         // Arrange
         var visitor = new ObjectVisitor(new ParsedPath($"/Customers/{position}/States/-"), new JsonSerializerOptions()
@@ -200,7 +200,7 @@ public class ObjectVisitorTest
     [Theory]
     [InlineData("-")]
     [InlineData("foo")]
-    public void Visit_InvalidIndexFormatToArray_Fails(string position)
+    public void VisitInvalidIndexFormatToArrayFails(string position)
     {
         // Arrange
         var visitor = new ObjectVisitor(new ParsedPath($"/Customers/{position}/States/-"), new JsonSerializerOptions()
@@ -222,7 +222,7 @@ public class ObjectVisitorTest
     }
 
     [Fact]
-    public void Visit_DoesNotValidate_FinalPathSegment()
+    public void VisitDoesNotValidateFinalPathSegment()
     {
         // Arrange
         var visitor = new ObjectVisitor(new ParsedPath($"/NonExisting"), new JsonSerializerOptions()
@@ -245,7 +245,7 @@ public class ObjectVisitorTest
     }
 
     [Fact]
-    public void Visit_NullInteriorTarget_ReturnsFalse()
+    public void VisitNullInteriorTargetReturnsFalse()
     {
         // Arrange
         var visitor = new ObjectVisitor(new ParsedPath("/States/0"), new JsonSerializerOptions()
@@ -267,7 +267,7 @@ public class ObjectVisitorTest
     }
 
     [Fact]
-    public void Visit_NullTarget_ReturnsNullAdapter()
+    public void VisitNullTargetReturnsNullAdapter()
     {
         // Arrange
         var visitor = new ObjectVisitor(new ParsedPath("test"), new JsonSerializerOptions()

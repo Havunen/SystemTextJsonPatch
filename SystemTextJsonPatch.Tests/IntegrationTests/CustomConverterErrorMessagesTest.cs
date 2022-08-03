@@ -32,20 +32,20 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
         }
 
         [Fact]
-        public void JsonExceptions_From_CustomConverters_Should_Be_Shown_As_Is()
+        public void JsonExceptionsFromCustomConvertersShouldBeShownAsIs()
         {
             var serializerOptions = new JsonSerializerOptions()
             {
                 Converters =
                 {
-                    new SystemTextJsonPatch.Converters.JsonPatchDocumentConverterFactory(),
+                    new Converters.JsonPatchDocumentConverterFactory(),
                     new CustomJsonConverter()
                 }
             };
 
             var model = new TestModel();
             var patchString = "[{\"op\": \"replace\", \"path\": \"testSubModel\", \"value\": {}}]";
-            var patchDoc = System.Text.Json.JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(patchString, serializerOptions);
+            var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(patchString, serializerOptions);
 
 
             var ex = Assert.Throws<JsonPatchException>(() => patchDoc.ApplyTo(model));
@@ -53,19 +53,19 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
         }
 
         [Fact]
-        public void JsonExceptions_From_SystemTextJsonSerializer_Should_Not_Be_Shown()
+        public void JsonExceptionsFromSystemTextJsonSerializerShouldNotBeShown()
         {
             var serializerOptions = new JsonSerializerOptions()
             {
                 Converters =
                 {
-                    new SystemTextJsonPatch.Converters.JsonPatchDocumentConverterFactory()
+                    new Converters.JsonPatchDocumentConverterFactory()
                 }
             };
 
             var model = new TestModel();
             var patchString = "[{\"op\": \"replace\", \"path\": \"testSubModel\", \"value\": \"true\"}]";
-            var patchDoc = System.Text.Json.JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(patchString, serializerOptions);
+            var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(patchString, serializerOptions);
 
             // This is to keep consistent with Microsoft.AspNetCore.JsonPatch rather than with System.Text.Json
             var ex = Assert.Throws<JsonPatchException>(() => patchDoc.ApplyTo(model));

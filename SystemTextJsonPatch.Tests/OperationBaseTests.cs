@@ -15,7 +15,7 @@ public class OperationBaseTests
     {
         // Arrange
         var operationBase = new Operation();
-        operationBase.op = op;
+        operationBase.Op = op;
 
         // Act & Assert
         Assert.Equal(operationType, operationBase.OperationType);
@@ -25,11 +25,11 @@ public class OperationBaseTests
     [InlineData("invalid", OperationType.Invalid)]
     [InlineData("coppy", OperationType.Invalid)]
     [InlineData("notvalid", OperationType.Invalid)]
-    public void InvalidOperationType_SetsOperationTypeInvalid(string op, OperationType operationType)
+    public void InvalidOperationTypeSetsOperationTypeInvalid(string op, OperationType operationType)
     {
         // Arrange
         var operationBase = new Operation();
-        operationBase.op = op;
+        operationBase.Op = op;
 
         // Act & Assert
         Assert.Equal(operationType, operationBase.OperationType);

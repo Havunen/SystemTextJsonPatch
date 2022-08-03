@@ -9,21 +9,21 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
     {
 
         [Fact]
-        public void Test_Values_Should_Be_Equal_Regardless_Of_Number_Of_Decimal_Zeroes()
+        public void TestValuesShouldBeEqualRegardlessOfNumberOfDecimalZeroes()
         {
             var incomingOperations = new[]
             {
                 new Operation
                 {
-                    op = "test",
-                    path = "/decimal",
-                    value = 1
+                    Op = "test",
+                    Path = "/decimal",
+                    Value = 1
                 },
                 new Operation
                 {
-                    op = "replace",
-                    path = "/decimal",
-                    value = 2
+                    Op = "replace",
+                    Path = "/decimal",
+                    Value = 2
                 }
             };
             var jsonOptions = new JsonSerializerOptions()
@@ -34,9 +34,9 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
                 }
             };
 
-            var incomingJson = System.Text.Json.JsonSerializer.Serialize(incomingOperations, jsonOptions);
+            var incomingJson = JsonSerializer.Serialize(incomingOperations, jsonOptions);
 
-            var document = System.Text.Json.JsonSerializer.Deserialize<JsonPatchDocument<Test>>(incomingJson, jsonOptions);
+            var document = JsonSerializer.Deserialize<JsonPatchDocument<Test>>(incomingJson, jsonOptions);
 
             var existingEntity = new Test { Decimal = 1M };
 

@@ -8,7 +8,7 @@ namespace SystemTextJsonPatch.IntegrationTests;
 public class ListIntegrationTest
 {
     [Fact]
-    public void TestInList_IsSuccessful()
+    public void TestInListIsSuccessful()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -27,7 +27,7 @@ public class ListIntegrationTest
     }
 
     [Fact]
-    public void TestInList_InvalidPosition()
+    public void TestInListInvalidPosition()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -70,7 +70,7 @@ public class ListIntegrationTest
     }
 
     [Fact]
-    public void AddToComplextTypeList_SpecifyIndex()
+    public void AddToComplextTypeListSpecifyIndex()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -142,7 +142,7 @@ public class ListIntegrationTest
     [Theory]
     [InlineData("3")]
     [InlineData("-1")]
-    public void RemoveFromList_InvalidPosition(string position)
+    public void RemoveFromListInvalidPosition(string position)
     {
         // Arrange
         var targetObject = new SimpleObject()
@@ -164,7 +164,7 @@ public class ListIntegrationTest
     }
 
     [Fact]
-    public void Remove_FromEndOfList()
+    public void RemoveFromEndOfList()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -186,7 +186,7 @@ public class ListIntegrationTest
     }
 
     [Fact]
-    public void ReplaceFullList_WithCollection()
+    public void ReplaceFullListWithCollection()
     {
         // Arrange
         var targetObject = new SimpleObject()
@@ -205,7 +205,7 @@ public class ListIntegrationTest
     }
 
     [Fact]
-    public void Replace_AtEndOfList()
+    public void ReplaceAtEndOfList()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -227,7 +227,7 @@ public class ListIntegrationTest
     }
 
     [Fact]
-    public void Replace_InList_InvalidPosition()
+    public void ReplaceInListInvalidPosition()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -308,7 +308,7 @@ public class ListIntegrationTest
     }
 
     [Fact]
-    public void Move_KeepsObjectReferenceInList()
+    public void MoveKeepsObjectReferenceInList()
     {
         // Arrange
         var simpleObject1 = new SimpleObject() { IntegerValue = 1 };
@@ -338,7 +338,7 @@ public class ListIntegrationTest
     }
 
     [Fact]
-    public void MoveFromList_ToNonList_BetweenHierarchy()
+    public void MoveFromListToNonListBetweenHierarchy()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()

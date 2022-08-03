@@ -6,17 +6,17 @@ namespace SystemTextJsonPatch.Benchmark.Benchmarks;
 
 public class DeserializeAndApplyToBenchmark
 {
-    private JsonSerializerOptions systemTextJsonSerializerOptions;
+    private JsonSerializerOptions _systemTextJsonSerializerOptions;
 
 
     [GlobalSetup]
     public void GlobalSetup()
     {
-        systemTextJsonSerializerOptions = new JsonSerializerOptions()
+        _systemTextJsonSerializerOptions = new JsonSerializerOptions()
         {
             Converters =
             {
-                new SystemTextJsonPatch.Converters.JsonPatchDocumentConverterFactory()
+                new Converters.JsonPatchDocumentConverterFactory()
             }
         };
     }
@@ -35,21 +35,21 @@ public class DeserializeAndApplyToBenchmark
     [Benchmark]
     public void SystemTextJsonPatch()
     {
-        var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson, systemTextJsonSerializerOptions);
-        patchDoc.ApplyTo(new TestModel());
+        var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson, _systemTextJsonSerializerOptions);
+        patchDoc?.ApplyTo(new TestModel());
     }
 
     [Benchmark]
     public void MarvinJsonPatch()
     {
         var patchDoc = Newtonsoft.Json.JsonConvert.DeserializeObject<Marvin.JsonPatch.JsonPatchDocument<TestModel>>(DeserializePatchDocJson);
-        patchDoc.ApplyTo(new TestModel());
+        patchDoc?.ApplyTo(new TestModel());
     }
 
     [Benchmark]
     public void AspNetCoreJsonPatch()
     {
         var patchDoc = Newtonsoft.Json.JsonConvert.DeserializeObject<Microsoft.AspNetCore.JsonPatch.JsonPatchDocument<TestModel>>(DeserializePatchDocJson);
-        patchDoc.ApplyTo(new TestModel());
+        patchDoc?.ApplyTo(new TestModel());
     }
 }

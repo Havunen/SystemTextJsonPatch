@@ -7,7 +7,7 @@ namespace SystemTextJsonPatch.IntegrationTests;
 public class DynamicObjectIntegrationTest
 {
     [Fact]
-    public void AddResults_ShouldReplaceExistingPropertyValue_InNestedDynamicObject()
+    public void AddResultsShouldReplaceExistingPropertyValueInNestedDynamicObject()
     {
         // Arrange
         dynamic dynamicTestObject = new DynamicTestObject();
@@ -28,7 +28,7 @@ public class DynamicObjectIntegrationTest
     }
 
     [Fact]
-    public void ShouldNotBeAbleToAdd_ToNonExistingProperty_ThatIsNotTheRoot()
+    public void ShouldNotBeAbleToAddToNonExistingPropertyThatIsNotTheRoot()
     {
         //Adding to a Nonexistent Target
         //
@@ -64,7 +64,7 @@ public class DynamicObjectIntegrationTest
     }
 
     [Fact]
-    public void CopyProperties_InNestedDynamicObject()
+    public void CopyPropertiesInNestedDynamicObject()
     {
         // Arrange
         dynamic dynamicTestObject = new DynamicTestObject();
@@ -83,7 +83,7 @@ public class DynamicObjectIntegrationTest
     }
 
     [Fact]
-    public void MoveToNonExistingProperty_InDynamicObject_ShouldAddNewProperty()
+    public void MoveToNonExistingPropertyInDynamicObjectShouldAddNewProperty()
     {
         // Arrange
         dynamic dynamicTestObject = new DynamicTestObject();
@@ -102,7 +102,7 @@ public class DynamicObjectIntegrationTest
     }
 
     [Fact]
-    public void MovePropertyValue_FromDynamicObject_ToTypedObject()
+    public void MovePropertyValueFromDynamicObjectToTypedObject()
     {
         // Arrange
         dynamic dynamicTestObject = new DynamicTestObject();
@@ -122,7 +122,7 @@ public class DynamicObjectIntegrationTest
     }
 
     [Fact]
-    public void RemoveNestedProperty_FromDynamicObject()
+    public void RemoveNestedPropertyFromDynamicObject()
     {
         // Arrange
         dynamic dynamicTestObject = new DynamicTestObject();
@@ -141,7 +141,7 @@ public class DynamicObjectIntegrationTest
     }
 
     [Fact]
-    public void RemoveFromNestedObject_InDynamicObject_MixedCase_ThrowsPathNotFoundException()
+    public void RemoveFromNestedObjectInDynamicObjectMixedCaseThrowsPathNotFoundException()
     {
         // Arrange
         dynamic dynamicTestObject = new DynamicTestObject();
@@ -164,7 +164,7 @@ public class DynamicObjectIntegrationTest
     }
 
     [Fact]
-    public void ReplaceNestedTypedObject_InDynamicObject()
+    public void ReplaceNestedTypedObjectInDynamicObject()
     {
         // Arrange
         dynamic dynamicTestObject = new DynamicTestObject();
@@ -192,7 +192,7 @@ public class DynamicObjectIntegrationTest
     }
 
     [Fact]
-    public void TestStringPropertyValue_IsSuccessful()
+    public void TestStringPropertyValueIsSuccessful()
     {
         // Arrange
         dynamic dynamicTestObject = new DynamicTestObject();
@@ -206,7 +206,7 @@ public class DynamicObjectIntegrationTest
     }
 
     [Fact]
-    public void TestIntegerPropertyValue_ThrowsJsonPatchException_IfTestFails()
+    public void TestIntegerPropertyValueThrowsJsonPatchExceptionIfTestFails()
     {
         // Arrange
         dynamic dynamicTestObject = new DynamicTestObject();

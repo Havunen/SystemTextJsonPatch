@@ -9,7 +9,7 @@ namespace SystemTextJsonPatch.Internal;
 /// </summary>
 public static class ConversionResultProvider
 {
-    internal static bool TryConvertTo(object value, Type typeToConvertTo, JsonSerializerOptions options, out object convertedValue, out string? errorMessage)
+    internal static bool TryConvertTo(object? value, Type typeToConvertTo, JsonSerializerOptions options, out object? convertedValue, out string? errorMessage)
     {
         errorMessage = null;
 
@@ -58,7 +58,7 @@ public static class ConversionResultProvider
         }
     }
 
-    public static bool TryCopyTo(object value, Type typeToConvertTo, out object convertedValue)
+    public static bool TryCopyTo(object? value, Type typeToConvertTo, out object? convertedValue)
     {
         var targetType = typeToConvertTo;
         if (value == null)
@@ -98,7 +98,7 @@ public static class ConversionResultProvider
 
     // Because all JSON number fields are parsed as decimal
     // fast-path for converting decimal to target types
-    private static bool TryConvertDecimalToNumber(decimal decimalValue, Type typeToConvertTo, out object convertedValue)
+    private static bool TryConvertDecimalToNumber(decimal decimalValue, Type typeToConvertTo, out object? convertedValue)
     {
         switch (Type.GetTypeCode(typeToConvertTo))
         {

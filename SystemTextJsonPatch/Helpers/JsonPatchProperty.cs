@@ -13,13 +13,8 @@ public class JsonPatchProperty
     /// </summary>
     public JsonPatchProperty(JsonProperty property, object parent)
     {
-        if (parent == null)
-        {
-            throw new ArgumentNullException(nameof(parent));
-        }
-
         Property = property;
-        Parent = parent;
+        Parent = parent ?? throw new ArgumentNullException(nameof(parent));
     }
 
     /// <summary>

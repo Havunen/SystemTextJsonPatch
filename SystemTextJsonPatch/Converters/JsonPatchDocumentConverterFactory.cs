@@ -16,18 +16,18 @@ namespace SystemTextJsonPatch.Converters
         }
 
         /// <inheritdoc />
-        public sealed override JsonConverter CreateConverter(Type patchDocumentType, JsonSerializerOptions options)
+        public sealed override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
         {
-            if (patchDocumentType == JsonPatchDocumentType)
+            if (typeToConvert == JsonPatchDocumentType)
             {
                 return new JsonPatchDocumentConverter();
             }
 
 
             return (JsonConverter)Activator.CreateInstance(
-                typeof(GenericJsonPatchDocumentConverter<>).MakeGenericType(patchDocumentType.GenericTypeArguments[0]),
-                new object[] { }
-            );
+                typeof(GenericJsonPatchDocumentConverter<>).MakeGenericType(typeToConvert.GenericTypeArguments[0]),
+                Array.Empty<object>()
+            )!;
         }
     }
 }

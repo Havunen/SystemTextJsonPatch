@@ -10,8 +10,8 @@ public class JSonObjectAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage)
+        object? value,
+        out string? errorMessage)
     {
         var obj = (JsonObject)target;
 
@@ -25,8 +25,8 @@ public class JSonObjectAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out object value,
-        out string errorMessage)
+        out object? value,
+        out string? errorMessage)
     {
         var obj = (JsonObject)target;
 
@@ -46,7 +46,7 @@ public class JSonObjectAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out string errorMessage)
+        out string? errorMessage)
     {
         var obj = (JsonObject)target;
 
@@ -64,8 +64,8 @@ public class JSonObjectAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage)
+        object? value,
+        out string? errorMessage)
     {
         var obj = (JsonObject)target;
 
@@ -85,8 +85,8 @@ public class JSonObjectAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        object value,
-        out string errorMessage)
+        object? value,
+        out string? errorMessage)
     {
         var obj = (JsonObject)target;
 
@@ -116,12 +116,12 @@ public class JSonObjectAdapter : IAdapter
         object target,
         string segment,
         JsonSerializerOptions options,
-        out object nextTarget,
-        out string errorMessage)
+        out object? nextTarget,
+        out string? errorMessage)
     {
         var obj = (JsonObject)target;
 
-        if (!obj.TryGetPropertyValue(segment, out var nextTargetToken))
+        if (!obj.TryGetPropertyValue(segment, out JsonNode? nextTargetToken))
         {
             nextTarget = null;
             errorMessage = null;

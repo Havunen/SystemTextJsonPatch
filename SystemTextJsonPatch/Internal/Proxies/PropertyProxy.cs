@@ -11,14 +11,19 @@ namespace SystemTextJsonPatch.Internal.Proxies
             _propertyInfo = propertyInfo;
         }
 
-        public object GetValue(object target)
+        public object? GetValue(object target)
         {
             return _propertyInfo.GetValue(target);
         }
 
-        public void SetValue(object target, object convertedValue)
+        public void SetValue(object target, object? convertedValue)
         {
             _propertyInfo.SetValue(target, convertedValue);
+        }
+
+        public void RemoveValue(object target)
+        {
+            _propertyInfo.SetValue(target, null);
         }
 
         public bool CanRead => _propertyInfo.CanRead;

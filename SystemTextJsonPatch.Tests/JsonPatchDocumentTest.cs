@@ -7,7 +7,7 @@ namespace SystemTextJsonPatch;
 
 public class JsonPatchDocumentTest
 {
-    private readonly JsonSerializerOptions Options = new JsonSerializerOptions()
+    private readonly JsonSerializerOptions _options = new JsonSerializerOptions()
     {
         Converters =
         {
@@ -64,8 +64,8 @@ public class JsonPatchDocumentTest
         var patchDocument = new JsonPatchDocument();
         patchDocument.Copy("StringProperty", "AnotherStringProperty");
 
-        var serialized = JsonSerializer.Serialize(patchDocument, Options);
-        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, Options);
+        var serialized = JsonSerializer.Serialize(patchDocument, _options);
+        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, _options);
 
         // Act
         deserialized.ApplyTo(targetObject);
@@ -90,9 +90,9 @@ public class JsonPatchDocumentTest
         var patchDocUntyped = new JsonPatchDocument();
         patchDocUntyped.Copy("StringProperty", "AnotherStringProperty");
 
-        var serializedTyped =JsonSerializer.Serialize(patchDocTyped, Options);
-        var serializedUntyped =JsonSerializer.Serialize(patchDocUntyped, Options);
-        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument>(serializedTyped, Options);
+        var serializedTyped =JsonSerializer.Serialize(patchDocTyped, _options);
+        var serializedUntyped =JsonSerializer.Serialize(patchDocUntyped, _options);
+        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument>(serializedTyped, _options);
 
         // Act
         deserialized.ApplyTo(targetObject);
@@ -102,7 +102,7 @@ public class JsonPatchDocumentTest
     }
 
     [Fact]
-    public void Deserialization_Successful_ForValidJsonPatchDocument()
+    public void DeserializationSuccessfulForValidJsonPatchDocument()
     {
         // Arrange
         var doc = new SimpleObject()
@@ -122,17 +122,17 @@ public class JsonPatchDocumentTest
         patchDocument.Replace(o => o.IntegerValue, 12);
 
         // default: no envelope
-        var serialized =JsonSerializer.Serialize(patchDocument, Options);
+        var serialized =JsonSerializer.Serialize(patchDocument, _options);
 
         // Act
-        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, Options);
+        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, _options);
 
         // Assert
         Assert.IsType<JsonPatchDocument<SimpleObject>>(deserialized);
     }
 
     [Fact]
-    public void Deserialization_Fails_ForInvalidJsonPatchDocument()
+    public void DeserializationFailsForInvalidJsonPatchDocument()
     {
         // Arrange
         var serialized = "{\"Operations\": [{ \"op\": \"replace\", \"path\": \"/title\", \"value\": \"New Title\"}]}";
@@ -141,7 +141,7 @@ public class JsonPatchDocumentTest
         var exception = Assert.Throws<JsonPatchException>(() =>
         {
             var deserialized
-                = JsonSerializer.Deserialize<JsonPatchDocument>(serialized, Options);
+                = JsonSerializer.Deserialize<JsonPatchDocument>(serialized, _options);
         });
 
         // Assert
@@ -150,48 +150,48 @@ public class JsonPatchDocumentTest
 
 
     [Fact]
-    public void Deserialization_Succeeds_ForValidJsonPatchDocument_SingleOperation()
+    public void DeserializationSucceedsForValidJsonPatchDocumentSingleOperation()
     {
         // Arrange
         var serialized = "[{ \"op\": \"replace\", \"path\": \"/title\", \"value\": \"New Title\"}]";
 
         // Act
-        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument>(serialized, Options);
+        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument>(serialized, _options);
 
         // Assert
         Assert.Equal(1, deserialized.Operations.Count);
 
         var firstOp = deserialized.Operations.First();
-        Assert.Equal("replace", firstOp.op);
-        Assert.Equal("/title", firstOp.path);
-        Assert.Equal("New Title", firstOp.value);
+        Assert.Equal("replace", firstOp.Op);
+        Assert.Equal("/title", firstOp.Path);
+        Assert.Equal("New Title", firstOp.Value);
     }
 
     [Fact]
-    public void Deserialization_Succeeds_ForValidJsonPatchDocument_MultipleOperation()
+    public void DeserializationSucceedsForValidJsonPatchDocumentMultipleOperation()
     {
         // Arrange
         var serialized = "[{ \"op\": \"replace\", \"path\": \"/title\", \"value\": \"New Title\"}, { \"op\": \"add\", \"path\": \"/test\", \"value\": \"New Title2\"}]";
 
         // Act
-        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument>(serialized, Options);
+        var deserialized = JsonSerializer.Deserialize<JsonPatchDocument>(serialized, _options);
 
         // Assert
         Assert.Equal(2, deserialized.Operations.Count);
 
         var firstOp = deserialized.Operations.First();
-        Assert.Equal("replace", firstOp.op);
-        Assert.Equal("/title", firstOp.path);
-        Assert.Equal("New Title", firstOp.value);
+        Assert.Equal("replace", firstOp.Op);
+        Assert.Equal("/title", firstOp.Path);
+        Assert.Equal("New Title", firstOp.Value);
 
         var secondOp = deserialized.Operations[1];
-        Assert.Equal("add", secondOp.op);
-        Assert.Equal("/test", secondOp.path);
-        Assert.Equal("New Title2", secondOp.value);
+        Assert.Equal("add", secondOp.Op);
+        Assert.Equal("/test", secondOp.Path);
+        Assert.Equal("New Title2", secondOp.Value);
     }
 
     [Fact]
-    public void Deserialization_Fails_When_Comma_Missing()
+    public void DeserializationFailsWhenCommaMissing()
     {
         // Arrange
         var serialized = "[{ \"op\": \"replace\", \"path\": \"/title\", \"value\": \"New Title\"} { \"op\": \"add\", \"path\": \"/test\", \"value\": \"New Title2\"}]";
@@ -200,12 +200,12 @@ public class JsonPatchDocumentTest
         Assert.Throws<JsonException>(() =>
         {
             var deserialized
-                = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, Options);
+                = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, _options);
         });
     }
 
     [Fact]
-    public void Deserialization_Fails_ForInvalidTypedJsonPatchDocument()
+    public void DeserializationFailsForInvalidTypedJsonPatchDocument()
     {
         // Arrange
         var serialized = "{\"Operations\": [{ \"op\": \"replace\", \"path\": \"/title\", \"value\": \"New Title\"}]}";
@@ -214,7 +214,7 @@ public class JsonPatchDocumentTest
         var exception = Assert.Throws<JsonPatchException>(() =>
         {
             var deserialized
-                = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, Options);
+                = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, _options);
         });
 
         // Assert

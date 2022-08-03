@@ -6,7 +6,7 @@ namespace SystemTextJsonPatch.IntegrationTests;
 public class AnonymousObjectIntegrationTest
 {
     [Fact]
-    public void AddNewProperty_ShouldFail()
+    public void AddNewPropertyShouldFail()
     {
         // Arrange
         var targetObject = new { };
@@ -26,7 +26,7 @@ public class AnonymousObjectIntegrationTest
     }
 
     [Fact]
-    public void AddNewProperty_ToNestedAnonymousObject_ShouldFail()
+    public void AddNewPropertyToNestedAnonymousObjectShouldFail()
     {
         // Arrange
         dynamic targetObject = new
@@ -73,7 +73,7 @@ public class AnonymousObjectIntegrationTest
     }
 
     [Fact]
-    public void RemoveProperty_ShouldFail()
+    public void RemovePropertyShouldFail()
     {
         // Arrange
         dynamic targetObject = new
@@ -96,7 +96,7 @@ public class AnonymousObjectIntegrationTest
     }
 
     [Fact]
-    public void ReplaceProperty_ShouldFail()
+    public void ReplacePropertyShouldFail()
     {
         // Arrange
         var targetObject = new
@@ -120,7 +120,7 @@ public class AnonymousObjectIntegrationTest
     }
 
     [Fact]
-    public void MoveProperty_ShouldFail()
+    public void MovePropertyShouldFail()
     {
         // Arrange
         var targetObject = new
@@ -144,7 +144,7 @@ public class AnonymousObjectIntegrationTest
     }
 
     [Fact]
-    public void TestStringProperty_IsSuccessful()
+    public void TestStringPropertyIsSuccessful()
     {
         // Arrange
         var targetObject = new
@@ -161,7 +161,7 @@ public class AnonymousObjectIntegrationTest
     }
 
     [Fact]
-    public void TestStringProperty_Fails()
+    public void TestStringPropertyFails()
     {
         // Arrange
         var targetObject = new

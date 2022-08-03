@@ -8,7 +8,7 @@ namespace SystemTextJsonPatch;
 public class JsonPatchDocumentJsonObjectTest
 {
     [Fact]
-    public void ApplyTo_Array_Add()
+    public void ApplyToArrayAdd()
     {
         // Arrange
         var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Emails = new[] { "foo@bar.com" } }) };
@@ -25,7 +25,7 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
-    public void ApplyTo_Model_Test1()
+    public void ApplyToModelTest1()
     {
         // Arrange
         var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Email = "foo@bar.com", Name = "Bar" }) };
@@ -39,7 +39,7 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
-    public void ApplyTo_Model_Test2()
+    public void ApplyToModelTest2()
     {
         // Arrange
         var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Email = "foo@bar.com", Name = "Bar" }) };
@@ -56,7 +56,7 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
-    public void ApplyTo_Model_Copy()
+    public void ApplyToModelCopy()
     {
         // Arrange
         var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Email = "foo@bar.com" }) };
@@ -72,7 +72,7 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
-    public void ApplyTo_Model_Remove()
+    public void ApplyToModelRemove()
     {
         // Arrange
         var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { FirstName = "Foo", LastName = "Bar" }) };
@@ -88,7 +88,7 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
-    public void ApplyTo_Model_Move()
+    public void ApplyToModelMove()
     {
         // Arrange
         var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { FirstName = "Bar" }) };
@@ -105,7 +105,7 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
-    public void ApplyTo_Model_Add()
+    public void ApplyToModelAdd()
     {
         // Arrange
         var model = new ObjectWithJsonNode();
@@ -121,7 +121,7 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
-    public void ApplyTo_Model_Add_Null()
+    public void ApplyToModelAddNull()
     {
         // Arrange
         var model = new ObjectWithJsonNode();
@@ -137,7 +137,7 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
-    public void ApplyTo_Model_Replace()
+    public void ApplyToModelReplace()
     {
         // Arrange
         var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Email = "foo@bar.com", Name = "Bar" }) };
@@ -153,7 +153,7 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
-    public void ApplyTo_Model_Replace_Null()
+    public void ApplyToModelReplaceNull()
     {
         // Arrange
         var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Email = "foo@bar.com", Name = "Bar" }) };

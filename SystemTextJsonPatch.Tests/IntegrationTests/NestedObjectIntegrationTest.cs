@@ -9,7 +9,7 @@ namespace SystemTextJsonPatch.IntegrationTests;
 public class NestedObjectIntegrationTest
 {
     [Fact]
-    public void Replace_DTOWithNullCheck()
+    public void ReplaceDtoWithNullCheck()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObjectWithNullCheck()
@@ -31,7 +31,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void ReplaceNestedObject_WithSerialization()
+    public void ReplaceNestedObjectWithSerialization()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -62,7 +62,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void TestStringProperty_InNestedObject()
+    public void TestStringPropertyInNestedObject()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -101,7 +101,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void AddReplaces_ExistingStringProperty()
+    public void AddReplacesExistingStringProperty()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -123,7 +123,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void AddNewProperty_ToExpandoOject_InTypedObject()
+    public void AddNewPropertyToExpandoOjectInTypedObject()
     {
         var targetObject = new NestedObject()
         {
@@ -161,7 +161,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void CopyStringProperty_ToAnotherStringProperty()
+    public void CopyStringPropertyToAnotherStringProperty()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -184,7 +184,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void CopyNullStringProperty_ToAnotherStringProperty()
+    public void CopyNullStringPropertyToAnotherStringProperty()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -207,7 +207,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void Copy_DeepClonesObject()
+    public void CopyDeepClonesObject()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -239,7 +239,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void Copy_KeepsObjectType()
+    public void CopyKeepsObjectType()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -259,7 +259,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void Copy_BreaksObjectReference()
+    public void CopyBreaksObjectReference()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -279,7 +279,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void MoveIntegerValue_ToAnotherIntegerProperty()
+    public void MoveIntegerValueToAnotherIntegerProperty()
     {
         // Arrange
         var targetObject = new SimpleObjectWithNestedObject()
@@ -303,7 +303,7 @@ public class NestedObjectIntegrationTest
     }
 
     [Fact]
-    public void Move_KeepsObjectReference()
+    public void MoveKeepsObjectReference()
     {
         // Arrange
         var sDto = new SimpleObject()
@@ -337,24 +337,13 @@ public class NestedObjectIntegrationTest
 
     private class SimpleObjectWithNullCheck
     {
-        private string stringProperty;
+        private string _stringProperty;
 
         public string StringProperty
         {
-            get
-            {
-                return stringProperty;
-            }
+            get => _stringProperty;
 
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                stringProperty = value;
-            }
+            set => _stringProperty = value ?? throw new ArgumentNullException(nameof(value));
         }
     }
 

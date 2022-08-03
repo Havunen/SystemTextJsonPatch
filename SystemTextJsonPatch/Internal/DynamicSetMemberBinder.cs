@@ -3,7 +3,7 @@ using System.Dynamic;
 
 namespace SystemTextJsonPatch.Internal
 {
-    public class DynamicSetMemberBinder : SetMemberBinder
+    internal class DynamicSetMemberBinder : SetMemberBinder
     {
         public DynamicSetMemberBinder(string name, bool ignoreCase) : base(name, ignoreCase)
         {

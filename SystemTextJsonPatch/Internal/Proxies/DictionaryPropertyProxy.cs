@@ -7,7 +7,6 @@ namespace SystemTextJsonPatch.Internal.Proxies
     {
         private readonly IDictionary _dictionary;
         private readonly object _propertyName;
-        private Type _propertyType;
 
         internal DictionaryPropertyProxy(IDictionary dictionary, string propertyName)
         {
@@ -39,37 +38,43 @@ namespace SystemTextJsonPatch.Internal.Proxies
             }
         }
 
-        public object GetValue(object target)
+        public object? GetValue(object target)
         {
             var value = _dictionary[_propertyName];
-
-            _propertyType = value?.GetType() ?? typeof(object);
 
             return value;
         }
 
-        public void SetValue(object target, object convertedValue)
+        public void SetValue(object target, object? convertedValue)
         {
-            if (_propertyName != null)
+            if (_dictionary.Contains(_propertyName))
             {
-                if (convertedValue == null)
-                {
-                    _dictionary.Remove(_propertyName);
-                }
-                else
-                {
-                    _dictionary[_propertyName] = convertedValue;
-                }
-            } else if (convertedValue != null)
+                _dictionary[_propertyName] = convertedValue;
+            } else
             {
                 _dictionary.Add(_propertyName, convertedValue);
             }
+        }
 
-            _propertyType = convertedValue?.GetType() ?? typeof(object);
+        public void RemoveValue(object target)
+        {
+            _dictionary.Remove(_propertyName);
         }
 
         public bool CanRead => true;
         public bool CanWrite => true;
-        public Type PropertyType => _propertyType != null ? GetValue(null)?.GetType() : typeof(object);
+        public Type PropertyType
+        {
+            get
+            {
+                var val = _dictionary[_propertyName];
+                if (val == null)
+                {
+                    return typeof(object);
+                }
+
+                return val.GetType();
+            }
+        }
     }
 }

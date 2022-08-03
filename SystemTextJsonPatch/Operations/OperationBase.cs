@@ -9,24 +9,15 @@ public abstract class OperationBase
     private OperationType _operationType;
 
     [JsonIgnore]
-    public OperationType OperationType
-    {
-        get
-        {
-            return _operationType;
-        }
-    }
+    public OperationType OperationType => _operationType;
 
     [JsonPropertyName("path")]
-    public string path { get; set; }
+    public string Path { get; set; }
 
     [JsonPropertyName("op")]
-    public string op
+    public string Op
     {
-        get
-        {
-            return _op;
-        }
+        get => _op;
         set
         {
             OperationType result;
@@ -40,32 +31,16 @@ public abstract class OperationBase
     }
 
     [JsonPropertyName("from")]
-    public string? from { get; set; }
+    public string? From { get; set; }
 
-    public OperationBase()
+    protected OperationBase()
     {
     }
 
-    public OperationBase(string op, string path, string from)
+    protected OperationBase(string op, string path, string? from)
     {
-        if (op == null)
-        {
-            throw new ArgumentNullException(nameof(op));
-        }
-
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        this.op = op;
-        this.path = path;
-        this.from = from;
-    }
-
-    public bool ShouldSerializefrom()
-    {
-        return (OperationType == OperationType.Move
-            || OperationType == OperationType.Copy);
+        this.Op = op ?? throw new ArgumentNullException(nameof(op));
+        this.Path = path ?? throw new ArgumentNullException(nameof(path));
+        this.From = from;
     }
 }

@@ -8,26 +8,26 @@ namespace SystemTextJsonPatch.Internal
 {
     internal static class PropertyProxyCache
     {
-        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _CachedTypeProperties = new();
-        private static readonly ConcurrentDictionary<(Type, string), PropertyProxy> _CachedPropertyProxies = new();
+        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> CachedTypeProperties = new();
+        private static readonly ConcurrentDictionary<(Type, string), PropertyProxy?> CachedPropertyProxies = new();
 
-        internal static PropertyProxy GetPropertyProxy(Type type, string propName)
+        internal static PropertyProxy? GetPropertyProxy(Type type, string propName)
         {
             var key = (type, propName);
 
-            if (_CachedPropertyProxies.TryGetValue(key, out var propertyProxy))
+            if (CachedPropertyProxies.TryGetValue(key, out var propertyProxy))
             {
                 return propertyProxy;
             }
 
-            if (!_CachedTypeProperties.TryGetValue(type, out var properties))
+            if (!CachedTypeProperties.TryGetValue(type, out var properties))
             {
                 properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                _CachedTypeProperties[type] = properties;
+                CachedTypeProperties[type] = properties;
             }
 
             propertyProxy = FindPropertyInfo(properties, propName);
-            _CachedPropertyProxies[key] = propertyProxy;
+            CachedPropertyProxies[key] = propertyProxy;
 
             return propertyProxy;
         }

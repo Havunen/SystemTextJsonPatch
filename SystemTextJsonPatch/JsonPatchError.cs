@@ -19,14 +19,9 @@ public class JsonPatchError
         Operation operation,
         string errorMessage)
     {
-        if (errorMessage == null)
-        {
-            throw new ArgumentNullException(nameof(errorMessage));
-        }
-
         AffectedObject = affectedObject;
         Operation = operation;
-        ErrorMessage = errorMessage;
+        ErrorMessage = errorMessage ?? throw new ArgumentNullException(nameof(errorMessage));
     }
 
     /// <summary>

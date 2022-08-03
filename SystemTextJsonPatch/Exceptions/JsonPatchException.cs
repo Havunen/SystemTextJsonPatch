@@ -4,7 +4,9 @@ using SystemTextJsonPatch.Operations;
 
 namespace SystemTextJsonPatch.Exceptions;
 
+#pragma warning disable CA1032 // Implement standard exception constructors
 public class JsonPatchException : JsonException
+#pragma warning restore CA1032 // Implement standard exception constructors
 {
     public Operation FailedOperation { get; }
     public object AffectedObject { get; }

@@ -13,7 +13,7 @@ public readonly struct ParsedPath
 {
     private readonly string[] _segments;
 
-    public ParsedPath(string path)
+    public ParsedPath(string? path)
     {
         if (path == null)
         {
@@ -23,16 +23,16 @@ public readonly struct ParsedPath
         _segments = ParsePath(path);
     }
 
-    public string LastSegment
+    public string? LastSegment
     {
         get
         {
-            if (_segments == null || _segments.Length == 0)
+            if (_segments.Length == 0)
             {
                 return null;
             }
 
-            return _segments[_segments.Length - 1];
+            return _segments[^1];
         }
     }
 
@@ -86,5 +86,15 @@ public readonly struct ParsedPath
         }
 
         return strings.ToArray();
+    }
+
+    public static bool operator ==(ParsedPath left, ParsedPath right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(ParsedPath left, ParsedPath right)
+    {
+        return !(left == right);
     }
 }

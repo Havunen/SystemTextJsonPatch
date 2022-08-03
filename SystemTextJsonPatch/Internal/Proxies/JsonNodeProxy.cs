@@ -7,7 +7,6 @@ namespace SystemTextJsonPatch.Internal.Proxies
     {
         private readonly JsonNode _jsonNode;
         private readonly string _propertyName;
-        private Type _propertyType;
 
         internal JsonNodeProxy(JsonNode jsonNode, string propertyName)
         {
@@ -15,18 +14,15 @@ namespace SystemTextJsonPatch.Internal.Proxies
             _propertyName = propertyName;
         }
 
-        public object GetValue(object target)
+        public object? GetValue(object target)
         {
             var value = _jsonNode[this._propertyName];
-
-            _propertyType = value?.GetType() ?? typeof(object);
 
             return value;
         }
 
-        public void SetValue(object target, object convertedValue)
+        public void SetValue(object target, object? convertedValue)
         {
-
             if (convertedValue != null)
             {
                 var ser = System.Text.Json.JsonSerializer.SerializeToNode(convertedValue);
@@ -44,34 +40,15 @@ namespace SystemTextJsonPatch.Internal.Proxies
             {
                 _jsonNode[this._propertyName] = null;
             }
-
-            _propertyType = convertedValue?.GetType() ?? typeof(object);
         }
 
-        //private static Type ConvertJsonElemenType(JsonValueKind type)
-        //{
-        //    switch (type)
-        //    {
-        //        case JsonValueKind.String:
-        //            return typeof(string);
-        //        case JsonValueKind.Number:
-        //            return typeof(decimal?);
-        //        case JsonValueKind.Object:
-        //        case JsonValueKind.Undefined:
-        //        case JsonValueKind.Null:
-        //            return typeof(object);
-        //        case JsonValueKind.Array:
-        //            return typeof(ICollection);
-        //        case JsonValueKind.True:
-        //        case JsonValueKind.False:
-        //            return typeof(bool);
-        //        default:
-        //            return typeof(object);
-        //    }
-        //}
+        public void RemoveValue(object target)
+        {
+            _jsonNode.AsObject().Remove(_propertyName);
+        }
 
         public bool CanRead => true;
         public bool CanWrite => true;
-        public Type PropertyType => _propertyType != null ? GetValue(null)?.GetType() ?? typeof(object) : typeof(object);
+        public Type PropertyType => typeof(JsonNode);
     }
 }

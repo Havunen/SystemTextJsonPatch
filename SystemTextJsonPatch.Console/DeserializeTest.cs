@@ -15,17 +15,17 @@ namespace SystemTextJsonPatch.Console
             "]"
         );
 
-        public static JsonSerializerOptions systemTextJsonSerializerOptions = new JsonSerializerOptions()
+        public static JsonSerializerOptions SystemTextJsonSerializerOptions = new JsonSerializerOptions()
         {
             Converters =
             {
-                new SystemTextJsonPatch.Converters.JsonPatchDocumentConverterFactory()
+                new Converters.JsonPatchDocumentConverterFactory()
             }
         };
 
         public static void Run()
         {
-            var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson, systemTextJsonSerializerOptions);
+            var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson, SystemTextJsonSerializerOptions);
             patchDoc.ApplyTo(new TestModel());
         }
     }

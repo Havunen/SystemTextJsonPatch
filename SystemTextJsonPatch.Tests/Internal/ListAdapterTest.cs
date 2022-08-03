@@ -10,7 +10,7 @@ namespace SystemTextJsonPatch.Internal;
 public class ListAdapterTest
 {
     [Fact]
-    public void Patch_OnArrayObject_Fails()
+    public void PatchOnArrayObjectFails()
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -32,7 +32,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Patch_OnNonGenericListObject_Fails()
+    public void PatchOnNonGenericListObjectFails()
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -56,7 +56,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Add_WithIndexSameAsNumberOfElements_Works()
+    public void AddWithIndexSameAsNumberOfElementsWorks()
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -84,7 +84,7 @@ public class ListAdapterTest
     [InlineData("-1")]
     [InlineData("-2")]
     [InlineData("3")]
-    public void Add_WithOutOfBoundsIndex_Fails(string position)
+    public void AddWithOutOfBoundsIndexFails(string position)
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -108,7 +108,7 @@ public class ListAdapterTest
     [Theory]
     [InlineData("_")]
     [InlineData("blah")]
-    public void Patch_WithInvalidPositionFormat_Fails(string position)
+    public void PatchWithInvalidPositionFormatFails(string position)
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -129,27 +129,22 @@ public class ListAdapterTest
         Assert.Equal($"The path segment '{position}' is invalid for an array index.", message);
     }
 
-    public static TheoryData<List<int>, List<int>> AppendAtEndOfListData
-    {
-        get
+    public static TheoryData<List<int>, List<int>> AppendAtEndOfListData =>
+        new TheoryData<List<int>, List<int>>()
         {
-            return new TheoryData<List<int>, List<int>>()
-                {
-                    {
-                        new List<int>() {  },
-                        new List<int>() { 20 }
-                    },
-                    {
-                        new List<int>() { 5, 10 },
-                        new List<int>() { 5, 10, 20 }
-                    }
-                };
-        }
-    }
+            {
+                new List<int>() {  },
+                new List<int>() { 20 }
+            },
+            {
+                new List<int>() { 5, 10 },
+                new List<int>() { 5, 10, 20 }
+            }
+        };
 
     [Theory]
     [MemberData(nameof(AppendAtEndOfListData))]
-    public void Add_Appends_AtTheEnd(List<int> targetObject, List<int> expected)
+    public void AddAppendsAtTheEnd(List<int> targetObject, List<int> expected)
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -172,7 +167,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Add_NullObject_ToReferenceTypeListWorks()
+    public void AddNullObjectToReferenceTypeListWorks()
     {
         // Arrange
         var options = new JsonSerializerOptions
@@ -196,7 +191,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Add_CompatibleTypeWorks()
+    public void AddCompatibleTypeWorks()
     {
         // Arrange
         var sDto = new SimpleObject();
@@ -222,7 +217,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Add_NonCompatibleType_Fails()
+    public void AddNonCompatibleTypeFails()
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -243,43 +238,38 @@ public class ListAdapterTest
         Assert.Equal("The value 'James' is invalid for target location.", message);
     }
 
-    public static TheoryData<IList, object, string, IList> AddingDifferentComplexTypeWorksData
-    {
-        get
+    public static TheoryData<IList, object, string, IList> AddingDifferentComplexTypeWorksData =>
+        new TheoryData<IList, object, string, IList>()
         {
-            return new TheoryData<IList, object, string, IList>()
-                {
-                    {
-                        new List<string>() { },
-                        "a",
-                        "-",
-                        new List<string>() { "a" }
-                    },
-                    {
-                        new List<string>() { "a", "b" },
-                        "c",
-                        "-",
-                        new List<string>() { "a", "b", "c" }
-                    },
-                    {
-                        new List<string>() { "a", "b" },
-                        "c",
-                        "0",
-                        new List<string>() { "c", "a", "b" }
-                    },
-                    {
-                        new List<string>() { "a", "b" },
-                        "c",
-                        "1",
-                        new List<string>() { "a", "c", "b" }
-                    }
-                };
-        }
-    }
+            {
+                new List<string>() { },
+                "a",
+                "-",
+                new List<string>() { "a" }
+            },
+            {
+                new List<string>() { "a", "b" },
+                "c",
+                "-",
+                new List<string>() { "a", "b", "c" }
+            },
+            {
+                new List<string>() { "a", "b" },
+                "c",
+                "0",
+                new List<string>() { "c", "a", "b" }
+            },
+            {
+                new List<string>() { "a", "b" },
+                "c",
+                "1",
+                new List<string>() { "a", "c", "b" }
+            }
+        };
 
     [Theory]
     [MemberData(nameof(AddingDifferentComplexTypeWorksData))]
-    public void Add_DifferentComplexTypeWorks(IList targetObject, object value, string position, IList expected)
+    public void AddDifferentComplexTypeWorks(IList targetObject, object value, string position, IList expected)
     {
         // Arrange
         var options = new JsonSerializerOptions
@@ -340,7 +330,7 @@ public class ListAdapterTest
 
     [Theory]
     [MemberData(nameof(AddingKeepsObjectReferenceData))]
-    public void Add_KeepsObjectReference(IList targetObject, object value, string position, IList expected)
+    public void AddKeepsObjectReference(IList targetObject, object value, string position, IList expected)
     {
         // Arrange
         var options = new JsonSerializerOptions
@@ -366,7 +356,7 @@ public class ListAdapterTest
     [InlineData(new int[] { }, "0")]
     [InlineData(new[] { 10, 20 }, "-1")]
     [InlineData(new[] { 10, 20 }, "2")]
-    public void Get_IndexOutOfBounds(int[] input, string position)
+    public void GetIndexOutOfBounds(int[] input, string position)
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -417,7 +407,7 @@ public class ListAdapterTest
     [InlineData(new int[] { }, "0")]
     [InlineData(new[] { 10, 20 }, "-1")]
     [InlineData(new[] { 10, 20 }, "2")]
-    public void Remove_IndexOutOfBounds(int[] input, string position)
+    public void RemoveIndexOutOfBounds(int[] input, string position)
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -464,7 +454,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Replace_NonCompatibleType_Fails()
+    public void ReplaceNonCompatibleTypeFails()
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -486,7 +476,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Replace_ReplacesValue_AtTheEnd()
+    public void ReplaceReplacesValueAtTheEnd()
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -508,27 +498,22 @@ public class ListAdapterTest
         Assert.Equal(new List<int>() { 10, 30 }, targetObject);
     }
 
-    public static TheoryData<string, List<int>> ReplacesValuesAtPositionData
-    {
-        get
+    public static TheoryData<string, List<int>> ReplacesValuesAtPositionData =>
+        new TheoryData<string, List<int>>()
         {
-            return new TheoryData<string, List<int>>()
-                {
-                    {
-                        "0",
-                        new List<int>() { 30, 20 }
-                    },
-                    {
-                        "1",
-                        new List<int>() { 10, 30 }
-                    }
-                };
-        }
-    }
+            {
+                "0",
+                new List<int>() { 30, 20 }
+            },
+            {
+                "1",
+                new List<int>() { 10, 30 }
+            }
+        };
 
     [Theory]
     [MemberData(nameof(ReplacesValuesAtPositionData))]
-    public void Replace_ReplacesValue_AtGivenPosition(string position, List<int> expected)
+    public void ReplaceReplacesValueAtGivenPosition(string position, List<int> expected)
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -551,7 +536,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Test_DoesNotThrowException_IfTestIsSuccessful()
+    public void TestDoesNotThrowExceptionIfTestIsSuccessful()
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -573,7 +558,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Test_ThrowsJsonPatchException_IfTestFails()
+    public void TestThrowsJsonPatchExceptionIfTestFails()
     {
         // Arrange
         var options = new JsonSerializerOptions()
@@ -596,7 +581,7 @@ public class ListAdapterTest
     }
 
     [Fact]
-    public void Test_ThrowsJsonPatchException_IfListPositionOutOfBounds()
+    public void TestThrowsJsonPatchExceptionIfListPositionOutOfBounds()
     {
         // Arrange
         var options = new JsonSerializerOptions()

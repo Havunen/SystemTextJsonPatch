@@ -13,7 +13,7 @@ namespace SystemTextJsonPatch.Converters
 
 
     {
-        protected List<TOperation> ParseOperations(ref Utf8JsonReader reader)
+        protected List<TOperation>? ParseOperations(ref Utf8JsonReader reader)
         {
             if (reader.TokenType == JsonTokenType.StartArray)
             {
@@ -89,10 +89,10 @@ namespace SystemTextJsonPatch.Converters
 
                     var operation = new TOperation
                     {
-                        op = op,
-                        path = path,
-                        from = from,
-                        value = val
+                        Op = op,
+                        Path = path,
+                        From = from,
+                        Value = val
                     };
 
                     operations.Add(operation);
@@ -115,16 +115,16 @@ namespace SystemTextJsonPatch.Converters
                 foreach (var operation in operations)
                 {
                     writer.WriteStartObject();
-                    writer.WriteString("op", operation.op);
-                    writer.WriteString("path", operation.path);
+                    writer.WriteString("op", operation.Op);
+                    writer.WriteString("path", operation.Path);
 
-                    if (!string.IsNullOrEmpty(operation.from))
+                    if (!string.IsNullOrEmpty(operation.From))
                     {
-                        writer.WriteString("from", operation.from);
+                        writer.WriteString("from", operation.From);
                     }
 
                     writer.WritePropertyName("value");
-                    JsonSerializer.Serialize(writer, operation.value, options);
+                    JsonSerializer.Serialize(writer, operation.Value, options);
                     writer.WriteEndObject();
                 }
 

@@ -50,9 +50,9 @@ public class ShapeJsonConverter : JsonConverter<Shape>
 {
     private const string TypeProperty = "Type";
 
-    private Shape CreateShape(JsonNode JsonNode)
+    private static Shape CreateShape(JsonNode jsonNode)
     {
-        var typeProperty = JsonNode[TypeProperty];
+        var typeProperty = jsonNode[TypeProperty];
 
         switch (typeProperty.GetValue<string>())
         {
@@ -68,11 +68,11 @@ public class ShapeJsonConverter : JsonConverter<Shape>
 
     public override Shape Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var JsonNode = System.Text.Json.Nodes.JsonNode.Parse(ref reader);
+        var jsonNode = JsonNode.Parse(ref reader);
 
-        var target = CreateShape(JsonNode);
+        var target = CreateShape(jsonNode);
 
-        target = (Shape)System.Text.Json.JsonSerializer.Deserialize(JsonNode, target.GetType());
+        target = (Shape)JsonSerializer.Deserialize(jsonNode, target.GetType());
 
         return target;
     }

@@ -21,7 +21,7 @@ public class GenericJsonPatchDocumentConverter<TModel> : JsonPatchDocumentConver
             throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
         }
 
-        var operations = this.ParseOperations(ref reader);
+        var operations = this.ParseOperations(ref reader, options.PropertyNameCaseInsensitive);
 
         if (operations == null)
         {

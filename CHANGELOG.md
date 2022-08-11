@@ -1,3 +1,10 @@
+## 0.0.8
+- Code cleaning
+- Fixes an issue where copying null string value to another dynamic object deleted the original property instead of setting it null
+- Fixes an issue where operation value was serialized even when not needed
+- Parsing logic now follows System.Text.Json.JsonSerializerOptions.PropertyNameCaseInsensitive option https://github.com/Havunen/SystemTextJsonPatch/issues/10
+- Added MIT lience to Github
+
 ## 0.0.7
 - Performance improvements (https://github.com/Havunen/SystemTextJsonPatch/commit/a7b7c66a920ed0c258dec987d92c4edb0f6534cb https://github.com/Havunen/SystemTextJsonPatch/commit/afd5fbcceee6c1b6be7ee914d258a009f29eb437 https://github.com/Havunen/SystemTextJsonPatch/commit/54a0ab815c88536c89ee976358d7b27c356aed49 ) Thanks to [campersau](https://github.com/campersau)
 

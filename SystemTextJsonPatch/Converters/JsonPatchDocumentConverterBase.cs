@@ -123,8 +123,12 @@ namespace SystemTextJsonPatch.Converters
                         writer.WriteString("from", operation.From);
                     }
 
-                    writer.WritePropertyName("value");
-                    JsonSerializer.Serialize(writer, operation.Value, options);
+                    if (operation.OperationType is OperationType.Add or OperationType.Replace or OperationType.Test)
+                    {
+                        writer.WritePropertyName("value");
+                        JsonSerializer.Serialize(writer, operation.Value, options);
+                    }
+
                     writer.WriteEndObject();
                 }
 

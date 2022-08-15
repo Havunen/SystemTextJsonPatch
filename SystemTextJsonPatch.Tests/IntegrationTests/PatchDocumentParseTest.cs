@@ -8,7 +8,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
     public class PatchDocumentSerializationTest
     {
         [Fact]
-        public void Serialize_Should_Not_Serialize_Empty_From()
+        public void SerializeShouldNotSerializeEmptyFrom()
         {
             var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
             options.Converters.Add(new Converters.JsonPatchDocumentConverterFactory());
@@ -26,7 +26,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
         }
 
         [Fact]
-        public void Serialize_Should_Not_Serialize_Value_When_Operation_Is_Remove_Copy_Move_Invalid()
+        public void SerializeShouldNotSerializeValueWhenOperationIsRemoveCopyMoveInvalid()
         {
             var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
             options.Converters.Add(new Converters.JsonPatchDocumentConverterFactory());

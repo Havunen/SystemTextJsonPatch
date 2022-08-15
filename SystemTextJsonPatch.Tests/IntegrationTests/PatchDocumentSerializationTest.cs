@@ -13,7 +13,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
         }
 
         [Fact]
-        public void Deserialize_Should_Follow_CaseInsensitive_Setting_Of_SystemTextJson_Options()
+        public void DeserializeShouldFollowCaseInsensitiveSettingOfSystemTextJsonOptions()
         {
             var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
             options.Converters.Add(new Converters.JsonPatchDocumentConverterFactory());
@@ -25,7 +25,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
         }
 
         [Fact]
-        public void Deserialize_Should_Follow_CaseInsensitive_Setting_Of_SystemTextJson_Options_2()
+        public void DeserializeShouldFollowCaseInsensitiveSettingOfSystemTextJsonOptions2()
         {
             var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
             options.Converters.Add(new Converters.JsonPatchDocumentConverterFactory());
@@ -36,7 +36,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
         }
 
         [Fact]
-        public void Deserialize_Should_Follow_CaseInsensitive_Setting_Of_SystemTextJson_Options_3()
+        public void DeserializeShouldFollowCaseInsensitiveSettingOfSystemTextJsonOptions3()
         {
             var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
             options.Converters.Add(new Converters.JsonPatchDocumentConverterFactory());

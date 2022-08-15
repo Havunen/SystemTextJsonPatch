@@ -210,7 +210,7 @@ public class PocoAdapter : IAdapter
         return false;
     }
 
-    protected bool TryGetJsonProperty(
+    private static bool TryGetJsonProperty(
         object target,
         string segment,
         JsonSerializerOptions options,

@@ -1,3 +1,6 @@
+## 0.0.9
+- Fixes an issue where copy operation ignored System.Text.Json options. Github https://github.com/Havunen/SystemTextJsonPatch/issues/13
+
 ## 0.0.8
 - Code cleaning
 - Fixes an issue where copying null string value to another dynamic object deleted the original property instead of setting it null

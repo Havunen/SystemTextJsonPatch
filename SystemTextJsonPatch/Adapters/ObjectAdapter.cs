@@ -224,7 +224,7 @@ public class ObjectAdapter : IObjectAdapterWithTest
         if (TryGetValue(operation.From, objectToApplyTo, operation, out var propertyValue))
         {
             // Create deep copy
-            if (ConversionResultProvider.TryCopyTo(propertyValue, propertyValue?.GetType(), out object? convertedValue))
+            if (ConversionResultProvider.TryCopyTo(propertyValue, propertyValue?.GetType(), this.Options, out object? convertedValue))
             {
                 Add(operation.Path,
                     convertedValue,

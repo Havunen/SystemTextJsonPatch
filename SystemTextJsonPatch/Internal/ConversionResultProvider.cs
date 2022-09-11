@@ -58,7 +58,7 @@ public static class ConversionResultProvider
         }
     }
 
-    public static bool TryCopyTo(object? value, Type typeToConvertTo, out object? convertedValue)
+    internal static bool TryCopyTo(object? value, Type typeToConvertTo, JsonSerializerOptions options, out object? convertedValue)
     {
         var targetType = typeToConvertTo;
         if (value == null)
@@ -84,7 +84,7 @@ public static class ConversionResultProvider
 
         try
         {
-            convertedValue = JsonSerializer.Deserialize(JsonSerializer.Serialize(value), targetType);
+            convertedValue = JsonSerializer.Deserialize(JsonSerializer.Serialize(value, options), targetType, options);
 
             return true;
         }

@@ -14,16 +14,14 @@ jobs:
     name: build and test
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
-        with:	
-          dotnet-version: |
-          6.0.x
-          5.0.x
-          3.0.x
+        with:
+          dotnet-version: | 
+           3.1.x
+           5.0.x
+           6.0.x
 
       - name: dotnet build
         run: dotnet build

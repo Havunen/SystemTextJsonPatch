@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.Json.Nodes;
 
 namespace SystemTextJsonPatch.Internal.Proxies
@@ -27,13 +28,13 @@ namespace SystemTextJsonPatch.Internal.Proxies
             {
                 var ser = System.Text.Json.JsonSerializer.SerializeToNode(convertedValue);
 
-                if (_jsonNode is JsonArray jsonArray)
+                if (_jsonNode is JsonArray jsonArray && _propertyName == "-")
                 {
                     jsonArray.Add(ser);
                 }
                 else
                 {
-                    // ??
+                    _jsonNode[this._propertyName] = ser;
                 }
             }
             else
@@ -44,7 +45,19 @@ namespace SystemTextJsonPatch.Internal.Proxies
 
         public void RemoveValue(object target)
         {
-            _jsonNode.AsObject().Remove(_propertyName);
+            if (_jsonNode is JsonArray jsonArray)
+            {
+                if (_propertyName == "-")
+                {
+                    jsonArray.RemoveAt(jsonArray.Count - 1);
+                } else
+                {
+                    jsonArray.RemoveAt(index: int.Parse(_propertyName, NumberStyles.Number, CultureInfo.InvariantCulture));
+                }
+            } else
+            {
+                _jsonNode.AsObject().Remove(_propertyName);
+            }
         }
 
         public bool CanRead => true;

@@ -36,7 +36,7 @@ public static class ConversionResultProvider
 
         try
         {
-            convertedValue = JsonSerializer.Deserialize(JsonSerializer.Serialize(value, options), typeToConvertTo, options);
+            convertedValue = JsonSerializer.Deserialize(JsonSerializer.SerializeToUtf8Bytes(value, options), typeToConvertTo, options);
 
             return true;
         }

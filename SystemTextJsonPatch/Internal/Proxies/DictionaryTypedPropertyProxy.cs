@@ -5,10 +5,10 @@ namespace SystemTextJsonPatch.Internal.Proxies
 {
     internal sealed class DictionaryTypedPropertyProxy : IPropertyProxy
     {
-        private readonly IDictionary<string, object> _dictionary;
+        private readonly IDictionary<string, object?> _dictionary;
         private readonly string _propertyName;
 
-        internal DictionaryTypedPropertyProxy(IDictionary<string, object> dictionary, string propertyName)
+        internal DictionaryTypedPropertyProxy(IDictionary<string, object?> dictionary, string propertyName)
         {
             _dictionary = dictionary;
             _propertyName = propertyName;

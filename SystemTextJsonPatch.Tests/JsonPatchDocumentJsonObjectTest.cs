@@ -25,6 +25,23 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
+    public void ApplyToArrayAddAndRemove()
+    {
+        // Arrange
+        var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Emails = new[] { "foo@bar.com" } }) };
+        var patch = new JsonPatchDocument<ObjectWithJsonNode>();
+
+        patch.Operations.Add(new Operation<ObjectWithJsonNode>("add", "/CustomData/Emails/-", null, "foo@baz.com"));
+        patch.Operations.Add(new Operation<ObjectWithJsonNode>("remove", "/CustomData/Emails/-", null));
+
+        // Act
+        patch.ApplyTo(model);
+
+        // Assert
+        Assert.Equal("foo@bar.com", model.CustomData["Emails"][0].GetValue<string>());
+    }
+
+    [Fact]
     public void ApplyToModelTest1()
     {
         // Arrange

@@ -25,6 +25,54 @@ public class JsonPatchDocumentJsonObjectTest
     }
 
     [Fact]
+    public void ReplaceJsonNodeWithNewJson()
+    {
+        // Arrange
+        var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Testing = "JsonNodes" }) };
+        var patch = new JsonPatchDocument<ObjectWithJsonNode>();
+
+        patch.Operations.Add(new Operation<ObjectWithJsonNode>("replace", "/CustomData", null, "{\"foo\": \"bar\"}"));
+
+        // Act
+        patch.ApplyTo(model);
+
+        // Assert
+        Assert.Equal("{\"foo\": \"bar\"}", model.CustomData.ToString());
+    }
+
+    [Fact]
+    public void ReplaceJsonElementWithNewJson()
+    {
+        // Arrange
+        var model = new ObjectWithJsonElement { CustomData = JsonSerializer.SerializeToElement(new { Testing = "JsonNodes" }) };
+        var patch = new JsonPatchDocument<ObjectWithJsonElement>();
+
+        patch.Operations.Add(new Operation<ObjectWithJsonElement>("replace", "/CustomData", null, "{\"foo\": \"bar\"}"));
+
+        // Act
+        patch.ApplyTo(model);
+
+        // Assert
+        Assert.Equal("{\"foo\": \"bar\"}", model.CustomData.ToString());
+    }
+
+    [Fact]
+    public void ReplaceJsonDocumentWithNewJson()
+    {
+        // Arrange
+        var model = new ObjectWithJsonDocument { CustomData = JsonSerializer.SerializeToDocument(new { Testing = "JsonNodes" }) };
+        var patch = new JsonPatchDocument<ObjectWithJsonDocument>();
+
+        patch.Operations.Add(new Operation<ObjectWithJsonDocument>("replace", "/CustomData", null, "{\"foo\": \"bar\"}"));
+
+        // Act
+        patch.ApplyTo(model);
+
+        // Assert
+        Assert.Equal("{\"foo\": \"bar\"}", model.CustomData.RootElement.ToString());
+    }
+
+    [Fact]
     public void ApplyToArrayAddAndRemove()
     {
         // Arrange

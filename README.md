@@ -49,7 +49,7 @@ or when using System.Text.Json.JsonSerializer directly with custom settings.
 
 ## Performance comparison
 
-This test deserializes a JSON patch document of 5 operations and applies the changes to a new model.
+This test deserializes a JSON patch document of 8 operations and applies the changes to a new model.
 
 See [SystemTextJsonPatch.Benchmark](https://github.com/Havunen/SystemTextJsonPatch/tree/main/SystemTextJsonPatch.Benchmark) for more details.
 
@@ -57,12 +57,12 @@ BenchmarkDotNet=v0.13.2, OS=Windows 11 (10.0.22000.978/21H2)
 AMD Ryzen 9 5950X, 1 CPU, 32 logical and 16 physical cores
 .NET SDK=7.0.100-rc.1.22431.12
   [Host]     : .NET 6.0.9 (6.0.922.41905), X64 RyuJIT AVX2
-  Job-MLBFMD : .NET 6.0.9 (6.0.922.41905), X64 RyuJIT AVX2
+  Job-URORCR : .NET 6.0.9 (6.0.922.41905), X64 RyuJIT AVX2
 
 WarmupCount=2
 
 |              Method |       Mean |     Error |    StdDev |   Gen0 |   Gen1 | Allocated |
 |-------------------- |-----------:|----------:|----------:|-------:|-------:|----------:|
-| SystemTextJsonPatch |   4.220 us | 0.0258 us | 0.0241 us | 0.1907 |      - |   3.21 KB |
-|     MarvinJsonPatch | 781.650 us | 9.1887 us | 8.5951 us | 3.9063 | 1.9531 |  73.17 KB |
-| AspNetCoreJsonPatch |  17.864 us | 0.1776 us | 0.1483 us | 1.6174 | 0.0305 |  26.81 KB |
+| SystemTextJsonPatch |   7.233 us | 0.0381 us | 0.0356 us | 0.3738 |      - |   6.16 KB |
+|     MarvinJsonPatch | 979.525 us | 9.9310 us | 8.8036 us | 5.8594 | 3.9063 |  98.13 KB |
+| AspNetCoreJsonPatch |  26.645 us | 0.2023 us | 0.1892 us | 2.5940 | 0.0610 |  42.49 KB |

@@ -11,7 +11,10 @@ namespace SystemTextJsonPatch.Console
             "{{\"op\": \"replace\", \"path\": \"text\", \"value\": \"testing-performance\"}}," +
             "{{\"op\": \"add\", \"path\": \"amount\", \"value\": 86632.172712}}," +
             "{{\"op\": \"replace\", \"path\": \"amount2\", \"value\": null}}," +
-            "{{\"op\": \"replace\", \"path\": \"subTestModel\", \"value\": {{\"id\": 91117, \"data\": 78}}}}" +
+            "{{\"op\": \"replace\", \"path\": \"subTestModel\", \"value\": {{\"id\": 91117, \"data\": 78}}}}," +
+            "{{\"op\": \"test\", \"path\": \"number\", \"value\": 86632}}," +
+            "{{\"op\": \"copy\", \"path\": \"amount2\", \"from\": \"amount\"}}," +
+            "{{\"op\": \"remove\", \"path\": \"text\"}}" +
             "]"
         );
 

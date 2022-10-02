@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace SystemTextJsonPatch.Internal;
 
@@ -36,7 +37,7 @@ public static class ConversionResultProvider
 
         try
         {
-            convertedValue = JsonSerializer.Deserialize(JsonSerializer.SerializeToUtf8Bytes(value, options), typeToConvertTo, options);
+            convertedValue = Deserialize(value, typeToConvertTo, options);
 
             return true;
         }
@@ -76,15 +77,21 @@ public static class ConversionResultProvider
 
         if (value is decimal decimalValue)
         {
-            if (TryConvertDecimalToNumber(decimalValue, typeToConvertTo, out convertedValue))
+            if (TryConvertDecimalToNumber(decimalValue, targetType, out convertedValue))
             {
                 return true;
             }
         }
 
+        if (typeToConvertTo == typeof(string) && value is string stringValue)
+        {
+            convertedValue = stringValue;
+            return true;
+        }
+
         try
         {
-            convertedValue = JsonSerializer.Deserialize(JsonSerializer.Serialize(value, options), targetType, options);
+            convertedValue = Deserialize(value, typeToConvertTo, options);
 
             return true;
         }
@@ -150,6 +157,25 @@ public static class ConversionResultProvider
 
         return true;
     }
+
+    private static object? Deserialize(object? value, Type typeToConvertTo, JsonSerializerOptions options)
+    {
+        if (typeToConvertTo == typeof(JsonNode))
+        {
+            return JsonSerializer.SerializeToNode(value, options);
+        }
+        if (typeToConvertTo == typeof(JsonDocument))
+        {
+            return JsonSerializer.SerializeToDocument(value, options);
+        }
+        if (typeToConvertTo == typeof(JsonElement))
+        {
+            return JsonSerializer.SerializeToElement(value, options);
+        }
+
+        return JsonSerializer.Deserialize(JsonSerializer.Serialize(value, options), typeToConvertTo, options);
+    }
+
     private static bool IsNullableType(Type type)
     {
         if (type.IsValueType)

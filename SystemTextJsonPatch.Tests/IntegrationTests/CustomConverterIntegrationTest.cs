@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Converters;
 using SystemTextJsonPatch.Operations;
+using SystemTextJsonPatch.Tests.TestObjectModels;
 using Xunit;
 
 namespace SystemTextJsonPatch.Tests.IntegrationTests
@@ -16,7 +17,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
             // Arrange
             var targetObject = new TesterObject()
             {
-                MyDate = new DateOnly(2020, 1, 1)
+                MyDate = new MyCustomDateOnly(2020, 1, 1)
             };
 
             var patchDocument = new JsonPatchDocument(new List<Operation>(), new JsonSerializerOptions()
@@ -42,7 +43,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
             // Arrange
             var targetObject = new TesterObject()
             {
-                MyDate = new DateOnly(2020, 1, 1)
+                MyDate = new MyCustomDateOnly(2020, 1, 1)
             };
 
             var options = new JsonSerializerOptions()
@@ -69,40 +70,34 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
             patchDoc.ApplyTo(targetObject);
 
-            Assert.Equal(new DateOnly(2021, 2, 2), targetObject.AnotherDate);
+            Assert.Equal(new MyCustomDateOnly(2021, 2, 2), targetObject.AnotherDate);
         }
     }
 
     public class TesterObject
     {
-        public DateOnly MyDate { get; set; }
+        public MyCustomDateOnly MyDate { get; set; }
 
-        public DateOnly AnotherDate { get; set; }
+        public MyCustomDateOnly AnotherDate { get; set; }
     }
 
 
-    public class DateOnlyConverter : JsonConverter<DateOnly>
+    public class DateOnlyConverter : JsonConverter<MyCustomDateOnly>
     {
-        private readonly string serializationFormat;
 
-        public DateOnlyConverter() : this(null)
+        public DateOnlyConverter()
         {
         }
 
-        public DateOnlyConverter(string? serializationFormat)
-        {
-            this.serializationFormat = serializationFormat ?? "yyyy-MM-dd";
-        }
-
-        public override DateOnly Read(ref Utf8JsonReader reader,
+        public override MyCustomDateOnly Read(ref Utf8JsonReader reader,
             Type typeToConvert, JsonSerializerOptions options)
         {
             var value = reader.GetString();
-            return DateOnly.Parse(value!);
+            return MyCustomDateOnly.Parse(value!);
         }
 
-        public override void Write(Utf8JsonWriter writer, DateOnly value,
+        public override void Write(Utf8JsonWriter writer, MyCustomDateOnly value,
             JsonSerializerOptions options)
-            => writer.WriteStringValue(value.ToString(serializationFormat));
+            => writer.WriteStringValue(value.ToString());
     }
 }

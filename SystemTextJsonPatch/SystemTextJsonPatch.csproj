@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>SystemTextJson is JSON JSON Patch (JsonPatchDocument) RFC 6902 implementation for .NET using System.Text.Json</Description>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>aspnetcore;json;jsonpatch;system.text.json;rfc6902;</PackageTags>
@@ -27,6 +27,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(targetframework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Text.Json" Version="6.*" />
   </ItemGroup>
 
   <ItemGroup>

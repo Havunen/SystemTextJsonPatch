@@ -71,7 +71,7 @@ public class ListAdapter : IAdapter
 
         if (positionInfo.Type == PositionType.EndOfList)
         {
-            value = list[^1];
+            value = list[list.Count - 1];
         }
         else
         {
@@ -139,7 +139,7 @@ public class ListAdapter : IAdapter
 
         if (positionInfo.Type == PositionType.EndOfList)
         {
-            list[^1] = convertedValue;
+            list[list.Count - 1] = convertedValue;
         }
         else
         {

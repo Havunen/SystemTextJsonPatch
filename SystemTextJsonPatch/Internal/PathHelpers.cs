@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using SystemTextJsonPatch.Exceptions;
 
 namespace SystemTextJsonPatch.Internal;
@@ -11,7 +12,11 @@ internal static class PathHelpers
         // absolutely necessary, but it allows us to already catch mistakes
         // on creation of the patch document rather than on execute.
 
+#if NETSTANDARD2_0
+        if (path.Contains("//"))
+#else
         if (path.Contains("//", StringComparison.Ordinal))
+#endif
         {
             throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
         }

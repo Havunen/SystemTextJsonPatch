@@ -1,3 +1,6 @@
+## 0.1.0
+- Adds netstandard2.0 target framework
+
 ## 0.0.9
 - Fixes an issue where copy operation ignored System.Text.Json options. Github https://github.com/Havunen/SystemTextJsonPatch/issues/13
 

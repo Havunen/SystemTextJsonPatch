@@ -1,4 +1,4 @@
-## 0.1.0
+## 1.0.0
 - Adds netstandard2.0 target framework
 - Fixes an issue where removing from the end of JsonNode array did not work
 - Small performance improvements

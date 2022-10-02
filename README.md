@@ -12,7 +12,7 @@ This library tries to ease the migration from Newtonsoft.Json to System.Text.Jso
 similar API for HttpPatch requests as in [Microsoft.AspNetCore.JsonPatch](https://github.com/dotnet/aspnetcore/tree/main/src/Features/JsonPatch) and [Marvin.JsonPatch](https://github.com/KevinDockx/JsonPatch)
 
 * Designed as an easy replacement for Microsoft.AspNetCore.JsonPatch
-* Supports .NET 6.0+
+* Supports .NET 6 & netstandard2.0
 
 
 ## Getting started

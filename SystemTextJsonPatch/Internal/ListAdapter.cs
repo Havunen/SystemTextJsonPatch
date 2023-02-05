@@ -333,7 +333,7 @@ public class ListAdapter : IAdapter
         out PositionInfo positionInfo,
         out string? errorMessage)
     {
-        if (segment == "-")
+        if (segment == Consts.LastElement)
         {
             positionInfo = new PositionInfo(PositionType.EndOfList, -1);
             errorMessage = null;

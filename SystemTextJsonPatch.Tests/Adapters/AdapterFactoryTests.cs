@@ -12,10 +12,10 @@ public class AdapterFactoryTests
     public void GetListAdapterForListTargets()
     {
         // Arrange
-        AdapterFactory factory = new AdapterFactory();
+        var factory = new AdapterFactory();
 
         //Act:
-        IAdapter adapter = factory.Create(new List<string>(), new JsonSerializerOptions());
+        var adapter = factory.Create(new List<string>(), new JsonSerializerOptions());
 
         // Assert
         Assert.Equal(typeof(ListAdapter), adapter.GetType());

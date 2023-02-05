@@ -232,6 +232,11 @@ public class PocoAdapter : IAdapter
             return new DictionaryTypedPropertyProxy(typedDictionary, propertyName);
         }
 
+        if (target is JsonArray jsonArray)
+        {
+            return new JsonArrayProxy(jsonArray, propertyName);
+        }
+
         if (target is JsonNode jsonElement)
         {
             return new JsonNodeProxy(jsonElement, propertyName);

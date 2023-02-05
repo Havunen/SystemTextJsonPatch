@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Operations;
 using Xunit;
@@ -70,6 +72,120 @@ public class JsonPatchDocumentJsonObjectTest
 
         // Assert
         Assert.Equal("{\"foo\": \"bar\"}", model.CustomData.RootElement.ToString());
+    }
+
+    [Fact]
+    public void ReplaceArrayCell()
+    {
+        var options = new JsonSerializerOptions() { Converters = { new Converters.JsonPatchDocumentConverterFactory() } };
+
+        var node = JsonSerializer.Deserialize<JsonArray>("[ 123 ]");
+        var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
+            @"[ { ""op"": ""replace"", ""path"": ""/0"", ""value"": 456 } ]",
+            options
+        );
+
+        patch.ApplyTo(node);
+
+        Assert.Equal(456, node.ElementAt(0).GetValue<int>());
+        Assert.Single(node);
+    }
+
+    [Fact]
+    public void ReplaceJsonObjInArray0Idx()
+    {
+        var options = new JsonSerializerOptions() { Converters = { new Converters.JsonPatchDocumentConverterFactory() } };
+
+        var node = JsonSerializer.Deserialize<JsonArray>("[ {\"a\": \"12\"}, {\"a\": \"13\"} ]");
+        var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
+            @"[ { ""op"": ""replace"", ""path"": ""/0/a"", ""value"": ""456"" } ]",
+            options
+        );
+
+        patch.ApplyTo(node);
+
+        var resultJson = node.ToJsonString();
+
+        Assert.Equal("[{\"a\":\"456\"},{\"a\":\"13\"}]", resultJson);
+    }
+
+    [Fact]
+    public void ReplaceJsonObjInArray1Idx()
+    {
+        var options = new JsonSerializerOptions() { Converters = { new Converters.JsonPatchDocumentConverterFactory() } };
+
+        var node = JsonSerializer.Deserialize<JsonArray>("[ {\"a\": \"12\"}, {\"a\": \"12\"}, {\"a\": \"13\"} ]");
+        var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
+            @"[ { ""op"": ""replace"", ""path"": ""/1/a"", ""value"": ""456"" } ]",
+            options
+        );
+
+        patch.ApplyTo(node);
+
+        var resultJson = node.ToJsonString();
+
+        Assert.Equal("[{\"a\":\"12\"},{\"a\":\"456\"},{\"a\":\"13\"}]", resultJson);
+    }
+
+    [Fact]
+    public void ReplaceJsonObjInArrayLastIdx()
+    {
+        var options = new JsonSerializerOptions() { Converters = { new Converters.JsonPatchDocumentConverterFactory() } };
+
+        var node = JsonSerializer.Deserialize<JsonArray>("[ {\"a\": \"12\"}, {\"a\": \"12\"}, {\"a\": \"13\"} ]");
+        var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
+            @"[ { ""op"": ""replace"", ""path"": ""/-/a"", ""value"": ""456"" } ]",
+            options
+        );
+
+        patch.ApplyTo(node);
+
+        var resultJson = node.ToJsonString();
+
+        Assert.Equal("[{\"a\":\"12\"},{\"a\":\"12\"},{\"a\":\"456\"}]", resultJson);
+    }
+
+    [Fact]
+    public void ReplaceJsonObjInArrayMultipleTimes()
+    {
+        var options = new JsonSerializerOptions() { Converters = { new Converters.JsonPatchDocumentConverterFactory() } };
+
+        var node = JsonSerializer.Deserialize<JsonArray>("[ {\"a\": \"12\"}, {\"a\": \"12\"}, {\"a\": \"13\"} ]");
+        var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
+            @"[ { ""op"": ""replace"", ""path"": ""/1/a"", ""value"": ""456"" } ]",
+            options
+        );
+
+        patch.ApplyTo(node);
+
+        patch = JsonSerializer.Deserialize<JsonPatchDocument>(
+            @"[ { ""op"": ""replace"", ""path"": ""/1/a"", ""value"": ""33"" } ]",
+            options
+        );
+
+        patch.ApplyTo(node);
+
+        var resultJson = node.ToJsonString();
+
+        Assert.Equal("[{\"a\":\"12\"},{\"a\":\"33\"},{\"a\":\"13\"}]", resultJson);
+    }
+
+    [Fact]
+    public void ReplaceJsonProp()
+    {
+        var options = new JsonSerializerOptions() { Converters = { new Converters.JsonPatchDocumentConverterFactory() } };
+
+        var node = JsonSerializer.Deserialize<JsonObject>("{\"a\": \"12\"}");
+        var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
+            @"[ { ""op"": ""replace"", ""path"": ""/a"", ""value"": 456 } ]",
+            options
+        );
+
+        patch.ApplyTo(node);
+
+        node.TryGetPropertyValue("a", out var prop);
+
+        Assert.Equal("456", prop.ToString());
     }
 
     [Fact]
@@ -232,4 +348,5 @@ public class JsonPatchDocumentJsonObjectTest
         // Assert
         Assert.Null(model.CustomData["Email"]);
     }
+
 }

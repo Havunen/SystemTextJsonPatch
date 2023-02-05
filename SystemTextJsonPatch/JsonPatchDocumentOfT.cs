@@ -102,7 +102,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 
         Operations.Add(new Operation<TModel>(
             "add",
-            GetPath(path, "-"),
+            GetPath(path, Consts.LastElement),
             from: null,
             value: value));
 
@@ -164,7 +164,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 
         Operations.Add(new Operation<TModel>(
             "remove",
-            GetPath(path, "-"),
+            GetPath(path, Consts.LastElement),
             from: null));
 
         return this;
@@ -234,7 +234,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 
         Operations.Add(new Operation<TModel>(
             "replace",
-            GetPath(path, "-"),
+            GetPath(path, Consts.LastElement),
             from: null,
             value: value));
 
@@ -305,7 +305,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 
         Operations.Add(new Operation<TModel>(
             "test",
-            GetPath(path, "-"),
+            GetPath(path, Consts.LastElement),
             from: null,
             value: value));
 
@@ -461,7 +461,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 
         Operations.Add(new Operation<TModel>(
             "move",
-            GetPath(path, "-"),
+            GetPath(path, Consts.LastElement),
             GetPath(from, positionFrom.ToString(CultureInfo.InvariantCulture))));
 
         return this;
@@ -490,7 +490,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 
         Operations.Add(new Operation<TModel>(
             "move",
-            GetPath(path, "-"),
+            GetPath(path, Consts.LastElement),
             GetPath(from, null)));
 
         return this;
@@ -645,7 +645,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 
         Operations.Add(new Operation<TModel>(
             "copy",
-            GetPath(path, "-"),
+            GetPath(path, Consts.LastElement),
             GetPath(from, positionFrom.ToString(CultureInfo.InvariantCulture))));
 
         return this;
@@ -674,7 +674,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 
         Operations.Add(new Operation<TModel>(
             "copy",
-            GetPath(path, "-"),
+            GetPath(path, Consts.LastElement),
             GetPath(from, null)));
 
         return this;
@@ -790,7 +790,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     internal string GetPath<TProp>(Expression<Func<TModel, TProp>> expr, string? position)
     {
         var segments = GetPathSegments(expr.Body);
-        var path = String.Join("/", segments);
+        var path = string.Join("/", segments);
         if (position != null)
         {
             path += "/" + position;

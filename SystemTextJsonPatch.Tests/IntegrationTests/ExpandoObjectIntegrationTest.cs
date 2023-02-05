@@ -229,7 +229,7 @@ public class ExpandoObjectIntegrationTest
         Assert.Equal(100, targetObject.AnotherIntegerValue);
 
         var cont = targetObject as IDictionary<string, object>;
-        cont.TryGetValue("IntegerValue", out object valueFromDictionary);
+        cont.TryGetValue("IntegerValue", out var valueFromDictionary);
 
         // Assert
         Assert.Null(valueFromDictionary);
@@ -291,7 +291,7 @@ public class ExpandoObjectIntegrationTest
         patchDocument.ApplyTo(targetObject);
 
         var cont = targetObject as IDictionary<string, object>;
-        cont.TryGetValue("Test", out object valueFromDictionary);
+        cont.TryGetValue("Test", out var valueFromDictionary);
 
         // Assert
         Assert.Null(valueFromDictionary);
@@ -329,7 +329,7 @@ public class ExpandoObjectIntegrationTest
         patchDocument.ApplyTo(targetObject);
 
         var cont = targetObject as IDictionary<string, object>;
-        cont.TryGetValue("Test", out object valueFromDictionary);
+        cont.TryGetValue("Test", out var valueFromDictionary);
 
         // Assert
         Assert.Null(valueFromDictionary);

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using SystemTextJsonPatch.Exceptions;
 
 namespace SystemTextJsonPatch.Internal;

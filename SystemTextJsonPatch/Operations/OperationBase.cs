@@ -21,7 +21,7 @@ public abstract class OperationBase
         set
         {
             OperationType result;
-            if (!Enum.TryParse(value, ignoreCase: true, result: out result))
+            if (!Enum.TryParse<OperationType>(value, ignoreCase: true, result: out result))
             {
                 result = OperationType.Invalid;
             }

@@ -7,7 +7,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>aspnetcore;json;jsonpatch;system.text.json;rfc6902;</PackageTags>
     <LangVersion>10</LangVersion>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <RepositoryUrl>https://github.com/Havunen/SystemTextJsonPatch.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <AnalysisLevel>6.0-all</AnalysisLevel>

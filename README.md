@@ -44,7 +44,7 @@ or when using System.Text.Json.JsonSerializer directly with custom settings.
         }
     };
 
-    var json = System.Text.Json.JsonSerializer.JsonSerializer.Serialize(incomingOperations, jsonOptions);
+    var json = System.Text.Json.JsonSerializer.Serialize(incomingOperations, jsonOptions);
 ```
 
 ## Performance comparison

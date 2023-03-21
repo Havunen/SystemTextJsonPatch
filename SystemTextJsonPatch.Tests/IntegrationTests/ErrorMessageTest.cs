@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.Json;
-using SystemTextJsonPatch.Converters;
 using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Operations;
 using Xunit;

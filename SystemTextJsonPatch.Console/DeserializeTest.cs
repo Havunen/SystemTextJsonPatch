@@ -18,13 +18,9 @@ namespace SystemTextJsonPatch.Console
 			"]"
 		);
 
-		public static JsonSerializerOptions SystemTextJsonSerializerOptions = new JsonSerializerOptions()
-		{
-		};
-
 		public static void Run()
 		{
-			var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson, SystemTextJsonSerializerOptions);
+			var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson);
 			patchDoc.ApplyTo(new TestModel());
 		}
 	}

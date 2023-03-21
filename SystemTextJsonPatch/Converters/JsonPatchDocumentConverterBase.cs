@@ -16,7 +16,7 @@ namespace SystemTextJsonPatch.Converters
         private static readonly JsonEncodedText FromText = JsonEncodedText.Encode("from");
         private static readonly JsonEncodedText ValueText = JsonEncodedText.Encode("value");
 
-        protected List<TOperation>? ParseOperations(ref Utf8JsonReader reader, bool caseInSensitive)
+        protected static List<TOperation>? ParseOperations(ref Utf8JsonReader reader, bool caseInSensitive)
         {
             if (reader.TokenType == JsonTokenType.StartArray)
             {

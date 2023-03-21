@@ -25,7 +25,7 @@ public sealed class JsonPatchDocumentConverter : JsonPatchDocumentConverterBase<
             throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
         }
 
-        var operations = this.ParseOperations(ref reader, options.PropertyNameCaseInsensitive);
+        var operations = ParseOperations(ref reader, options.PropertyNameCaseInsensitive);
 
         if (operations == null)
         {

@@ -1,7 +1,6 @@
 using System;
 using System.Dynamic;
 using System.Text.Json;
-using SystemTextJsonPatch.Converters;
 using Xunit;
 
 namespace SystemTextJsonPatch.IntegrationTests;

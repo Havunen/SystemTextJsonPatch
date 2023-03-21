@@ -25,7 +25,7 @@ JsonPatchDocument<DTO.Expense> expensePatch = new JsonPatchDocument<DTO.Expense>
 expensePatch.Replace(e => e.Description, expense.Description);
 
 // serialize it to JSON
-var expensePatchJson = JsonConvert.SerializeObject(expensePatch);
+var expensePatchJson = System.Text.Json.JsonSerializer.Serialize(expensePatch);
 ```
 
 

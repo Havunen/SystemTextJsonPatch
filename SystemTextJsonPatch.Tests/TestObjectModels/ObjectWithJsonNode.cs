@@ -4,5 +4,5 @@ namespace SystemTextJsonPatch;
 
 public class ObjectWithJsonNode
 {
-    public JsonNode CustomData { get; set; } = JsonNode.Parse("{}");
+	public JsonNode CustomData { get; set; } = JsonNode.Parse("{}");
 }

@@ -6,7 +6,7 @@ namespace SystemTextJsonPatch;
 
 public interface IJsonPatchDocument
 {
-    JsonSerializerOptions Options { get; set; }
+	JsonSerializerOptions Options { get; set; }
 
-    IList<Operation> GetOperations();
+	IList<Operation> GetOperations();
 }

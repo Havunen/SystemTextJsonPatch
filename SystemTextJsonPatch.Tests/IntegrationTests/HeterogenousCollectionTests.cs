@@ -10,75 +10,75 @@ namespace SystemTextJsonPatch.IntegrationTests;
 
 public class HeterogenousCollectionTests
 {
-    [Fact]
-    public void AddItemToList()
-    {
-        // Arrange
-        var targetObject = new Canvas()
-        {
-            Items = new List<Shape>()
-        };
+	[Fact]
+	public void AddItemToList()
+	{
+		// Arrange
+		var targetObject = new Canvas()
+		{
+			Items = new List<Shape>()
+		};
 
-        var circleJsonNode = JsonNode.Parse(@"{
+		var circleJsonNode = JsonNode.Parse(@"{
             ""Type"": ""Circle"",
             ""ShapeProperty"": ""Shape property"",
             ""CircleProperty"": ""Circle property""
         }");
 
-        var patchDocument = new JsonPatchDocument
-        {
-            Options = new JsonSerializerOptions()
-            {
-                Converters = { new ShapeJsonConverter(), new JsonPatchDocumentConverterFactory() }
-            }
-        };
+		var patchDocument = new JsonPatchDocument
+		{
+			Options = new JsonSerializerOptions()
+			{
+				Converters = { new ShapeJsonConverter() }
+			}
+		};
 
-        patchDocument.Add("/Items/-", circleJsonNode);
+		patchDocument.Add("/Items/-", circleJsonNode);
 
-        // Act
-        patchDocument.ApplyTo(targetObject);
+		// Act
+		patchDocument.ApplyTo(targetObject);
 
-        // Assert
-        var circle = targetObject.Items[0] as Circle;
-        Assert.NotNull(circle);
-        Assert.Equal("Shape property", circle.ShapeProperty);
-        Assert.Equal("Circle property", circle.CircleProperty);
-    }
+		// Assert
+		var circle = targetObject.Items[0] as Circle;
+		Assert.NotNull(circle);
+		Assert.Equal("Shape property", circle.ShapeProperty);
+		Assert.Equal("Circle property", circle.CircleProperty);
+	}
 }
 
 public class ShapeJsonConverter : JsonConverter<Shape>
 {
-    private const string TypeProperty = "Type";
+	private const string TypeProperty = "Type";
 
-    private static Shape CreateShape(JsonNode jsonNode)
-    {
-        var typeProperty = jsonNode[TypeProperty];
+	private static Shape CreateShape(JsonNode jsonNode)
+	{
+		var typeProperty = jsonNode[TypeProperty];
 
-        switch (typeProperty.GetValue<string>())
-        {
-            case "Circle":
-                return new Circle();
+		switch (typeProperty.GetValue<string>())
+		{
+			case "Circle":
+				return new Circle();
 
-            case "Rectangle":
-                return new Rectangle();
-        }
+			case "Rectangle":
+				return new Rectangle();
+		}
 
-        throw new NotSupportedException();
-    }
+		throw new NotSupportedException();
+	}
 
-    public override Shape Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var jsonNode = JsonNode.Parse(ref reader);
+	public override Shape Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+	{
+		var jsonNode = JsonNode.Parse(ref reader);
 
-        var target = CreateShape(jsonNode);
+		var target = CreateShape(jsonNode);
 
-        target = (Shape)JsonSerializer.Deserialize(jsonNode, target.GetType());
+		target = (Shape)JsonSerializer.Deserialize(jsonNode, target.GetType());
 
-        return target;
-    }
+		return target;
+	}
 
-    public override void Write(Utf8JsonWriter writer, Shape value, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
+	public override void Write(Utf8JsonWriter writer, Shape value, JsonSerializerOptions options)
+	{
+		throw new NotImplementedException();
+	}
 }

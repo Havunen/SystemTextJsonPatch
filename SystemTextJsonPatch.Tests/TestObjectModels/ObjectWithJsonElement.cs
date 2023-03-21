@@ -4,5 +4,5 @@ namespace SystemTextJsonPatch;
 
 public class ObjectWithJsonElement
 {
-    public JsonElement CustomData { get; set; }
+	public JsonElement CustomData { get; set; }
 }

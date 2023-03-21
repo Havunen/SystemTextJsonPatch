@@ -2,12 +2,12 @@
 
 internal class Customer
 {
-    private string _name;
-    private int _age;
+	private string _name;
+	private int _age;
 
-    public Customer(string name, int age)
-    {
-        _name = name;
-        _age = age;
-    }
+	public Customer(string name, int age)
+	{
+		_name = name;
+		_age = age;
+	}
 }

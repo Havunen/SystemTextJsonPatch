@@ -8,16 +8,16 @@ namespace SystemTextJsonPatch.Test.Adapters;
 
 public class AdapterFactoryTests
 {
-    [Fact]
-    public void GetListAdapterForListTargets()
-    {
-        // Arrange
-        var factory = new AdapterFactory();
+	[Fact]
+	public void GetListAdapterForListTargets()
+	{
+		// Arrange
+		var factory = new AdapterFactory();
 
-        //Act:
-        var adapter = factory.Create(new List<string>(), new JsonSerializerOptions());
+		//Act:
+		var adapter = factory.Create(new List<string>(), new JsonSerializerOptions());
 
-        // Assert
-        Assert.Equal(typeof(ListAdapter), adapter.GetType());
-    }
+		// Assert
+		Assert.Equal(typeof(ListAdapter), adapter.GetType());
+	}
 }

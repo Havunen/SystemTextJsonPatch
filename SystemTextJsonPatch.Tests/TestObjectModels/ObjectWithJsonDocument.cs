@@ -4,5 +4,5 @@ namespace SystemTextJsonPatch;
 
 public class ObjectWithJsonDocument
 {
-    public JsonDocument CustomData { get; set; } = JsonDocument.Parse("{}");
+	public JsonDocument CustomData { get; set; } = JsonDocument.Parse("{}");
 }

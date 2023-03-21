@@ -5,73 +5,69 @@ using Xunit;
 
 namespace SystemTextJsonPatch.Tests.IntegrationTests
 {
-    public class DecimalComparisonTest
-    {
+	public class DecimalComparisonTest
+	{
 
-        [Fact]
-        public void TestValuesShouldBeEqualRegardlessOfNumberOfDecimalZeroes()
-        {
-            var incomingOperations = new[]
-            {
-                new Operation
-                {
-                    Op = "test",
-                    Path = "/decimal",
-                    Value = 1
-                },
-                new Operation
-                {
-                    Op = "replace",
-                    Path = "/decimal",
-                    Value = 2
-                }
-            };
-            var jsonOptions = new JsonSerializerOptions()
-            {
-                Converters =
-                {
-                    new JsonPatchDocumentConverterFactory()
-                }
-            };
+		[Fact]
+		public void TestValuesShouldBeEqualRegardlessOfNumberOfDecimalZeroes()
+		{
+			var incomingOperations = new[]
+			{
+				new Operation
+				{
+					Op = "test",
+					Path = "/decimal",
+					Value = 1
+				},
+				new Operation
+				{
+					Op = "replace",
+					Path = "/decimal",
+					Value = 2
+				}
+			};
+			var jsonOptions = new JsonSerializerOptions()
+			{
+			};
 
-            var incomingJson = JsonSerializer.Serialize(incomingOperations, jsonOptions);
+			var incomingJson = JsonSerializer.Serialize(incomingOperations, jsonOptions);
 
-            var document = JsonSerializer.Deserialize<JsonPatchDocument<Test>>(incomingJson, jsonOptions);
+			var document = JsonSerializer.Deserialize<JsonPatchDocument<Test>>(incomingJson, jsonOptions);
 
-            var existingEntity = new Test { Decimal = 1M };
+			var existingEntity = new Test { Decimal = 1M };
 
-            document.ApplyTo(existingEntity);
+			document.ApplyTo(existingEntity);
 
-            Assert.Equal(2, existingEntity.Decimal);
+			Assert.Equal(2, existingEntity.Decimal);
 
-            existingEntity = new Test { Decimal = 1.0M };
+			existingEntity = new Test { Decimal = 1.0M };
 
-            document.ApplyTo(existingEntity);
+			document.ApplyTo(existingEntity);
 
-            Assert.Equal(2, existingEntity.Decimal);
+			Assert.Equal(2, existingEntity.Decimal);
 
-            existingEntity = new Test { Decimal = 1.00M };
+			existingEntity = new Test { Decimal = 1.00M };
 
-            document.ApplyTo(existingEntity);
+			document.ApplyTo(existingEntity);
 
-            Assert.Equal(2, existingEntity.Decimal);
+			Assert.Equal(2, existingEntity.Decimal);
 
-            existingEntity = new Test { Decimal = 1.000M };
+			existingEntity = new Test { Decimal = 1.000M };
 
-            document.ApplyTo(existingEntity);
+			document.ApplyTo(existingEntity);
 
-            Assert.Equal(2, existingEntity.Decimal);
+			Assert.Equal(2, existingEntity.Decimal);
 
-            existingEntity = new Test { Decimal = 1.0000000000000000000M };
+			existingEntity = new Test { Decimal = 1.0000000000000000000M };
 
-            document.ApplyTo(existingEntity);
+			document.ApplyTo(existingEntity);
 
-            Assert.Equal(2, existingEntity.Decimal);
-        }
+			Assert.Equal(2, existingEntity.Decimal);
+		}
 
-        public class Test
-        {
-            public decimal Decimal { get; set; }
-        }
-    }
+		public class Test
+		{
+			public decimal Decimal { get; set; }
+		}
+	}
 }

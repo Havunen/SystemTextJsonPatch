@@ -3,33 +3,29 @@ using SystemTextJsonPatch.Console.Models;
 
 namespace SystemTextJsonPatch.Console
 {
-    public class DeserializeTest
-    {
-        public static string DeserializePatchDocJson = string.Format(
-            "[" +
-            "{{\"op\": \"replace\", \"path\": \"number\", \"value\": 86632}}," +
-            "{{\"op\": \"replace\", \"path\": \"text\", \"value\": \"testing-performance\"}}," +
-            "{{\"op\": \"add\", \"path\": \"amount\", \"value\": 86632.172712}}," +
-            "{{\"op\": \"replace\", \"path\": \"amount2\", \"value\": null}}," +
-            "{{\"op\": \"replace\", \"path\": \"subTestModel\", \"value\": {{\"id\": 91117, \"data\": 78}}}}," +
-            "{{\"op\": \"test\", \"path\": \"number\", \"value\": 86632}}," +
-            "{{\"op\": \"copy\", \"path\": \"amount2\", \"from\": \"amount\"}}," +
-            "{{\"op\": \"remove\", \"path\": \"text\"}}" +
-            "]"
-        );
+	public class DeserializeTest
+	{
+		public static string DeserializePatchDocJson = string.Format(
+			"[" +
+			"{{\"op\": \"replace\", \"path\": \"number\", \"value\": 86632}}," +
+			"{{\"op\": \"replace\", \"path\": \"text\", \"value\": \"testing-performance\"}}," +
+			"{{\"op\": \"add\", \"path\": \"amount\", \"value\": 86632.172712}}," +
+			"{{\"op\": \"replace\", \"path\": \"amount2\", \"value\": null}}," +
+			"{{\"op\": \"replace\", \"path\": \"subTestModel\", \"value\": {{\"id\": 91117, \"data\": 78}}}}," +
+			"{{\"op\": \"test\", \"path\": \"number\", \"value\": 86632}}," +
+			"{{\"op\": \"copy\", \"path\": \"amount2\", \"from\": \"amount\"}}," +
+			"{{\"op\": \"remove\", \"path\": \"text\"}}" +
+			"]"
+		);
 
-        public static JsonSerializerOptions SystemTextJsonSerializerOptions = new JsonSerializerOptions()
-        {
-            Converters =
-            {
-                new Converters.JsonPatchDocumentConverterFactory()
-            }
-        };
+		public static JsonSerializerOptions SystemTextJsonSerializerOptions = new JsonSerializerOptions()
+		{
+		};
 
-        public static void Run()
-        {
-            var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson, SystemTextJsonSerializerOptions);
-            patchDoc.ApplyTo(new TestModel());
-        }
-    }
+		public static void Run()
+		{
+			var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(DeserializePatchDocJson, SystemTextJsonSerializerOptions);
+			patchDoc.ApplyTo(new TestModel());
+		}
+	}
 }

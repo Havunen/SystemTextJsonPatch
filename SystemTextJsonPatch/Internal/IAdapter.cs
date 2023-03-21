@@ -8,44 +8,44 @@ namespace SystemTextJsonPatch.Internal;
 /// </summary>
 public interface IAdapter
 {
-	bool TryTraverse(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out object? nextTarget,
-		out string? errorMessage);
+    bool TryTraverse(
+        object target,
+        string segment,
+        JsonSerializerOptions options,
+        out object? nextTarget,
+        out string? errorMessage);
 
-	bool TryAdd(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage);
+    bool TryAdd(
+        object target,
+        string segment,
+        JsonSerializerOptions options,
+        object? value,
+        out string? errorMessage);
 
-	bool TryRemove(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out string? errorMessage);
+    bool TryRemove(
+        object target,
+        string segment,
+        JsonSerializerOptions options,
+        out string? errorMessage);
 
-	bool TryGet(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out object? value,
-		out string? errorMessage);
+    bool TryGet(
+        object target,
+        string segment,
+        JsonSerializerOptions options,
+        out object? value,
+        out string? errorMessage);
 
-	bool TryReplace(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage);
+    bool TryReplace(
+        object target,
+        string segment,
+        JsonSerializerOptions options,
+        object? value,
+        out string? errorMessage);
 
-	bool TryTest(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage);
+    bool TryTest(
+        object target,
+        string segment,
+        JsonSerializerOptions options,
+        object? value,
+        out string? errorMessage);
 }

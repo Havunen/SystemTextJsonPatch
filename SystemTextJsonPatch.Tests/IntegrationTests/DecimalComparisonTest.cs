@@ -16,13 +16,13 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 				new Operation
 				{
 					Op = "test",
-					Path = "/decimal",
+					Path = "/amount",
 					Value = 1
 				},
 				new Operation
 				{
 					Op = "replace",
-					Path = "/decimal",
+					Path = "/amount",
 					Value = 2
 				}
 			};
@@ -32,42 +32,42 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
 			var incomingJson = JsonSerializer.Serialize(incomingOperations, jsonOptions);
 
-			var document = JsonSerializer.Deserialize<JsonPatchDocument<Test>>(incomingJson, jsonOptions);
+			var document = JsonSerializer.Deserialize<JsonPatchDocument<TestAmount>>(incomingJson, jsonOptions);
 
-			var existingEntity = new Test { Decimal = 1M };
-
-			document.ApplyTo(existingEntity);
-
-			Assert.Equal(2, existingEntity.Decimal);
-
-			existingEntity = new Test { Decimal = 1.0M };
+			var existingEntity = new TestAmount { Amount = 1M };
 
 			document.ApplyTo(existingEntity);
 
-			Assert.Equal(2, existingEntity.Decimal);
+			Assert.Equal(2, existingEntity.Amount);
 
-			existingEntity = new Test { Decimal = 1.00M };
-
-			document.ApplyTo(existingEntity);
-
-			Assert.Equal(2, existingEntity.Decimal);
-
-			existingEntity = new Test { Decimal = 1.000M };
+			existingEntity = new TestAmount { Amount = 1.0M };
 
 			document.ApplyTo(existingEntity);
 
-			Assert.Equal(2, existingEntity.Decimal);
+			Assert.Equal(2, existingEntity.Amount);
 
-			existingEntity = new Test { Decimal = 1.0000000000000000000M };
+			existingEntity = new TestAmount { Amount = 1.00M };
 
 			document.ApplyTo(existingEntity);
 
-			Assert.Equal(2, existingEntity.Decimal);
+			Assert.Equal(2, existingEntity.Amount);
+
+			existingEntity = new TestAmount { Amount = 1.000M };
+
+			document.ApplyTo(existingEntity);
+
+			Assert.Equal(2, existingEntity.Amount);
+
+			existingEntity = new TestAmount { Amount = 1.0000000000000000000M };
+
+			document.ApplyTo(existingEntity);
+
+			Assert.Equal(2, existingEntity.Amount);
 		}
 
-		public class Test
+		public class TestAmount
 		{
-			public decimal Decimal { get; set; }
+			public decimal Amount { get; set; }
 		}
 	}
 }

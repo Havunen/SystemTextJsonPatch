@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>SystemTextJson is JSON JSON Patch (JsonPatchDocument) RFC 6902 implementation for .NET using System.Text.Json</Description>
+    <Description>SystemTextJson is JSON Patch (JsonPatchDocument) RFC 6902 implementation for .NET using System.Text.Json</Description>
     <TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -23,6 +23,12 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <Nullable>enable</Nullable>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <SignAssembly>False</SignAssembly>
+    <Title>System Text Json Patch</Title>
+    <Authors>Havunen</Authors>
+    <Copyright></Copyright>
+    <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>

@@ -12,40 +12,47 @@ This library tries to ease the migration from Newtonsoft.Json to System.Text.Jso
 similar API for HttpPatch requests as in [Microsoft.AspNetCore.JsonPatch](https://github.com/dotnet/aspnetcore/tree/main/src/Features/JsonPatch) and [Marvin.JsonPatch](https://github.com/KevinDockx/JsonPatch)
 
 * Designed as an easy replacement for Microsoft.AspNetCore.JsonPatch
-* Supports .NET 6 & netstandard2.0
+* Supports .NET 6+ & netstandard2.0
 
 
 ## Getting started
 
-To enable JsonPatchDocument serialization support add SystemTextJsonPatch.Converters.JsonPatchDocumentConverterFactory to System.Text.Json serialization options converters.
-This is typically done in startup.cs file when configuring Asp.Net core MVC settings
+Build a patch document on the client.
+You can use the operations as described in the IETF document: Add, Remove, Replace, Copy, Move and Test.
 
 ```cs
+JsonPatchDocument<DTO.Expense> expensePatch = new JsonPatchDocument<DTO.Expense>();
+expensePatch.Replace(e => e.Description, expense.Description);
 
-public void ConfigureServices(IServiceCollection services)
+// serialize it to JSON
+var expensePatchJson = JsonConvert.SerializeObject(expensePatch);
+```
+
+
+On your API, in the patch method (accept document as parameter & use ApplyTo method)
+
+```cs
+[Route("api/expenses/{id}")]
+[HttpPatch]
+public IHttpActionResult Patch(
+    int id,
+    [FromBody] JsonPatchDocument<DTO.Expense> expensePatchDocument
+)
 {
-    services
-        .AddControllers()
-        .AddJsonOptions((options) =>
-        {
-            options.JsonSerializerOptions.Converters.Add(new SystemTextJsonPatch.Converters.JsonPatchDocumentConverterFactory());
-        });
+      // get the expense from the repository
+      var expense = _repository.GetExpense(id);
+
+      // apply the patch document 
+      expensePatchDocument.ApplyTo(expense);
+
+      // changes have been applied to expense object
 }
 ```
 
-or when using System.Text.Json.JsonSerializer directly with custom settings.
+## Migration from v1
 
-```cs
-    var jsonOptions = new JsonSerializerOptions()
-    {
-        Converters =
-        {
-            new SystemTextJsonPatch.Converters.JsonPatchDocumentConverterFactory()
-        }
-    };
-
-    var json = System.Text.Json.JsonSerializer.Serialize(incomingOperations, jsonOptions);
-```
+JsonPatchDocumentConverterFactory no longer needs to be set to JsonSerializerOptions.
+Instead JsonPatchDocument types now use JsonConvertAttribute to use the correct converter.
 
 ## Performance comparison
 

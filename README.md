@@ -60,16 +60,16 @@ This test deserializes a JSON patch document of 8 operations and applies the cha
 
 See [SystemTextJsonPatch.Benchmark](https://github.com/Havunen/SystemTextJsonPatch/tree/main/SystemTextJsonPatch.Benchmark) for more details.
 
-BenchmarkDotNet=v0.13.2, OS=Windows 11 (10.0.22000.978/21H2)
+BenchmarkDotNet=v0.13.5, OS=Windows 11 (10.0.22621.1413/22H2/2022Update/SunValley2)
 AMD Ryzen 9 5950X, 1 CPU, 32 logical and 16 physical cores
-.NET SDK=7.0.100-rc.1.22431.12
-  [Host]     : .NET 6.0.9 (6.0.922.41905), X64 RyuJIT AVX2
-  Job-URORCR : .NET 6.0.9 (6.0.922.41905), X64 RyuJIT AVX2
+.NET SDK=7.0.300-preview.23122.5
+  [Host]     : .NET 7.0.3 (7.0.323.6910), X64 RyuJIT AVX2
+  Job-STVRTF : .NET 7.0.3 (7.0.323.6910), X64 RyuJIT AVX2
 
 WarmupCount=2
 
-|              Method |       Mean |     Error |    StdDev |   Gen0 |   Gen1 | Allocated |
-|-------------------- |-----------:|----------:|----------:|-------:|-------:|----------:|
-| SystemTextJsonPatch |   7.233 us | 0.0381 us | 0.0356 us | 0.3738 |      - |   6.16 KB |
-|     MarvinJsonPatch | 979.525 us | 9.9310 us | 8.8036 us | 5.8594 | 3.9063 |  98.13 KB |
-| AspNetCoreJsonPatch |  26.645 us | 0.2023 us | 0.1892 us | 2.5940 | 0.0610 |  42.49 KB |
+|              Method |       Mean |      Error |     StdDev |   Gen0 |   Gen1 | Allocated |
+|-------------------- |-----------:|-----------:|-----------:|-------:|-------:|----------:|
+| SystemTextJsonPatch |   6.579 us |  0.0537 us |  0.0476 us | 0.3433 |      - |   5.69 KB |
+|     MarvinJsonPatch | 913.023 us | 14.2077 us | 16.9133 us | 5.8594 | 3.9063 |  96.02 KB |
+| AspNetCoreJsonPatch |  24.543 us |  0.2470 us |  0.2310 us | 2.6550 | 0.0610 |  43.61 KB |

@@ -1,6 +1,7 @@
 ## 2.0.0
 - JsonPatchDocument types now adds required converters using JsonConverterAttribute and converters no longer need to be set manually to JsonSerializerOptions https://github.com/Havunen/SystemTextJsonPatch/issues/18
 - netstandard2.0 target now depends on System.Text.Json v7
+- Small performance optimizations
 
 ## 1.2.0
 - Better support for patching arrays by index https://github.com/Havunen/SystemTextJsonPatch/issues/15

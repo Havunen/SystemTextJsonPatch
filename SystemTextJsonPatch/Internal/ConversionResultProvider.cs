@@ -160,7 +160,11 @@ public static class ConversionResultProvider
 
     private static object? Deserialize(object? value, Type typeToConvertTo, JsonSerializerOptions options)
     {
-        if (typeToConvertTo == typeof(JsonNode))
+		if (typeToConvertTo == typeof(JsonElement))
+		{
+			return JsonSerializer.SerializeToElement(value, options);
+		}
+		if (typeToConvertTo == typeof(JsonNode))
         {
             return JsonSerializer.SerializeToNode(value, options);
         }
@@ -168,12 +172,21 @@ public static class ConversionResultProvider
         {
             return JsonSerializer.SerializeToDocument(value, options);
         }
-        if (typeToConvertTo == typeof(JsonElement))
-        {
-            return JsonSerializer.SerializeToElement(value, options);
-        }
 
-        return JsonSerializer.Deserialize(JsonSerializer.Serialize(value, options), typeToConvertTo, options);
+		if (value is JsonElement jsonEl)
+		{
+			return JsonSerializer.Deserialize(jsonEl, typeToConvertTo, options);
+		}
+		if (value is JsonNode jsonNode)
+		{
+			return JsonSerializer.Deserialize(jsonNode, typeToConvertTo, options);
+		}
+		if (value is JsonDocument jsonDoc)
+		{
+			return JsonSerializer.Deserialize(jsonDoc, typeToConvertTo, options);
+		}
+
+		return JsonSerializer.Deserialize(JsonSerializer.SerializeToUtf8Bytes(value, options), typeToConvertTo, options);
     }
 
     private static bool IsNullableType(Type type)

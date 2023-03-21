@@ -46,7 +46,9 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
 
         for (var i = 0; i < path.Length; i++)
         {
-            if (path[i] == '/')
+            var c = path[i];
+
+            if (c == '/')
             {
                 if (sb.Length > 0)
                 {
@@ -54,19 +56,20 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
                     sb.Length = 0;
                 }
             }
-            else if (path[i] == '~')
+            else if (c == '~')
             {
                 ++i;
-                if (i >= path.Length)
+				c = path[i];
+				if (i >= path.Length)
                 {
                     throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
                 }
 
-                if (path[i] == '0')
+                if (c == '0')
                 {
                     sb.Append('~');
                 }
-                else if (path[i] == '1')
+                else if (c == '1')
                 {
                     sb.Append('/');
                 }
@@ -77,7 +80,7 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
             }
             else
             {
-                sb.Append(path[i]);
+                sb.Append(c);
             }
         }
 

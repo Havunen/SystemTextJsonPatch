@@ -59,13 +59,13 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
             else if (c == '~')
             {
                 ++i;
-				c = path[i];
 				if (i >= path.Length)
                 {
                     throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
                 }
 
-                if (c == '0')
+				c = path[i];
+				if (c == '0')
                 {
                     sb.Append('~');
                 }

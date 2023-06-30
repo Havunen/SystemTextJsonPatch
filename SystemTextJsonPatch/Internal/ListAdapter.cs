@@ -175,7 +175,16 @@ public class ListAdapter : IAdapter
         }
 
         var currentValue = list[positionInfo.Index];
-        if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(), StringComparison.Ordinal))
+
+        // all numeric values are handled as decimals
+        if (ConversionResultProvider.IsNumericType(currentValue))
+        {
+	        if (!Equals(currentValue, convertedValue))
+	        {
+				errorMessage = Resources.FormatValueAtListPositionNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, positionInfo.Index);
+				return false;
+	        }
+        } else if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(), StringComparison.Ordinal))
         {
             errorMessage = Resources.FormatValueAtListPositionNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, positionInfo.Index);
             return false;

@@ -102,7 +102,16 @@ public class JSonObjectAdapter : IAdapter
             return false;
         }
 
-        if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(value)?.ToString(), StringComparison.Ordinal))
+        // all numeric values are handled as decimals
+        if (ConversionResultProvider.IsNumericType(currentValue))
+        {
+	        if (!Equals(currentValue, value))
+	        {
+		        errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
+		        return false;
+			}
+        }
+        else if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(value)?.ToString(), StringComparison.Ordinal))
         {
             errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
             return false;

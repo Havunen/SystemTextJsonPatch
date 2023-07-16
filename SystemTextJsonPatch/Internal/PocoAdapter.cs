@@ -12,7 +12,7 @@ namespace SystemTextJsonPatch.Internal;
 /// This API supports infrastructure and is not intended to be used
 /// directly from your code. This API may change or be removed in future releases.
 /// </summary>
-public class PocoAdapter : IAdapter
+public sealed class PocoAdapter : IAdapter
 {
     public bool TryAdd(
         object target,
@@ -224,7 +224,7 @@ public class PocoAdapter : IAdapter
             return new DictionaryPropertyProxy(dictionary, propertyName);
         }
 
-        if (target is IDictionary<string, object> typedDictionary)
+        if (target is IDictionary<string, object?> typedDictionary)
         {
             return new DictionaryTypedPropertyProxy(typedDictionary, propertyName);
         }

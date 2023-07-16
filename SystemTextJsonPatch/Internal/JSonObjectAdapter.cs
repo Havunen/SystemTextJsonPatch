@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 
 namespace SystemTextJsonPatch.Internal;
 
-public class JSonObjectAdapter : IAdapter
+public sealed class JSonObjectAdapter : IAdapter
 {
     public bool TryAdd(
         object target,

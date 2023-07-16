@@ -830,7 +830,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
                 var memberExpression = expr as MemberExpression;
                 listOfSegments.AddRange(GetPathSegments(memberExpression.Expression));
                 // Get property name, respecting JsonProperty attribute
-                listOfSegments.Add(JsonPatchDocument<TModel>.GetPropertyNameFromMemberExpression(memberExpression));
+                listOfSegments.Add(this.GetPropertyNameFromMemberExpression(memberExpression));
                 return listOfSegments;
 
             case ExpressionType.Parameter:
@@ -842,7 +842,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         }
     }
 
-    private static string GetPropertyNameFromMemberExpression(MemberExpression memberExpression)
+    private string GetPropertyNameFromMemberExpression(MemberExpression memberExpression)
     {
         var jsonPropertyNameAttr = memberExpression.Member.GetCustomAttribute<JsonPropertyNameAttribute>();
 
@@ -851,7 +851,14 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
             return jsonPropertyNameAttr.Name;
         }
 
-        return memberExpression.Member.Name;
+        var memberName = memberExpression.Member.Name;
+
+        if (this.Options?.PropertyNamingPolicy != null)
+		{
+			return this.Options.PropertyNamingPolicy.ConvertName(memberName);
+		}
+
+        return memberName;
     }
 
 

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Text.Json;
+using SystemTextJsonPatch.Internal;
 using Xunit;
 
 namespace SystemTextJsonPatch;
@@ -155,6 +157,51 @@ public class CustomNamingStrategyTests
 
 		// Assert
 		Assert.Equal(2, targetObject.customTest);
+	}
+
+	[Fact]
+	public void PatchDocumentOfTPathPropertyShouldFollowNamingPolicy()
+	{
+		var serializerOptions = new JsonSerializerOptions
+		{
+			PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+		};
+
+		var patch = new JsonPatchDocument<SimpleObject>(new(), serializerOptions);
+		patch.Replace((v) => v.StringProperty, "Bob");
+
+		var patchStr = JsonSerializer.Serialize(patch);
+		
+		Assert.Equal("[{\"op\":\"replace\",\"path\":\"/stringProperty\",\"value\":\"Bob\"}]", patchStr);
+	}
+
+	[Fact]
+	public void PatchDocumentOfTPathPropertyShouldFollowNamingPolicyNested()
+	{
+		var serializerOptions = new JsonSerializerOptions
+		{
+			PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+		};
+
+		var patch = new JsonPatchDocument<SimpleObjectWithNestedObject>(new(), serializerOptions);
+		patch.Replace((v) => v.NestedObject.StringProperty, "Bob");
+
+		var patchStr = JsonSerializer.Serialize(patch);
+
+		Assert.Equal("[{\"op\":\"replace\",\"path\":\"/nestedObject/stringProperty\",\"value\":\"Bob\"}]", patchStr);
+	}
+
+	[Fact]
+	public void PatchDocumentOfTPathPropertyShouldNotChangeWhenNoOptionsDefined()
+	{
+		var serializerOptions = new JsonSerializerOptions();
+
+		var patch = new JsonPatchDocument<SimpleObject>(new(), serializerOptions);
+		patch.Replace((v) => v.StringProperty, "Bob");
+
+		var patchStr = JsonSerializer.Serialize(patch);
+
+		Assert.Equal("[{\"op\":\"replace\",\"path\":\"/StringProperty\",\"value\":\"Bob\"}]", patchStr);
 	}
 
 	private class TestNamingStrategy : JsonNamingPolicy

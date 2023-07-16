@@ -10,9 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.5" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.6" />
     <PackageReference Include="Marvin.JsonPatch" Version="2.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 

@@ -12,92 +12,92 @@ namespace SystemTextJsonPatch.Internal;
 /// </summary>
 public readonly struct ParsedPath : IEquatable<ParsedPath>
 {
-    private readonly string[] _segments;
+	private readonly string[] _segments;
 
-    public ParsedPath(string? path)
-    {
-	    ExceptionHelper.ThrowIfNull(path, nameof(path));
+	public ParsedPath(string? path)
+	{
+		ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-	    _segments = ParsePath(path!);
-    }
+		_segments = ParsePath(path!);
+	}
 
-    public string? LastSegment
-    {
-        get
-        {
-            if (_segments.Length == 0)
-            {
-                return null;
-            }
+	public string? LastSegment
+	{
+		get
+		{
+			if (_segments.Length == 0)
+			{
+				return null;
+			}
 
-            return _segments[_segments.Length - 1];
-        }
-    }
+			return _segments[_segments.Length - 1];
+		}
+	}
 
-    public IReadOnlyList<string> Segments => _segments;
+	public IReadOnlyList<string> Segments => _segments;
 
-    private static string[] ParsePath(string path)
-    {
-        var strings = new List<string>();
-        var sb = new StringBuilder(path.Length);
+	private static string[] ParsePath(string path)
+	{
+		var strings = new List<string>();
+		var sb = new StringBuilder(path.Length);
 
-        for (var i = 0; i < path.Length; i++)
-        {
-            var c = path[i];
+		for (var i = 0; i < path.Length; i++)
+		{
+			var c = path[i];
 
-            if (c == '/')
-            {
-                if (sb.Length > 0)
-                {
-                    strings.Add(sb.ToString());
-                    sb.Length = 0;
-                }
-            }
-            else if (c == '~')
-            {
-                ++i;
+			if (c == '/')
+			{
+				if (sb.Length > 0)
+				{
+					strings.Add(sb.ToString());
+					sb.Length = 0;
+				}
+			}
+			else if (c == '~')
+			{
+				++i;
 				if (i >= path.Length)
-                {
-                    throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
-                }
+				{
+					throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
+				}
 
 				c = path[i];
 				if (c == '0')
-                {
-                    sb.Append('~');
-                }
-                else if (c == '1')
-                {
-                    sb.Append('/');
-                }
-                else
-                {
-                    throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
-                }
-            }
-            else
-            {
-                sb.Append(c);
-            }
-        }
+				{
+					sb.Append('~');
+				}
+				else if (c == '1')
+				{
+					sb.Append('/');
+				}
+				else
+				{
+					throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
+				}
+			}
+			else
+			{
+				sb.Append(c);
+			}
+		}
 
-        if (sb.Length > 0)
-        {
-            strings.Add(sb.ToString());
-        }
+		if (sb.Length > 0)
+		{
+			strings.Add(sb.ToString());
+		}
 
-        return strings.ToArray();
-    }
+		return strings.ToArray();
+	}
 
-    public static bool operator ==(ParsedPath left, ParsedPath right)
-    {
-        return left.Equals(right);
-    }
+	public static bool operator ==(ParsedPath left, ParsedPath right)
+	{
+		return left.Equals(right);
+	}
 
-    public static bool operator !=(ParsedPath left, ParsedPath right)
-    {
-        return !(left == right);
-    }
+	public static bool operator !=(ParsedPath left, ParsedPath right)
+	{
+		return !(left == right);
+	}
 
 	public static bool Equals(ParsedPath left, ParsedPath right)
 	{
@@ -106,17 +106,17 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
 
 	public override bool Equals(object? obj)
 	{
-        if (obj is ParsedPath parsedPath)
-        {
-            return this == parsedPath;
-        }
+		if (obj is ParsedPath parsedPath)
+		{
+			return this == parsedPath;
+		}
 
-        return false;
+		return false;
 	}
 
 	public bool Equals(ParsedPath other)
 	{
-        return this == other;
+		return this == other;
 	}
 
 	public override int GetHashCode()

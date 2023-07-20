@@ -171,7 +171,7 @@ public class CustomNamingStrategyTests
 		patch.Replace((v) => v.StringProperty, "Bob");
 
 		var patchStr = JsonSerializer.Serialize(patch);
-		
+
 		Assert.Equal("[{\"op\":\"replace\",\"path\":\"/stringProperty\",\"value\":\"Bob\"}]", patchStr);
 	}
 

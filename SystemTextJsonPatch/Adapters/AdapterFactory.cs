@@ -11,25 +11,25 @@ namespace SystemTextJsonPatch.Adapters;
 /// </summary>
 public class AdapterFactory : IAdapterFactory
 {
-    internal static AdapterFactory Default { get; } = new();
+	internal static AdapterFactory Default { get; } = new();
 
-    /// <inheritdoc />
+	/// <inheritdoc />
 #pragma warning disable PUB0001
-    public IAdapter Create(object target, JsonSerializerOptions options)
+	public IAdapter Create(object target, JsonSerializerOptions options)
 #pragma warning restore PUB0001
-    {
-        ExceptionHelper.ThrowIfNull(target, nameof(target));
+	{
+		ExceptionHelper.ThrowIfNull(target, nameof(target));
 
-        if (target is JsonObject)
-        {
-            return new JSonObjectAdapter();
-        }
-        if (target is IList)
-        {
-            return new ListAdapter();
-        }
+		if (target is JsonObject)
+		{
+			return new JSonObjectAdapter();
+		}
+		if (target is IList)
+		{
+			return new ListAdapter();
+		}
 
-        return new PocoAdapter();
-    }
+		return new PocoAdapter();
+	}
 }
 

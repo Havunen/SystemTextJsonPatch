@@ -8,19 +8,19 @@ namespace SystemTextJsonPatch.Helpers;
 /// </summary>
 public class GetValueResult
 {
-    public GetValueResult(object propertyValue, bool hasError)
-    {
-        PropertyValue = propertyValue;
-        HasError = hasError;
-    }
+	public GetValueResult(object propertyValue, bool hasError)
+	{
+		PropertyValue = propertyValue;
+		HasError = hasError;
+	}
 
-    /// <summary>
-    /// The value of the property we're trying to get
-    /// </summary>
-    public object PropertyValue { get; }
+	/// <summary>
+	/// The value of the property we're trying to get
+	/// </summary>
+	public object PropertyValue { get; }
 
-    /// <summary>
-    /// HasError: true when an error occurred, the operation didn't complete successfully
-    /// </summary>
-    public bool HasError { get; }
+	/// <summary>
+	/// HasError: true when an error occurred, the operation didn't complete successfully
+	/// </summary>
+	public bool HasError { get; }
 }

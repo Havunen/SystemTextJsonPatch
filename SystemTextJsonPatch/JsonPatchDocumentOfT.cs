@@ -694,7 +694,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 				return listOfSegments;
 
 			case ExpressionType.MemberAccess:
-				var memberExpression = expr as MemberExpression;
+				var memberExpression = (MemberExpression)expr;
 				listOfSegments.AddRange(GetPathSegments(memberExpression.Expression));
 				// Get property name, respecting JsonProperty attribute
 				listOfSegments.Add(this.GetPropertyNameFromMemberExpression(memberExpression));
@@ -705,7 +705,8 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 				return listOfSegments;
 
 			default:
-				throw new InvalidOperationException(Resources.FormatExpressionTypeNotSupported(expr));
+				ExceptionHelper.ThrowInvalidOperationException(Resources.FormatExpressionTypeNotSupported(expr));
+				return listOfSegments;
 		}
 	}
 
@@ -720,7 +721,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 
 		var memberName = memberExpression.Member.Name;
 
-		if (this.Options?.PropertyNamingPolicy != null)
+		if (this.Options.PropertyNamingPolicy != null)
 		{
 			return this.Options.PropertyNamingPolicy.ConvertName(memberName);
 		}

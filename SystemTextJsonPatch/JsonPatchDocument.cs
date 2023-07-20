@@ -154,7 +154,7 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
 	/// <param name="objectToApplyTo">Object to apply the JsonPatchDocument to</param>
 	/// <param name="adapter">IObjectAdapter instance to use when applying</param>
 	/// <param name="logErrorAction">Action to log errors</param>
-	public void ApplyTo(object objectToApplyTo, IObjectAdapter adapter, Action<JsonPatchError> logErrorAction)
+	public void ApplyTo(object objectToApplyTo, IObjectAdapter adapter, Action<JsonPatchError>? logErrorAction)
 	{
 		ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
 		ExceptionHelper.ThrowIfNull(adapter, nameof(adapter));

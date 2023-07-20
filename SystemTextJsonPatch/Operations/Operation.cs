@@ -1,4 +1,3 @@
-using System;
 using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Adapters;
 using SystemTextJsonPatch.Exceptions;
@@ -54,7 +53,8 @@ public class Operation : OperationBase
 					break;
 				}
 
-				throw new NotSupportedException(Resources.TestOperationNotSupported);
+				ExceptionHelper.ThrowNotSupportedException(Resources.TestOperationNotSupported);
+				break;
 			default:
 				break;
 		}

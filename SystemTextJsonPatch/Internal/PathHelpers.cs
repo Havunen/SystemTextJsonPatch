@@ -17,7 +17,7 @@ internal static class PathHelpers
 		if (path.Contains("//", StringComparison.Ordinal))
 #endif
 		{
-			throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
+			ExceptionHelper.ThrowJsonPatchException(Resources.FormatInvalidValueForPath(path));
 		}
 
 		if (!path.StartsWith("/", StringComparison.Ordinal))

@@ -58,7 +58,7 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
 				++i;
 				if (i >= path.Length)
 				{
-					throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
+					ExceptionHelper.ThrowJsonPatchException(Resources.FormatInvalidValueForPath(path));
 				}
 
 				c = path[i];
@@ -72,7 +72,7 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
 				}
 				else
 				{
-					throw new JsonPatchException(Resources.FormatInvalidValueForPath(path), null);
+					ExceptionHelper.ThrowJsonPatchException(Resources.FormatInvalidValueForPath(path));
 				}
 			}
 			else

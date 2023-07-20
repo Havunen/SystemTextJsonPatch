@@ -22,14 +22,14 @@ public sealed class JsonPatchDocumentConverter : JsonPatchDocumentConverterBase<
 
 		if (reader.TokenType != JsonTokenType.StartArray)
 		{
-			throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+			ExceptionHelper.ThrowJsonPatchException(Resources.InvalidJsonPatchDocument);
 		}
 
 		var operations = ParseOperations(ref reader, options.PropertyNameCaseInsensitive);
 
 		if (operations == null)
 		{
-			throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+			ExceptionHelper.ThrowJsonPatchException(Resources.InvalidJsonPatchDocument);
 		}
 
 		return new JsonPatchDocument(operations, options);

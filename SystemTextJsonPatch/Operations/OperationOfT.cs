@@ -1,4 +1,3 @@
-using System;
 using SystemTextJsonPatch.Adapters;
 using SystemTextJsonPatch.Exceptions;
 
@@ -50,10 +49,11 @@ public class Operation<TModel> : Operation where TModel : class
 					break;
 				}
 
-				throw new JsonPatchException(new JsonPatchError(objectToApplyTo, this, Resources.TestOperationNotSupported));
+				ExceptionHelper.ThrowJsonPatchException(new JsonPatchError(objectToApplyTo, this, Resources.TestOperationNotSupported));
+				break;
 			case OperationType.Invalid:
-				throw new JsonPatchException(
-					Resources.FormatInvalidJsonPatchOperation(Op), innerException: null);
+				ExceptionHelper.ThrowJsonPatchException(Resources.FormatInvalidJsonPatchOperation(Op));
+				break;
 			default:
 				break;
 		}

@@ -120,7 +120,7 @@ namespace SystemTextJsonPatch.Converters
 			{
 				if (reader.TokenType != JsonTokenType.StartObject)
 				{
-					throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+					ExceptionHelper.ThrowJsonPatchException(Resources.InvalidJsonPatchDocument);
 				}
 
 				string? op = null;
@@ -132,14 +132,14 @@ namespace SystemTextJsonPatch.Converters
 				{
 					if (reader.TokenType != JsonTokenType.PropertyName)
 					{
-						throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+						ExceptionHelper.ThrowJsonPatchException(Resources.InvalidJsonPatchDocument);
 					}
 
 					var name = reader.GetString();
 
 					if (!reader.Read())
 					{
-						throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+						ExceptionHelper.ThrowJsonPatchException(Resources.InvalidJsonPatchDocument);
 					}
 
 					if ("op".Equals(name, StringComparison.OrdinalIgnoreCase))
@@ -180,7 +180,7 @@ namespace SystemTextJsonPatch.Converters
 					}
 					else
 					{
-						throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+						ExceptionHelper.ThrowJsonPatchException(Resources.InvalidJsonPatchDocument);
 					}
 				}
 
@@ -200,7 +200,7 @@ namespace SystemTextJsonPatch.Converters
 
 		private static void ThrowJsonPatchException()
 		{
-			throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+			ExceptionHelper.ThrowJsonPatchException(Resources.InvalidJsonPatchDocument);
 		}
 
 		private static void CheckedRead(ref Utf8JsonReader reader)
@@ -243,7 +243,7 @@ namespace SystemTextJsonPatch.Converters
 			}
 			else
 			{
-				throw new JsonPatchException(Resources.InvalidJsonPatchDocument, null);
+				ExceptionHelper.ThrowJsonPatchException(Resources.InvalidJsonPatchDocument);
 			}
 		}
 	}

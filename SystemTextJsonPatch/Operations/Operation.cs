@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Adapters;
+using SystemTextJsonPatch.Exceptions;
 
 namespace SystemTextJsonPatch.Operations;
 
@@ -26,17 +27,10 @@ public class Operation : OperationBase
 
     public void Apply(object objectToApplyTo, IObjectAdapter adapter)
     {
-        if (objectToApplyTo == null)
-        {
-            throw new ArgumentNullException(nameof(objectToApplyTo));
-        }
+	    ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
+	    ExceptionHelper.ThrowIfNull(adapter, nameof(adapter));
 
-        if (adapter == null)
-        {
-            throw new ArgumentNullException(nameof(adapter));
-        }
-
-        switch (OperationType)
+		switch (OperationType)
         {
             case OperationType.Add:
                 adapter.Add(this, objectToApplyTo);

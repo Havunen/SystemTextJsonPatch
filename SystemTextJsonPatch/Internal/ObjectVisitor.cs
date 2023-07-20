@@ -1,6 +1,6 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using SystemTextJsonPatch.Adapters;
+using SystemTextJsonPatch.Exceptions;
 
 namespace SystemTextJsonPatch.Internal;
 
@@ -21,9 +21,12 @@ public class ObjectVisitor
 
     public ObjectVisitor(ParsedPath path, JsonSerializerOptions options, IAdapterFactory adapterFactory)
     {
-        _path = path;
-        _options = options ?? throw new ArgumentNullException(nameof(options));
-        _adapterFactory = adapterFactory ?? throw new ArgumentNullException(nameof(adapterFactory));
+	    ExceptionHelper.ThrowIfNull(options, nameof(options));
+	    ExceptionHelper.ThrowIfNull(adapterFactory, nameof(adapterFactory));
+
+		_path = path;
+        _options = options;
+        _adapterFactory = adapterFactory;
     }
 
     public bool TryVisit(ref object target, out IAdapter? adapter, out string? errorMessage)

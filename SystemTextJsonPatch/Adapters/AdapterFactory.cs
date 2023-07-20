@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Internal;
 
 namespace SystemTextJsonPatch.Adapters;
@@ -18,10 +18,7 @@ public class AdapterFactory : IAdapterFactory
     public IAdapter Create(object target, JsonSerializerOptions options)
 #pragma warning restore PUB0001
     {
-        if (target == null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
+        ExceptionHelper.ThrowIfNull(target, nameof(target));
 
         if (target is JsonObject)
         {

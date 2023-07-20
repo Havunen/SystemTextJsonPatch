@@ -13,45 +13,20 @@ public class Operation<TModel> : Operation where TModel : class
     public Operation(string op, string path, string? from, object? value)
         : base(op, path, from)
     {
-        if (op == null)
-        {
-            throw new ArgumentNullException(nameof(op));
-        }
-
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        this.Value = value;
+		this.Value = value;
     }
 
     public Operation(string op, string path, string? from)
         : base(op, path, from)
     {
-        if (op == null)
-        {
-            throw new ArgumentNullException(nameof(op));
-        }
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
     }
 
     public void Apply(TModel objectToApplyTo, IObjectAdapter adapter)
     {
-        if (objectToApplyTo == null)
-        {
-            throw new ArgumentNullException(nameof(objectToApplyTo));
-        }
+	    ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
+	    ExceptionHelper.ThrowIfNull(adapter, nameof(adapter));
 
-        if (adapter == null)
-        {
-            throw new ArgumentNullException(nameof(adapter));
-        }
-
-        switch (OperationType)
+		switch (OperationType)
         {
             case OperationType.Add:
                 adapter.Add(this, objectToApplyTo);

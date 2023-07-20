@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
+using SystemTextJsonPatch.Exceptions;
 
 namespace SystemTextJsonPatch.Internal;
 
@@ -270,17 +271,10 @@ public sealed class ListAdapter : IAdapter
 
     private static Type? ExtractGenericInterface(Type queryType, Type interfaceType)
     {
-        if (queryType == null)
-        {
-            throw new ArgumentNullException(nameof(queryType));
-        }
+	    ExceptionHelper.ThrowIfNull(queryType, nameof(queryType));
+	    ExceptionHelper.ThrowIfNull(interfaceType, nameof(interfaceType));
 
-        if (interfaceType == null)
-        {
-            throw new ArgumentNullException(nameof(interfaceType));
-        }
-
-        if (IsGenericInstantiation(queryType, interfaceType))
+		if (IsGenericInstantiation(queryType, interfaceType))
         {
             // queryType matches (i.e. is a closed generic type created from) the open generic type.
             return queryType;

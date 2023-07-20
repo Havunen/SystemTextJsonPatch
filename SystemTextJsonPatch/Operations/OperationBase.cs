@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using SystemTextJsonPatch.Exceptions;
 
 namespace SystemTextJsonPatch.Operations;
 
@@ -39,8 +40,11 @@ public abstract class OperationBase
 
     protected OperationBase(string op, string path, string? from)
     {
-        this.Op = op ?? throw new ArgumentNullException(nameof(op));
-        this.Path = path ?? throw new ArgumentNullException(nameof(path));
+	    ExceptionHelper.ThrowIfNull(op, nameof(op));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
+
+		this.Op = op;
+        this.Path = path;
         this.From = from;
     }
 }

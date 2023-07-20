@@ -5,7 +5,7 @@
     <IsPackable>false</IsPackable>
     <IsPublishable>false</IsPublishable>
     <IsUnitTestProject>True</IsUnitTestProject>
-    <LangVersion>10</LangVersion>
+    <LangVersion>11</LangVersion>
     <RepositoryUrl>https://github.com/Havunen/SystemTextJsonPatch.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <AnalysisLevel>6.0-all</AnalysisLevel>

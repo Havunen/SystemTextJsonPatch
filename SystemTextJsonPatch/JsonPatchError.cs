@@ -1,4 +1,4 @@
-using System;
+using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Operations;
 
 namespace SystemTextJsonPatch;
@@ -19,9 +19,11 @@ public class JsonPatchError
         Operation operation,
         string errorMessage)
     {
-        AffectedObject = affectedObject;
+	    ExceptionHelper.ThrowIfNull(errorMessage, nameof(errorMessage));
+
+		AffectedObject = affectedObject;
         Operation = operation;
-        ErrorMessage = errorMessage ?? throw new ArgumentNullException(nameof(errorMessage));
+        ErrorMessage = errorMessage;
     }
 
     /// <summary>

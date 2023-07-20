@@ -16,12 +16,9 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
 
     public ParsedPath(string? path)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        _segments = ParsePath(path);
+	    _segments = ParsePath(path!);
     }
 
     public string? LastSegment

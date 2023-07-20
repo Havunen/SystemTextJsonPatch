@@ -1,6 +1,7 @@
 using System;
 using System.Dynamic;
 using System.Text.Json;
+using SystemTextJsonPatch.Exceptions;
 using Xunit;
 
 namespace SystemTextJsonPatch.IntegrationTests;
@@ -338,7 +339,11 @@ public class NestedObjectIntegrationTest
 		{
 			get => _stringProperty;
 
-			set => _stringProperty = value ?? throw new ArgumentNullException(nameof(value));
+			set
+			{
+				ExceptionHelper.ThrowIfNull(value, nameof(value));
+				_stringProperty = value;
+			}
 		}
 	}
 

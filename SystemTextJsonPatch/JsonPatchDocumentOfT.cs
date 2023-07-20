@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Adapters;
 using SystemTextJsonPatch.Converters;
+using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Internal;
 using SystemTextJsonPatch.Operations;
 
@@ -33,8 +34,11 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     // Create from list of operations
     public JsonPatchDocument(List<Operation<TModel>> operations, JsonSerializerOptions options)
     {
-        Operations = operations ?? throw new ArgumentNullException(nameof(operations));
-        Options = options ?? throw new ArgumentNullException(nameof(options));
+	    ExceptionHelper.ThrowIfNull(operations, nameof(operations));
+	    ExceptionHelper.ThrowIfNull(options, nameof(options));
+
+		Operations = operations;
+        Options = options;
     }
 
     /// <summary>
@@ -47,12 +51,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <returns>The <see cref="JsonPatchDocument{TModel}"/> for chaining.</returns>
     public JsonPatchDocument<TModel> Add<TProp>(Expression<Func<TModel, TProp>> path, TProp value)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "add",
             GetPath(path, null),
             from: null,
@@ -74,12 +75,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         TProp value,
         int position)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "add",
             GetPath(path, position.ToString(CultureInfo.InvariantCulture)),
             from: null,
@@ -97,12 +95,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <returns>The <see cref="JsonPatchDocument{TModel}"/> for chaining.</returns>
     public JsonPatchDocument<TModel> Add<TProp>(Expression<Func<TModel, IList<TProp>>> path, TProp value)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "add",
             GetPath(path, Consts.LastElement),
             from: null,
@@ -119,12 +114,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <returns>The <see cref="JsonPatchDocument{TModel}"/> for chaining.</returns>
     public JsonPatchDocument<TModel> Remove<TProp>(Expression<Func<TModel, TProp>> path)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>("remove", GetPath(path, null), from: null));
+		Operations.Add(new Operation<TModel>("remove", GetPath(path, null), from: null));
 
         return this;
     }
@@ -138,12 +130,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <returns>The <see cref="JsonPatchDocument{TModel}"/> for chaining.</returns>
     public JsonPatchDocument<TModel> Remove<TProp>(Expression<Func<TModel, IList<TProp>>> path, int position)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "remove",
             GetPath(path, position.ToString(CultureInfo.InvariantCulture)),
             from: null));
@@ -159,12 +148,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <returns>The <see cref="JsonPatchDocument{TModel}"/> for chaining.</returns>
     public JsonPatchDocument<TModel> Remove<TProp>(Expression<Func<TModel, IList<TProp>>> path)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "remove",
             GetPath(path, Consts.LastElement),
             from: null));
@@ -181,12 +167,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <returns>The <see cref="JsonPatchDocument{TModel}"/> for chaining.</returns>
     public JsonPatchDocument<TModel> Replace<TProp>(Expression<Func<TModel, TProp>> path, TProp value)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "replace",
             GetPath(path, null),
             from: null,
@@ -206,12 +189,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     public JsonPatchDocument<TModel> Replace<TProp>(Expression<Func<TModel, IList<TProp>>> path,
         TProp value, int position)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "replace",
             GetPath(path, position.ToString(CultureInfo.InvariantCulture)),
             from: null,
@@ -229,12 +209,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <returns>The <see cref="JsonPatchDocument{TModel}"/> for chaining.</returns>
     public JsonPatchDocument<TModel> Replace<TProp>(Expression<Func<TModel, IList<TProp>>> path, TProp value)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "replace",
             GetPath(path, Consts.LastElement),
             from: null,
@@ -252,12 +229,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <returns>The <see cref="JsonPatchDocument{TModel}"/> for chaining.</returns>
     public JsonPatchDocument<TModel> Test<TProp>(Expression<Func<TModel, TProp>> path, TProp value)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "test",
             GetPath(path, null),
             from: null,
@@ -277,12 +251,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     public JsonPatchDocument<TModel> Test<TProp>(Expression<Func<TModel, IList<TProp>>> path,
         TProp value, int position)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "test",
             GetPath(path, position.ToString(CultureInfo.InvariantCulture)),
             from: null,
@@ -300,12 +271,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <returns>The <see cref="JsonPatchDocument{TModel}"/> for chaining.</returns>
     public JsonPatchDocument<TModel> Test<TProp>(Expression<Func<TModel, IList<TProp>>> path, TProp value)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "test",
             GetPath(path, Consts.LastElement),
             from: null,
@@ -325,17 +293,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         Expression<Func<TModel, TProp>> from,
         Expression<Func<TModel, TProp>> path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+		ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "move",
             GetPath(path, null),
             GetPath(from, null)));
@@ -356,17 +317,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         int positionFrom,
         Expression<Func<TModel, TProp>> path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+		ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "move",
             GetPath(path, null),
             GetPath(from, positionFrom.ToString(CultureInfo.InvariantCulture))));
@@ -387,17 +341,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         Expression<Func<TModel, IList<TProp>>> path,
         int positionTo)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "move",
             GetPath(path, positionTo.ToString(CultureInfo.InvariantCulture)),
             GetPath(from, null)));
@@ -420,17 +367,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         Expression<Func<TModel, IList<TProp>>> path,
         int positionTo)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "move",
             GetPath(path, positionTo.ToString(CultureInfo.InvariantCulture)),
             GetPath(from, positionFrom.ToString(CultureInfo.InvariantCulture))));
@@ -451,17 +391,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         int positionFrom,
         Expression<Func<TModel, IList<TProp>>> path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "move",
             GetPath(path, Consts.LastElement),
             GetPath(from, positionFrom.ToString(CultureInfo.InvariantCulture))));
@@ -480,17 +413,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         Expression<Func<TModel, TProp>> from,
         Expression<Func<TModel, IList<TProp>>> path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "move",
             GetPath(path, Consts.LastElement),
             GetPath(from, null)));
@@ -509,17 +435,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         Expression<Func<TModel, TProp>> from,
         Expression<Func<TModel, TProp>> path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "copy",
             GetPath(path, null),
             GetPath(from, null)));
@@ -540,17 +459,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         int positionFrom,
         Expression<Func<TModel, TProp>> path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "copy",
             GetPath(path, null),
             GetPath(from, positionFrom.ToString(CultureInfo.InvariantCulture))));
@@ -571,17 +483,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         Expression<Func<TModel, IList<TProp>>> path,
         int positionTo)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "copy",
             GetPath(path, positionTo.ToString(CultureInfo.InvariantCulture)),
             GetPath(from, null)));
@@ -604,17 +509,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         Expression<Func<TModel, IList<TProp>>> path,
         int positionTo)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "copy",
             GetPath(path, positionTo.ToString(CultureInfo.InvariantCulture)),
             GetPath(from, positionFrom.ToString(CultureInfo.InvariantCulture))));
@@ -635,17 +533,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         int positionFrom,
         Expression<Func<TModel, IList<TProp>>> path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "copy",
             GetPath(path, Consts.LastElement),
             GetPath(from, positionFrom.ToString(CultureInfo.InvariantCulture))));
@@ -664,17 +555,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
         Expression<Func<TModel, TProp>> from,
         Expression<Func<TModel, IList<TProp>>> path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation<TModel>(
+		Operations.Add(new Operation<TModel>(
             "copy",
             GetPath(path, Consts.LastElement),
             GetPath(from, null)));
@@ -688,12 +572,9 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <param name="objectToApplyTo">Object to apply the JsonPatchDocument to</param>
     public void ApplyTo(TModel objectToApplyTo)
     {
-        if (objectToApplyTo == null)
-        {
-            throw new ArgumentNullException(nameof(objectToApplyTo));
-        }
+	    ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
 
-        ApplyTo(objectToApplyTo, new ObjectAdapter(Options, null, AdapterFactory.Default));
+		ApplyTo(objectToApplyTo, new ObjectAdapter(Options, null, AdapterFactory.Default));
     }
 
     /// <summary>
@@ -714,17 +595,10 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <param name="logErrorAction">Action to log errors</param>
     public void ApplyTo(TModel objectToApplyTo, IObjectAdapter adapter, Action<JsonPatchError>? logErrorAction)
     {
-        if (objectToApplyTo == null)
-        {
-            throw new ArgumentNullException(nameof(objectToApplyTo));
-        }
+	    ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
+	    ExceptionHelper.ThrowIfNull(adapter, nameof(adapter));
 
-        if (adapter == null)
-        {
-            throw new ArgumentNullException(nameof(adapter));
-        }
-
-        foreach (var op in Operations)
+		foreach (var op in Operations)
         {
             try
             {
@@ -748,18 +622,11 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
     /// <param name="adapter">IObjectAdapter instance to use when applying</param>
     public void ApplyTo(TModel objectToApplyTo, IObjectAdapter adapter)
     {
-        if (objectToApplyTo == null)
-        {
-            throw new ArgumentNullException(nameof(objectToApplyTo));
-        }
+	    ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
+	    ExceptionHelper.ThrowIfNull(adapter, nameof(adapter));
 
-        if (adapter == null)
-        {
-            throw new ArgumentNullException(nameof(adapter));
-        }
-
-        // apply each operation in order
-        foreach (var op in Operations)
+		// apply each operation in order
+		foreach (var op in Operations)
         {
             op.Apply(objectToApplyTo, adapter);
         }

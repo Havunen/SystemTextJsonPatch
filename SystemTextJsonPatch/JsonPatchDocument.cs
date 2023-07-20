@@ -29,8 +29,11 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
 
     public JsonPatchDocument(List<Operation> operations, JsonSerializerOptions options)
     {
-        Options = options ?? new JsonSerializerOptions();
-        Operations = operations ?? throw new ArgumentNullException(nameof(operations));
+	    ExceptionHelper.ThrowIfNull(operations, nameof(operations));
+	    ExceptionHelper.ThrowIfNull(options, nameof(options));
+
+	    Options = options;
+        Operations = operations;
     }
 
     /// <summary>
@@ -42,12 +45,9 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
     /// <returns>The <see cref="JsonPatchDocument"/> for chaining.</returns>
     public JsonPatchDocument Add(string path, object? value)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation("add", PathHelpers.ValidateAndNormalizePath(path), null, value));
+		Operations.Add(new Operation("add", PathHelpers.ValidateAndNormalizePath(path), null, value));
         return this;
     }
 
@@ -59,12 +59,9 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
     /// <returns>The <see cref="JsonPatchDocument"/> for chaining.</returns>
     public JsonPatchDocument Remove(string path)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation("remove", PathHelpers.ValidateAndNormalizePath(path), null, null));
+		Operations.Add(new Operation("remove", PathHelpers.ValidateAndNormalizePath(path), null, null));
         return this;
     }
 
@@ -77,12 +74,9 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
     /// <returns>The <see cref="JsonPatchDocument"/> for chaining.</returns>
     public JsonPatchDocument Replace(string path, object? value)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation("replace", PathHelpers.ValidateAndNormalizePath(path), null, value));
+		Operations.Add(new Operation("replace", PathHelpers.ValidateAndNormalizePath(path), null, value));
         return this;
     }
 
@@ -95,12 +89,9 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
     /// <returns>The <see cref="JsonPatchDocument"/> for chaining.</returns>
     public JsonPatchDocument Test(string path, object? value)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        Operations.Add(new Operation("test", PathHelpers.ValidateAndNormalizePath(path), null, value));
+		Operations.Add(new Operation("test", PathHelpers.ValidateAndNormalizePath(path), null, value));
         return this;
     }
 
@@ -113,17 +104,10 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
     /// <returns>The <see cref="JsonPatchDocument"/> for chaining.</returns>
     public JsonPatchDocument Move(string from, string path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+		ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation("move", PathHelpers.ValidateAndNormalizePath(path), PathHelpers.ValidateAndNormalizePath(from)));
+		Operations.Add(new Operation("move", PathHelpers.ValidateAndNormalizePath(path), PathHelpers.ValidateAndNormalizePath(from)));
         return this;
     }
 
@@ -136,17 +120,10 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
     /// <returns>The <see cref="JsonPatchDocument"/> for chaining.</returns>
     public JsonPatchDocument Copy(string from, string path)
     {
-        if (from == null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	    ExceptionHelper.ThrowIfNull(from, nameof(from));
+	    ExceptionHelper.ThrowIfNull(path, nameof(path));
 
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
-
-        Operations.Add(new Operation("copy", PathHelpers.ValidateAndNormalizePath(path), PathHelpers.ValidateAndNormalizePath(from)));
+		Operations.Add(new Operation("copy", PathHelpers.ValidateAndNormalizePath(path), PathHelpers.ValidateAndNormalizePath(from)));
         return this;
     }
 
@@ -156,12 +133,9 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
     /// <param name="objectToApplyTo">Object to apply the JsonPatchDocument to</param>
     public void ApplyTo(object objectToApplyTo)
     {
-        if (objectToApplyTo == null)
-        {
-            throw new ArgumentNullException(nameof(objectToApplyTo));
-        }
+	    ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
 
-        ApplyTo(objectToApplyTo, new ObjectAdapter(Options, null, AdapterFactory.Default));
+		ApplyTo(objectToApplyTo, new ObjectAdapter(Options, null, AdapterFactory.Default));
     }
 
     /// <summary>
@@ -182,17 +156,10 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
     /// <param name="logErrorAction">Action to log errors</param>
     public void ApplyTo(object objectToApplyTo, IObjectAdapter adapter, Action<JsonPatchError> logErrorAction)
     {
-        if (objectToApplyTo == null)
-        {
-            throw new ArgumentNullException(nameof(objectToApplyTo));
-        }
+	    ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
+	    ExceptionHelper.ThrowIfNull(adapter, nameof(adapter));
 
-        if (adapter == null)
-        {
-            throw new ArgumentNullException(nameof(adapter));
-        }
-
-        foreach (var op in Operations)
+		foreach (var op in Operations)
         {
             try
             {
@@ -216,18 +183,11 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
     /// <param name="adapter">IObjectAdapter instance to use when applying</param>
     public void ApplyTo(object objectToApplyTo, IObjectAdapter adapter)
     {
-        if (objectToApplyTo == null)
-        {
-            throw new ArgumentNullException(nameof(objectToApplyTo));
-        }
+	    ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
+	    ExceptionHelper.ThrowIfNull(adapter, nameof(adapter));
 
-        if (adapter == null)
-        {
-            throw new ArgumentNullException(nameof(adapter));
-        }
-
-        // apply each operation in order
-        foreach (var op in Operations)
+		// apply each operation in order
+		foreach (var op in Operations)
         {
             op.Apply(objectToApplyTo, adapter);
         }

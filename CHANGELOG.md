@@ -1,3 +1,8 @@
+## 3.0.0
+- Library runtime performance is improved by using throw helpers for throwing exceptions https://github.com/Havunen/SystemTextJsonPatch/issues/21
+- **Possibly breaking change**: `JsonPatchTestOperationException` type is now thrown for `test` -operation failures https://github.com/Havunen/SystemTextJsonPatch/issues/22
+
+
 ## 2.0.2
 - Fixes an issue where dynamic JsonPatchDocument did not follow `JsonNamingPolicy` option for property names. https://github.com/Havunen/SystemTextJsonPatch/issues/19
 - Small performance improvements https://github.com/Havunen/SystemTextJsonPatch/commit/da51501d668cddcda000b08e06d28cff75e7a0ce

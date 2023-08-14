@@ -15,7 +15,7 @@ public class AdapterFactoryTests
 		var factory = new AdapterFactory();
 
 		//Act:
-		var adapter = factory.Create(new List<string>(), new JsonSerializerOptions());
+		var adapter = factory.Create(new List<string>());
 
 		// Assert
 		Assert.Equal(typeof(ListAdapter), adapter.GetType());

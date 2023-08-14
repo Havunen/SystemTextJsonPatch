@@ -203,7 +203,7 @@ public sealed class ListAdapter : IAdapter
 		return true;
 	}
 
-	protected static bool TryConvertValue(object? originalValue, Type listTypeArgument, string _, JsonSerializerOptions options, out object? convertedValue,
+	private static bool TryConvertValue(object? originalValue, Type listTypeArgument, string _, JsonSerializerOptions options, out object? convertedValue,
 		out string? errorMessage)
 	{
 		if (!ConversionResultProvider.TryConvertTo(originalValue, listTypeArgument, options, out convertedValue, out string? conversionErrorMessage))
@@ -340,7 +340,7 @@ public sealed class ListAdapter : IAdapter
 	/// This API supports infrastructure and is not intended to be used
 	/// directly from your code. This API may change or be removed in future releases.
 	/// </summary>
-	protected readonly struct PositionInfo : IEquatable<PositionInfo>
+	private readonly struct PositionInfo : IEquatable<PositionInfo>
 	{
 		public PositionInfo(PositionType type, int index)
 		{
@@ -386,7 +386,7 @@ public sealed class ListAdapter : IAdapter
 	/// This API supports infrastructure and is not intended to be used
 	/// directly from your code. This API may change or be removed in future releases.
 	/// </summary>
-	protected enum PositionType
+	private enum PositionType
 	{
 		Index, // valid index
 		EndOfList, // '-'
@@ -398,7 +398,7 @@ public sealed class ListAdapter : IAdapter
 	/// This API supports infrastructure and is not intended to be used
 	/// directly from your code. This API may change or be removed in future releases.
 	/// </summary>
-	protected enum OperationType
+	private enum OperationType
 	{
 		Add,
 		Remove,

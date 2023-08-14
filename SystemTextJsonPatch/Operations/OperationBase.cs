@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Exceptions;
 
@@ -39,7 +40,16 @@ public abstract class OperationBase
 	{
 	}
 
-	protected OperationBase(string op, string path, string? from)
+	protected OperationBase(
+#if !NETSTANDARD2_0
+		[NotNull]
+#endif
+		string op,
+#if !NETSTANDARD2_0
+		[NotNull]
+#endif
+		string? path,
+		string? from)
 	{
 		ExceptionHelper.ThrowIfNull(op, nameof(op));
 		ExceptionHelper.ThrowIfNull(path, nameof(path));

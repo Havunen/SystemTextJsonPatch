@@ -5,7 +5,13 @@ namespace SystemTextJsonPatch.Exceptions
 {
 	internal class ExceptionHelper
 	{
-		internal static void ThrowIfNull(object? argument, string paramName)
+		internal static void ThrowIfNull(
+#if !NETSTANDARD2_0
+			[NotNull] 
+#endif
+			object? argument,
+			string paramName
+		)
 		{
 #if NETSTANDARD2_0
 			if (argument == null)

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using SystemTextJsonPatch.Exceptions;
@@ -15,21 +16,16 @@ public class AdapterFactory : IAdapterFactory
 
 	/// <inheritdoc />
 #pragma warning disable PUB0001
-	public IAdapter Create(object target, JsonSerializerOptions options)
+	public IAdapter Create(object target)
 #pragma warning restore PUB0001
 	{
 		ExceptionHelper.ThrowIfNull(target, nameof(target));
 
-		if (target is JsonObject)
+		return target switch
 		{
-			return new JSonObjectAdapter();
-		}
-
-		if (target is IList)
-		{
-			return new ListAdapter();
-		}
-
-		return new PocoAdapter();
+			JsonObject => new JSonObjectAdapter(),
+			IList => new ListAdapter(),
+			_ => new PocoAdapter()
+		};
 	}
 }

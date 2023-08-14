@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 using SystemTextJsonPatch.Adapters;
 using SystemTextJsonPatch.Exceptions;
 
@@ -28,7 +29,14 @@ public class ObjectVisitor
 		_adapterFactory = adapterFactory;
 	}
 
-	public bool TryVisit(ref object target, out IAdapter? adapter, out string? errorMessage)
+	public bool TryVisit(
+		ref object target,
+#if !NETSTANDARD2_0
+		[NotNullWhen(true)]
+#endif
+		out IAdapter? adapter,
+		out string? errorMessage
+	)
 	{
 		if (target == null)
 		{
@@ -65,6 +73,6 @@ public class ObjectVisitor
 
 	private IAdapter SelectAdapter(object targetObject)
 	{
-		return _adapterFactory.Create(targetObject, _options);
+		return _adapterFactory.Create(targetObject);
 	}
 }

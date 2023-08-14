@@ -10,11 +10,6 @@ namespace SystemTextJsonPatch.Converters
 	public abstract class JsonPatchDocumentConverterBase<TType, TOperation> : JsonConverter<TType>
 		where TType : class, IJsonPatchDocument, new() where TOperation : Operation, new()
 	{
-		private static readonly JsonEncodedText OpText = JsonEncodedText.Encode("op");
-		private static readonly JsonEncodedText PathText = JsonEncodedText.Encode("path");
-		private static readonly JsonEncodedText FromText = JsonEncodedText.Encode("from");
-		private static readonly JsonEncodedText ValueText = JsonEncodedText.Encode("value");
-
 		protected static List<TOperation>? ParseOperations(ref Utf8JsonReader reader, bool caseInSensitive)
 		{
 			if (reader.TokenType == JsonTokenType.StartArray)
@@ -48,22 +43,22 @@ namespace SystemTextJsonPatch.Converters
 						ThrowJsonPatchException();
 					}
 
-					if (reader.ValueTextEquals(OpText.EncodedUtf8Bytes))
+					if (reader.ValueTextEquals("op"u8))
 					{
 						CheckedRead(ref reader);
 						op = reader.GetString();
 					}
-					else if (reader.ValueTextEquals(PathText.EncodedUtf8Bytes))
+					else if (reader.ValueTextEquals("path"u8))
 					{
 						CheckedRead(ref reader);
 						path = reader.GetString();
 					}
-					else if (reader.ValueTextEquals(FromText.EncodedUtf8Bytes))
+					else if (reader.ValueTextEquals("from"u8))
 					{
 						CheckedRead(ref reader);
 						from = reader.GetString();
 					}
-					else if (reader.ValueTextEquals(ValueText.EncodedUtf8Bytes))
+					else if (reader.ValueTextEquals("value"u8))
 					{
 						CheckedRead(ref reader);
 						switch (reader.TokenType)
@@ -213,22 +208,22 @@ namespace SystemTextJsonPatch.Converters
 			{
 				var operations = jsonPatchDoc.GetOperations();
 
-				writer.WriteStartArray();
+				writer!.WriteStartArray();
 
 				foreach (var operation in operations)
 				{
 					writer.WriteStartObject();
-					writer.WriteString(OpText, operation.Op);
-					writer.WriteString(PathText, operation.Path);
+					writer.WriteString("op"u8, operation.Op);
+					writer.WriteString("path"u8, operation.Path);
 
 					if (!string.IsNullOrEmpty(operation.From))
 					{
-						writer.WriteString(FromText, operation.From);
+						writer.WriteString("from"u8, operation.From);
 					}
 
 					if (operation.OperationType is OperationType.Add or OperationType.Replace or OperationType.Test)
 					{
-						writer.WritePropertyName(ValueText);
+						writer.WritePropertyName("value"u8);
 						JsonSerializer.Serialize(writer, operation.Value, options);
 					}
 

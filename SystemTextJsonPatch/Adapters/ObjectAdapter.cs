@@ -47,7 +47,15 @@ public class ObjectAdapter : IObjectAdapterWithTest
 	/// </summary>
 	public Action<JsonPatchError>? LogErrorAction { get; }
 
-	public void Add(Operation operation, object objectToApplyTo)
+	public void Add(
+#if !NETSTANDARD2_0
+		[NotNull]
+#endif
+		Operation operation,
+#if !NETSTANDARD2_0
+		[NotNull]
+#endif
+		object objectToApplyTo)
 	{
 		ExceptionHelper.ThrowIfNull(operation, nameof(operation));
 		ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));

@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Net.Test.Sdk" Version="17.6.3" />
+    <PackageReference Include="Microsoft.Net.Test.Sdk" Version="17.7.0" />
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="xunit" Version="2.5.0" />
     <!-- use latest NewtonSoft package, hides Microsoft.Net.Test.Sdk -> Microsoft.TestPlatform.TestHost refs NewtonSoft.Json >= 9.0 -->

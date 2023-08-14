@@ -60,8 +60,6 @@ This test deserializes a JSON patch document of 8 operations and applies the cha
 
 See [SystemTextJsonPatch.Benchmark](https://github.com/Havunen/SystemTextJsonPatch/tree/main/SystemTextJsonPatch.Benchmark) for more details.
 
-(SystemTextJsonPatch , )
-
 BenchmarkDotNet v0.13.7, Windows 11 (10.0.22621.2134/22H2/2022Update/SunValley2)
 AMD Ryzen 9 5950X, 1 CPU, 32 logical and 16 physical cores
 .NET SDK 8.0.100-preview.7.23376.3

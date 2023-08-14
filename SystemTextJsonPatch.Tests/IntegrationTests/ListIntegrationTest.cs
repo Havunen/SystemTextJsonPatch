@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using SystemTextJsonPatch.Exceptions;
 using Xunit;
 
@@ -202,6 +203,31 @@ public class ListIntegrationTest
 
 		// Assert
 		Assert.Equal(new List<int>() { 4, 5, 6 }, targetObject.IntegerList);
+	}
+
+	[Fact]
+	public void ReplaceFullGenericListWithCollection()
+	{
+		var targetObject = new SimpleObjectWithNestedObject()
+		{
+			SimpleObjectList = new List<SimpleObject>()
+			{
+				new SimpleObject() { AnotherIntegerValue = 1 },
+				new SimpleObject() { AnotherIntegerValue = 2 },
+				new SimpleObject() { AnotherIntegerValue = 3 },
+			}
+		};
+
+		var json = "[{\"op\":\"replace\",\"path\":\"/SimpleObjectList\",\"value\":[{\"AnotherIntegerValue\": 6}]}]";
+		var docJson = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObjectWithNestedObject>>(json);
+
+
+		// Act
+		docJson.ApplyTo(targetObject);
+
+		// Assert
+		Assert.Equal(1, targetObject.SimpleObjectList.Count);
+		Assert.Equal(6, targetObject.SimpleObjectList[0].AnotherIntegerValue);
 	}
 
 	[Fact]

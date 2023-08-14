@@ -40,11 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Internal\DictionaryAdapterOfTU.cs" />
-    <Compile Remove="Internal\DynamicObjectAdapter.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

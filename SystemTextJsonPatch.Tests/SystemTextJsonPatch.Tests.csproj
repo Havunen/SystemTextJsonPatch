@@ -14,12 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Internal\DictionaryAdapterTest.cs" />
-    <Compile Remove="Internal\DynamicObjectAdapterTest.cs" />
-    <Compile Remove="Internal\PocoAdapterTest.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
     <PackageReference Include="Microsoft.Net.Test.Sdk" Version="17.7.0" />
     <PackageReference Include="xunit" Version="2.5.0" />

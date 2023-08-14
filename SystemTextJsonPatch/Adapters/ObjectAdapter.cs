@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Internal;
@@ -46,7 +47,7 @@ public class ObjectAdapter : IObjectAdapterWithTest
 	/// </summary>
 	public Action<JsonPatchError>? LogErrorAction { get; }
 
-	public void Add(Operation? operation, object objectToApplyTo)
+	public void Add(Operation operation, object objectToApplyTo)
 	{
 		ExceptionHelper.ThrowIfNull(operation, nameof(operation));
 		ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));

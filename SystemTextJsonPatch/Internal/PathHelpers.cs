@@ -12,7 +12,7 @@ internal static class PathHelpers
 		// on creation of the patch document rather than on execute.
 
 #if NETSTANDARD2_0
-        if (path.Contains("//"))
+		if (path.Contains("//"))
 #else
 		if (path.Contains("//", StringComparison.Ordinal))
 #endif

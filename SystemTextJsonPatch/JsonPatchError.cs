@@ -14,10 +14,7 @@ public class JsonPatchError
 	/// <param name="affectedObject">The object that is affected by the error.</param>
 	/// <param name="operation">The <see cref="Operation"/> that caused the error.</param>
 	/// <param name="errorMessage">The error message.</param>
-	public JsonPatchError(
-		object affectedObject,
-		Operation operation,
-		string errorMessage)
+	public JsonPatchError(object affectedObject, Operation operation, string errorMessage)
 	{
 		ExceptionHelper.ThrowIfNull(errorMessage, nameof(errorMessage));
 

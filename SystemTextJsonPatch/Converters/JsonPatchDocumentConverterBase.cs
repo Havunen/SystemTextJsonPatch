@@ -8,8 +8,7 @@ using SystemTextJsonPatch.Operations;
 namespace SystemTextJsonPatch.Converters
 {
 	public abstract class JsonPatchDocumentConverterBase<TType, TOperation> : JsonConverter<TType>
-		where TType : class, IJsonPatchDocument, new()
-		where TOperation : Operation, new()
+		where TType : class, IJsonPatchDocument, new() where TOperation : Operation, new()
 	{
 		private static readonly JsonEncodedText OpText = JsonEncodedText.Encode("op");
 		private static readonly JsonEncodedText PathText = JsonEncodedText.Encode("path");
@@ -20,10 +19,7 @@ namespace SystemTextJsonPatch.Converters
 		{
 			if (reader.TokenType == JsonTokenType.StartArray)
 			{
-
-				return caseInSensitive
-					? ParseOperationCaseInSensitive(ref reader)
-					: ParseOperationCaseSensitive(ref reader);
+				return caseInSensitive ? ParseOperationCaseInSensitive(ref reader) : ParseOperationCaseSensitive(ref reader);
 			}
 
 			return null;

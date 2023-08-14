@@ -44,8 +44,7 @@ public class ListIntegrationTest
 
 		// Act & Assert
 		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
-		Assert.Equal("The index value provided by path segment '-1' is out of bounds of the array size.",
-			exception.Message);
+		Assert.Equal("The index value provided by path segment '-1' is out of bounds of the array size.", exception.Message);
 	}
 
 	[Fact]
@@ -77,16 +76,16 @@ public class ListIntegrationTest
 		var targetObject = new SimpleObjectWithNestedObject()
 		{
 			SimpleObjectList = new List<SimpleObject>()
+			{
+				new SimpleObject
 				{
-					new SimpleObject
-					{
-						StringProperty = "String1"
-					},
-					new SimpleObject
-					{
-						StringProperty = "String2"
-					}
+					StringProperty = "String1"
+				},
+				new SimpleObject
+				{
+					StringProperty = "String2"
 				}
+			}
 		};
 
 		var patchDocument = new JsonPatchDocument<SimpleObjectWithNestedObject>();
@@ -155,10 +154,7 @@ public class ListIntegrationTest
 		patchDocument.Remove("IntegerList/" + position);
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() =>
-		{
-			patchDocument.ApplyTo(targetObject);
-		});
+		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal($"The index value provided by path segment '{position}' is out of bounds of the array size.", exception.Message);
@@ -218,7 +214,7 @@ public class ListIntegrationTest
 			}
 		};
 
-		var json = "[{\"op\":\"replace\",\"path\":\"/SimpleObjectList\",\"value\":[{\"AnotherIntegerValue\": 6}]}]";
+		var json = "[{\"op\":\"replace\",\"path\":\"/simpleobjectList\",\"value\":[{\"AnotherIntegerValue\": 6}]}]";
 		var docJson = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObjectWithNestedObject>>(json);
 
 
@@ -342,11 +338,12 @@ public class ListIntegrationTest
 		var simpleObject3 = new SimpleObject() { IntegerValue = 3 };
 		var targetObject = new SimpleObjectWithNestedObject()
 		{
-			SimpleObjectList = new List<SimpleObject>() {
-					simpleObject1,
-					simpleObject2,
-					simpleObject3
-				}
+			SimpleObjectList = new List<SimpleObject>()
+			{
+				simpleObject1,
+				simpleObject2,
+				simpleObject3
+			}
 		};
 
 		var patchDocument = new JsonPatchDocument<SimpleObjectWithNestedObject>();

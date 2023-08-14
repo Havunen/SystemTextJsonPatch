@@ -7,8 +7,7 @@ namespace SystemTextJsonPatch;
 
 public class JsonPatchDocumentTest
 {
-	private readonly JsonSerializerOptions _options = new JsonSerializerOptions()
-	{ };
+	private readonly JsonSerializerOptions _options = new JsonSerializerOptions() { };
 
 	[Fact]
 	public void InvalidPathAtBeginningShouldThrowException()
@@ -17,15 +16,10 @@ public class JsonPatchDocumentTest
 		var patchDocument = new JsonPatchDocument();
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() =>
-		{
-			patchDocument.Add("//NewInt", 1);
-		});
+		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.Add("//NewInt", 1); });
 
 		// Assert
-		Assert.Equal(
-		   "The provided string '//NewInt' is an invalid path.",
-			exception.Message);
+		Assert.Equal("The provided string '//NewInt' is an invalid path.", exception.Message);
 	}
 
 	[Fact]
@@ -35,15 +29,10 @@ public class JsonPatchDocumentTest
 		var patchDocument = new JsonPatchDocument();
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() =>
-		{
-			patchDocument.Add("NewInt//", 1);
-		});
+		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.Add("NewInt//", 1); });
 
 		// Assert
-		Assert.Equal(
-		   "The provided string 'NewInt//' is an invalid path.",
-			exception.Message);
+		Assert.Equal("The provided string 'NewInt//' is an invalid path.", exception.Message);
 	}
 
 	[Fact]
@@ -135,8 +124,7 @@ public class JsonPatchDocumentTest
 		// Act
 		var exception = Assert.Throws<JsonPatchException>(() =>
 		{
-			var deserialized
-				= JsonSerializer.Deserialize<JsonPatchDocument>(serialized, _options);
+			var deserialized = JsonSerializer.Deserialize<JsonPatchDocument>(serialized, _options);
 		});
 
 		// Assert
@@ -166,7 +154,8 @@ public class JsonPatchDocumentTest
 	public void DeserializationSucceedsForValidJsonPatchDocumentMultipleOperation()
 	{
 		// Arrange
-		var serialized = "[{ \"op\": \"replace\", \"path\": \"/title\", \"value\": \"New Title\"}, { \"op\": \"add\", \"path\": \"/test\", \"value\": \"New Title2\"}]";
+		var serialized =
+			"[{ \"op\": \"replace\", \"path\": \"/title\", \"value\": \"New Title\"}, { \"op\": \"add\", \"path\": \"/test\", \"value\": \"New Title2\"}]";
 
 		// Act
 		var deserialized = JsonSerializer.Deserialize<JsonPatchDocument>(serialized, _options);
@@ -189,13 +178,13 @@ public class JsonPatchDocumentTest
 	public void DeserializationFailsWhenCommaMissing()
 	{
 		// Arrange
-		var serialized = "[{ \"op\": \"replace\", \"path\": \"/title\", \"value\": \"New Title\"} { \"op\": \"add\", \"path\": \"/test\", \"value\": \"New Title2\"}]";
+		var serialized =
+			"[{ \"op\": \"replace\", \"path\": \"/title\", \"value\": \"New Title\"} { \"op\": \"add\", \"path\": \"/test\", \"value\": \"New Title2\"}]";
 
 		// Act
 		Assert.Throws<JsonException>(() =>
 		{
-			var deserialized
-				= JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, _options);
+			var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, _options);
 		});
 	}
 
@@ -208,8 +197,7 @@ public class JsonPatchDocumentTest
 		// Act
 		var exception = Assert.Throws<JsonPatchException>(() =>
 		{
-			var deserialized
-				= JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, _options);
+			var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObject>>(serialized, _options);
 		});
 
 		// Assert

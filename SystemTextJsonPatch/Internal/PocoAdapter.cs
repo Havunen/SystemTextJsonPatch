@@ -14,12 +14,7 @@ namespace SystemTextJsonPatch.Internal;
 /// </summary>
 public sealed class PocoAdapter : IAdapter
 {
-	public bool TryAdd(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage)
+	public bool TryAdd(object target, string segment, JsonSerializerOptions options, object? value, out string? errorMessage)
 	{
 		if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
 		{
@@ -45,12 +40,7 @@ public sealed class PocoAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryGet(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out object? value,
-		out string? errorMessage)
+	public bool TryGet(object target, string segment, JsonSerializerOptions options, out object? value, out string? errorMessage)
 	{
 		if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
 		{
@@ -71,11 +61,7 @@ public sealed class PocoAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryRemove(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out string? errorMessage)
+	public bool TryRemove(object target, string segment, JsonSerializerOptions options, out string? errorMessage)
 	{
 		if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
 		{
@@ -95,12 +81,7 @@ public sealed class PocoAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryReplace(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage)
+	public bool TryReplace(object target, string segment, JsonSerializerOptions options, object? value, out string? errorMessage)
 	{
 		if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
 		{
@@ -126,12 +107,7 @@ public sealed class PocoAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryTest(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage)
+	public bool TryTest(object target, string segment, JsonSerializerOptions options, object? value, out string? errorMessage)
 	{
 		if (!TryGetJsonProperty(target, segment, options, out var jsonProperty))
 		{
@@ -162,7 +138,8 @@ public sealed class PocoAdapter : IAdapter
 				return false;
 			}
 		}
-		else if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(), StringComparison.Ordinal))
+		else if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(),
+			         StringComparison.Ordinal))
 		{
 			errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
 			return false;
@@ -172,12 +149,7 @@ public sealed class PocoAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryTraverse(
-		object? target,
-		string segment,
-		JsonSerializerOptions options,
-		out object? nextTarget,
-		out string? errorMessage)
+	public bool TryTraverse(object? target, string segment, JsonSerializerOptions options, out object? nextTarget, out string? errorMessage)
 	{
 		if (target == null)
 		{
@@ -198,12 +170,7 @@ public sealed class PocoAdapter : IAdapter
 		return false;
 	}
 
-	private static bool TryGetJsonProperty(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out IPropertyProxy? jsonProperty
-	)
+	private static bool TryGetJsonProperty(object target, string segment, JsonSerializerOptions options, out IPropertyProxy? jsonProperty)
 	{
 		jsonProperty = FindPropertyByName(segment, target, options);
 

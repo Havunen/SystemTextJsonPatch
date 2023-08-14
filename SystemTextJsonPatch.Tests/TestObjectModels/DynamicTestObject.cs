@@ -7,7 +7,11 @@ public class DynamicTestObject : DynamicObject
 {
 	private Dictionary<string, object> _dictionary = new Dictionary<string, object>();
 
-	public object this[string key] { get => ((IDictionary<string, object>)_dictionary)[key]; set => ((IDictionary<string, object>)_dictionary)[key] = value; }
+	public object this[string key]
+	{
+		get => ((IDictionary<string, object>)_dictionary)[key];
+		set => ((IDictionary<string, object>)_dictionary)[key] = value;
+	}
 
 	public ICollection<string> Keys => ((IDictionary<string, object>)_dictionary).Keys;
 

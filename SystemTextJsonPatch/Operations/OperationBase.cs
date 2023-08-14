@@ -26,6 +26,7 @@ public abstract class OperationBase
 			{
 				result = OperationType.Invalid;
 			}
+
 			_operationType = result;
 			_op = value;
 		}

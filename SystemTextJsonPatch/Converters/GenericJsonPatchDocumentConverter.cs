@@ -8,7 +8,6 @@ namespace SystemTextJsonPatch.Converters;
 public sealed class GenericJsonPatchDocumentConverter<TModel> : JsonPatchDocumentConverterBase<JsonPatchDocument<TModel>, Operation<TModel>>
 	where TModel : class
 {
-
 	public override JsonPatchDocument<TModel>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{
 		if (reader.TokenType == JsonTokenType.Null)
@@ -30,5 +29,4 @@ public sealed class GenericJsonPatchDocumentConverter<TModel> : JsonPatchDocumen
 
 		return new JsonPatchDocument<TModel>(operations, options);
 	}
-
 }

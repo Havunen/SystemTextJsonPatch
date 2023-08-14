@@ -11,6 +11,7 @@ public sealed class JsonPatchDocumentConverter : JsonPatchDocumentConverterBase<
 	{
 		return true;
 	}
+
 	public override bool HandleNull => true;
 
 	public override JsonPatchDocument? Read(ref Utf8JsonReader reader, Type? typeToConvert, JsonSerializerOptions options)

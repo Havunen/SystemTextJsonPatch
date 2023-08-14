@@ -9,14 +9,12 @@ public class Operation<TModel> : Operation where TModel : class
 	{
 	}
 
-	public Operation(string op, string path, string? from, object? value)
-		: base(op, path, from)
+	public Operation(string op, string path, string? from, object? value) : base(op, path, from)
 	{
 		this.Value = value;
 	}
 
-	public Operation(string op, string path, string? from)
-		: base(op, path, from)
+	public Operation(string op, string path, string? from) : base(op, path, from)
 	{
 	}
 

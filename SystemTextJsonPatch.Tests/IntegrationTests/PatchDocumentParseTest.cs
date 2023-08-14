@@ -21,7 +21,9 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
 			var docJson = System.Text.Json.JsonSerializer.Serialize(doc, options);
 
-			Assert.Equal("[{\"op\":\"replace\",\"path\":\"/value\",\"from\":\"from\",\"value\":\"myValue\"},{\"op\":\"replace\",\"path\":\"/value\",\"value\":\"myValue\"}]", docJson);
+			Assert.Equal(
+				"[{\"op\":\"replace\",\"path\":\"/value\",\"from\":\"from\",\"value\":\"myValue\"},{\"op\":\"replace\",\"path\":\"/value\",\"value\":\"myValue\"}]",
+				docJson);
 		}
 
 		[Fact]
@@ -40,7 +42,9 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
 			var docJson = System.Text.Json.JsonSerializer.Serialize(doc, options);
 
-			Assert.Equal("[{\"op\":\"remove\",\"path\":\"/value\",\"from\":\"from\"},{\"op\":\"move\",\"path\":\"/value\",\"from\":\"from\"},{\"op\":\"invalid\",\"path\":\"/value\",\"from\":\"from\"},{\"op\":\"copy\",\"path\":\"/value\",\"from\":\"from\"}]", docJson);
+			Assert.Equal(
+				"[{\"op\":\"remove\",\"path\":\"/value\",\"from\":\"from\"},{\"op\":\"move\",\"path\":\"/value\",\"from\":\"from\"},{\"op\":\"invalid\",\"path\":\"/value\",\"from\":\"from\"},{\"op\":\"copy\",\"path\":\"/value\",\"from\":\"from\"}]",
+				docJson);
 		}
 	}
 }

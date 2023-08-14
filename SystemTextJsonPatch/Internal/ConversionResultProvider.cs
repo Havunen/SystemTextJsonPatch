@@ -44,9 +44,7 @@ public static class ConversionResultProvider
 		catch (JsonException jsonException)
 		{
 			// Do not change application layer JsonException messages, but hide errors from System.Text.Json
-			errorMessage = "System.Text.Json".Equals(jsonException.Source, StringComparison.Ordinal)
-				? null
-				: jsonException.Message;
+			errorMessage = "System.Text.Json".Equals(jsonException.Source, StringComparison.Ordinal) ? null : jsonException.Message;
 			convertedValue = null;
 
 			return false;
@@ -164,10 +162,12 @@ public static class ConversionResultProvider
 		{
 			return JsonSerializer.SerializeToElement(value, options);
 		}
+
 		if (typeToConvertTo == typeof(JsonNode))
 		{
 			return JsonSerializer.SerializeToNode(value, options);
 		}
+
 		if (typeToConvertTo == typeof(JsonDocument))
 		{
 			return JsonSerializer.SerializeToDocument(value, options);
@@ -177,10 +177,12 @@ public static class ConversionResultProvider
 		{
 			return JsonSerializer.Deserialize(jsonEl, typeToConvertTo, options);
 		}
+
 		if (value is JsonNode jsonNode)
 		{
 			return JsonSerializer.Deserialize(jsonNode, typeToConvertTo, options);
 		}
+
 		if (value is JsonDocument jsonDoc)
 		{
 			return JsonSerializer.Deserialize(jsonDoc, typeToConvertTo, options);

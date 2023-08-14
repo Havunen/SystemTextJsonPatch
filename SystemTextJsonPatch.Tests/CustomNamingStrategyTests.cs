@@ -120,7 +120,7 @@ public class CustomNamingStrategyTests
 
 		var targetObject = new Dictionary<string, int>()
 		{
-			{ "customTest", 1},
+			{ "customTest", 1 },
 		};
 
 		var patchDocument = new JsonPatchDocument();

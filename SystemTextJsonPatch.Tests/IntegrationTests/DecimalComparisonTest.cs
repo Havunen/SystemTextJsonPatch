@@ -6,7 +6,6 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 {
 	public class DecimalComparisonTest
 	{
-
 		[Fact]
 		public void TestValuesShouldBeEqualRegardlessOfNumberOfDecimalZeroes()
 		{

@@ -23,7 +23,8 @@ public class ListAdapterTest
 
 		// Assert
 		Assert.False(addStatus);
-		Assert.Equal($"The type '{targetObject.GetType().FullName}' which is an array is not supported for json patch operations as it has a fixed size.", message);
+		Assert.Equal($"The type '{targetObject.GetType().FullName}' which is an array is not supported for json patch operations as it has a fixed size.",
+			message);
 	}
 
 	[Fact]
@@ -43,7 +44,9 @@ public class ListAdapterTest
 
 		// Assert
 		Assert.False(addStatus);
-		Assert.Equal($"The type '{targetObject.GetType().FullName}' which is a non generic list is not supported for json patch operations. Only generic list types are supported.", message);
+		Assert.Equal(
+			$"The type '{targetObject.GetType().FullName}' which is a non generic list is not supported for json patch operations. Only generic list types are supported.",
+			message);
 	}
 
 	[Fact]
@@ -94,8 +97,7 @@ public class ListAdapterTest
 	public void PatchWithInvalidPositionFormatFails(string position)
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<string>() { "James", "Mike" };
 		var listAdapter = new ListAdapter();
 
@@ -111,7 +113,7 @@ public class ListAdapterTest
 		new TheoryData<List<int>, List<int>>()
 		{
 			{
-				new List<int>() {  },
+				new List<int>() { },
 				new List<int>() { 20 }
 			},
 			{
@@ -166,8 +168,7 @@ public class ListAdapterTest
 		// Arrange
 		var sDto = new SimpleObject();
 		var iDto = new InheritedObject();
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<SimpleObject>() { sDto };
 		var listAdapter = new ListAdapter();
 
@@ -185,8 +186,7 @@ public class ListAdapterTest
 	public void AddNonCompatibleTypeFails()
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>() { 10, 20 };
 		var listAdapter = new ListAdapter();
 
@@ -232,8 +232,7 @@ public class ListAdapterTest
 	public void AddDifferentComplexTypeWorks(IList targetObject, object value, string position, IList expected)
 	{
 		// Arrange
-		var options = new JsonSerializerOptions
-		{ };
+		var options = new JsonSerializerOptions { };
 		var listAdapter = new ListAdapter();
 
 		// Act
@@ -254,32 +253,32 @@ public class ListAdapterTest
 			var sDto2 = new SimpleObject();
 			var sDto3 = new SimpleObject();
 			return new TheoryData<IList, object, string, IList>()
+			{
 				{
-					{
-						new List<SimpleObject>() { },
-						sDto1,
-						"-",
-						new List<SimpleObject>() { sDto1 }
-					},
-					{
-						new List<SimpleObject>() { sDto1, sDto2 },
-						sDto3,
-						"-",
-						new List<SimpleObject>() { sDto1, sDto2, sDto3 }
-					},
-					{
-						new List<SimpleObject>() { sDto1, sDto2 },
-						sDto3,
-						"0",
-						new List<SimpleObject>() { sDto3, sDto1, sDto2 }
-					},
-					{
-						new List<SimpleObject>() {  sDto1, sDto2 },
-						sDto3,
-						"1",
-						new List<SimpleObject>() { sDto1, sDto3, sDto2 }
-					}
-				};
+					new List<SimpleObject>() { },
+					sDto1,
+					"-",
+					new List<SimpleObject>() { sDto1 }
+				},
+				{
+					new List<SimpleObject>() { sDto1, sDto2 },
+					sDto3,
+					"-",
+					new List<SimpleObject>() { sDto1, sDto2, sDto3 }
+				},
+				{
+					new List<SimpleObject>() { sDto1, sDto2 },
+					sDto3,
+					"0",
+					new List<SimpleObject>() { sDto3, sDto1, sDto2 }
+				},
+				{
+					new List<SimpleObject>() { sDto1, sDto2 },
+					sDto3,
+					"1",
+					new List<SimpleObject>() { sDto1, sDto3, sDto2 }
+				}
+			};
 		}
 	}
 
@@ -310,8 +309,7 @@ public class ListAdapterTest
 	public void GetIndexOutOfBounds(int[] input, string position)
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>(input);
 		var listAdapter = new ListAdapter();
 
@@ -330,8 +328,7 @@ public class ListAdapterTest
 	public void Get(int[] input, string position, object expected)
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>(input);
 		var listAdapter = new ListAdapter();
 
@@ -351,8 +348,7 @@ public class ListAdapterTest
 	public void RemoveIndexOutOfBounds(int[] input, string position)
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>(input);
 		var listAdapter = new ListAdapter();
 
@@ -371,8 +367,7 @@ public class ListAdapterTest
 	public void Remove(int[] input, string position, int[] expected)
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>(input);
 		var listAdapter = new ListAdapter();
 
@@ -388,8 +383,7 @@ public class ListAdapterTest
 	public void ReplaceNonCompatibleTypeFails()
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>() { 10, 20 };
 		var listAdapter = new ListAdapter();
 
@@ -405,8 +399,7 @@ public class ListAdapterTest
 	public void ReplaceReplacesValueAtTheEnd()
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>() { 10, 20 };
 		var listAdapter = new ListAdapter();
 
@@ -437,8 +430,7 @@ public class ListAdapterTest
 	public void ReplaceReplacesValueAtGivenPosition(string position, List<int> expected)
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>() { 10, 20 };
 		var listAdapter = new ListAdapter();
 
@@ -455,8 +447,7 @@ public class ListAdapterTest
 	public void TestDoesNotThrowExceptionIfTestIsSuccessful()
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>() { 10, 20 };
 		var listAdapter = new ListAdapter();
 
@@ -472,8 +463,7 @@ public class ListAdapterTest
 	public void TestThrowsJsonPatchExceptionIfTestFails()
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>() { 10, 20 };
 		var listAdapter = new ListAdapter();
 		var expectedErrorMessage = "The current value '20' at position '1' is not equal to the test value '10'.";
@@ -490,8 +480,7 @@ public class ListAdapterTest
 	public void TestThrowsJsonPatchExceptionIfListPositionOutOfBounds()
 	{
 		// Arrange
-		var options = new JsonSerializerOptions()
-		{ };
+		var options = new JsonSerializerOptions() { };
 		var targetObject = new List<int>() { 10, 20 };
 		var listAdapter = new ListAdapter();
 		var expectedErrorMessage = "The index value provided by path segment '2' is out of bounds of the array size.";

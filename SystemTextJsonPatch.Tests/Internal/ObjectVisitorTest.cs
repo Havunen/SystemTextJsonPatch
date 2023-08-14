@@ -42,8 +42,7 @@ public class ObjectVisitorTest
 	public void VisitValidPathToArrayReturnsListAdapter(object targetObject, string path, object expectedTargetObject)
 	{
 		// Arrange
-		var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions()
-		{ });
+		var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions() { });
 
 		// Act
 		var visitStatus = visitor.TryVisit(ref targetObject, out var adapter, out var message);
@@ -76,8 +75,7 @@ public class ObjectVisitorTest
 	public void VisitValidPathToDictionaryReturnsDictionaryAdapter(object targetObject, string path, object expectedTargetObject)
 	{
 		// Arrange
-		var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions()
-		{ });
+		var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions() { });
 
 		// Act
 		var visitStatus = visitor.TryVisit(ref targetObject, out var adapter, out var message);
@@ -106,8 +104,7 @@ public class ObjectVisitorTest
 	public void VisitValidPathToExpandoObjectReturnsExpandoAdapter(object targetObject, string path, object expectedTargetObject)
 	{
 		// Arrange
-		var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions()
-		{ });
+		var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions() { });
 
 		// Act
 		var visitStatus = visitor.TryVisit(ref targetObject, out var adapter, out var message);
@@ -139,8 +136,7 @@ public class ObjectVisitorTest
 	public void VisitValidPathReturnsExpandoAdapter(object targetObject, string path, object expectedTargetObject)
 	{
 		// Arrange
-		var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions()
-		{ });
+		var visitor = new ObjectVisitor(new ParsedPath(path), new JsonSerializerOptions() { });
 
 		// Act
 		var visitStatus = visitor.TryVisit(ref targetObject, out var adapter, out var message);
@@ -158,8 +154,7 @@ public class ObjectVisitorTest
 	public void VisitInvalidIndexToArrayFails(string position)
 	{
 		// Arrange
-		var visitor = new ObjectVisitor(new ParsedPath($"/Customers/{position}/States/-"), new JsonSerializerOptions()
-		{ });
+		var visitor = new ObjectVisitor(new ParsedPath($"/Customers/{position}/States/-"), new JsonSerializerOptions() { });
 		var automobileDepartment = new Class1Nested();
 		object targetObject = automobileDepartment;
 
@@ -177,8 +172,7 @@ public class ObjectVisitorTest
 	public void VisitInvalidIndexFormatToArrayFails(string position)
 	{
 		// Arrange
-		var visitor = new ObjectVisitor(new ParsedPath($"/Customers/{position}/States/-"), new JsonSerializerOptions()
-		{ });
+		var visitor = new ObjectVisitor(new ParsedPath($"/Customers/{position}/States/-"), new JsonSerializerOptions() { });
 		var automobileDepartment = new Class1Nested();
 		object targetObject = automobileDepartment;
 
@@ -194,8 +188,7 @@ public class ObjectVisitorTest
 	public void VisitDoesNotValidateFinalPathSegment()
 	{
 		// Arrange
-		var visitor = new ObjectVisitor(new ParsedPath($"/NonExisting"), new JsonSerializerOptions()
-		{ });
+		var visitor = new ObjectVisitor(new ParsedPath($"/NonExisting"), new JsonSerializerOptions() { });
 		var model = new Class1();
 		object targetObject = model;
 
@@ -212,8 +205,7 @@ public class ObjectVisitorTest
 	public void VisitNullInteriorTargetReturnsFalse()
 	{
 		// Arrange
-		var visitor = new ObjectVisitor(new ParsedPath("/States/0"), new JsonSerializerOptions()
-		{ });
+		var visitor = new ObjectVisitor(new ParsedPath("/States/0"), new JsonSerializerOptions() { });
 
 		// Act
 		object target = new Class1() { States = null, };
@@ -229,8 +221,7 @@ public class ObjectVisitorTest
 	public void VisitNullTargetReturnsNullAdapter()
 	{
 		// Arrange
-		var visitor = new ObjectVisitor(new ParsedPath("test"), new JsonSerializerOptions()
-		{ });
+		var visitor = new ObjectVisitor(new ParsedPath("test"), new JsonSerializerOptions() { });
 
 		// Act
 		object target = null;

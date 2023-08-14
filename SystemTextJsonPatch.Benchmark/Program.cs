@@ -8,13 +8,11 @@ namespace SeveraRecurrence.Benchmark;
 
 public class Program
 {
-
 	public static void Main(string[] args)
 	{
 		var config = new ManualConfig()
 		{
-			Options = ConfigOptions.DisableOptimizationsValidator | ConfigOptions.DisableLogFile |
-					  ConfigOptions.JoinSummary,
+			Options = ConfigOptions.DisableOptimizationsValidator | ConfigOptions.DisableLogFile | ConfigOptions.JoinSummary,
 			Orderer = new DefaultOrderer(SummaryOrderPolicy.Declared, MethodOrderPolicy.Declared)
 		};
 

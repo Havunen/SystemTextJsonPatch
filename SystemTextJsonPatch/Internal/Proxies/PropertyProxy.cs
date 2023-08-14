@@ -6,6 +6,7 @@ namespace SystemTextJsonPatch.Internal.Proxies
 	internal sealed class PropertyProxy : IPropertyProxy
 	{
 		private readonly PropertyInfo _propertyInfo;
+
 		internal PropertyProxy(PropertyInfo propertyInfo)
 		{
 			_propertyInfo = propertyInfo;

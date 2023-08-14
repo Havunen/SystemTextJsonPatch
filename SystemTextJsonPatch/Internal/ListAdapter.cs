@@ -12,12 +12,7 @@ namespace SystemTextJsonPatch.Internal;
 /// </summary>
 public sealed class ListAdapter : IAdapter
 {
-	public bool TryAdd(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage)
+	public bool TryAdd(object target, string segment, JsonSerializerOptions options, object? value, out string? errorMessage)
 	{
 		var list = (IList)target;
 
@@ -49,12 +44,7 @@ public sealed class ListAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryGet(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out object? value,
-		out string? errorMessage)
+	public bool TryGet(object target, string segment, JsonSerializerOptions options, out object? value, out string? errorMessage)
 	{
 		var list = (IList)target;
 
@@ -83,11 +73,7 @@ public sealed class ListAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryRemove(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out string? errorMessage)
+	public bool TryRemove(object target, string segment, JsonSerializerOptions options, out string? errorMessage)
 	{
 		var list = (IList)target;
 
@@ -114,12 +100,7 @@ public sealed class ListAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryReplace(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage)
+	public bool TryReplace(object target, string segment, JsonSerializerOptions options, object? value, out string? errorMessage)
 	{
 		var list = (IList)target;
 
@@ -151,12 +132,7 @@ public sealed class ListAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryTest(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage)
+	public bool TryTest(object target, string segment, JsonSerializerOptions options, object? value, out string? errorMessage)
 	{
 		var list = (IList)target;
 
@@ -182,13 +158,16 @@ public sealed class ListAdapter : IAdapter
 		{
 			if (!Equals(currentValue, convertedValue))
 			{
-				errorMessage = Resources.FormatValueAtListPositionNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, positionInfo.Index);
+				errorMessage = Resources.FormatValueAtListPositionNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value,
+					positionInfo.Index);
 				return false;
 			}
 		}
-		else if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(), StringComparison.Ordinal))
+		else if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(),
+			         StringComparison.Ordinal))
 		{
-			errorMessage = Resources.FormatValueAtListPositionNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, positionInfo.Index);
+			errorMessage = Resources.FormatValueAtListPositionNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value,
+				positionInfo.Index);
 			return false;
 		}
 
@@ -196,12 +175,7 @@ public sealed class ListAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryTraverse(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out object? nextTarget,
-		out string? errorMessage)
+	public bool TryTraverse(object target, string segment, JsonSerializerOptions options, out object? nextTarget, out string? errorMessage)
 	{
 		if (target is not IList list)
 		{
@@ -229,12 +203,7 @@ public sealed class ListAdapter : IAdapter
 		return true;
 	}
 
-	protected static bool TryConvertValue(
-		object? originalValue,
-		Type listTypeArgument,
-		string _,
-		JsonSerializerOptions options,
-		out object? convertedValue,
+	protected static bool TryConvertValue(object? originalValue, Type listTypeArgument, string _, JsonSerializerOptions options, out object? convertedValue,
 		out string? errorMessage)
 	{
 		if (!ConversionResultProvider.TryConvertTo(originalValue, listTypeArgument, options, out convertedValue, out string? conversionErrorMessage))
@@ -242,6 +211,7 @@ public sealed class ListAdapter : IAdapter
 			errorMessage = conversionErrorMessage ?? Resources.FormatInvalidValueForProperty(originalValue);
 			return false;
 		}
+
 		errorMessage = null;
 		return true;
 	}
@@ -326,17 +296,10 @@ public sealed class ListAdapter : IAdapter
 
 	private static bool IsGenericInstantiation(Type candidate, Type interfaceType)
 	{
-		return
-			candidate.IsGenericType &&
-			candidate.GetGenericTypeDefinition() == interfaceType;
+		return candidate.IsGenericType && candidate.GetGenericTypeDefinition() == interfaceType;
 	}
 
-	private static bool TryGetPositionInfo(
-		IList list,
-		string segment,
-		OperationType operationType,
-		out PositionInfo positionInfo,
-		out string? errorMessage)
+	private static bool TryGetPositionInfo(IList list, string segment, OperationType operationType, out PositionInfo positionInfo, out string? errorMessage)
 	{
 		if (segment == Consts.LastElement)
 		{
@@ -362,6 +325,7 @@ public sealed class ListAdapter : IAdapter
 				errorMessage = null;
 				return true;
 			}
+
 			positionInfo = new PositionInfo(PositionType.OutOfBounds, position);
 			errorMessage = Resources.FormatIndexOutOfBounds(segment);
 			return false;

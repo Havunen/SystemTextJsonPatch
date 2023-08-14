@@ -12,27 +12,22 @@ public class JsonPatchException : JsonException
 	public Operation FailedOperation { get; }
 	public object AffectedObject { get; }
 
-	public JsonPatchException(JsonPatchError jsonPatchError, Exception? innerException)
-		: base(jsonPatchError.ErrorMessage, innerException)
+	public JsonPatchException(JsonPatchError jsonPatchError, Exception? innerException) : base(jsonPatchError.ErrorMessage, innerException)
 	{
 		FailedOperation = jsonPatchError.Operation;
 		AffectedObject = jsonPatchError.AffectedObject;
 	}
 
-	public JsonPatchException(JsonPatchError jsonPatchError)
-	  : this(jsonPatchError, null)
+	public JsonPatchException(JsonPatchError jsonPatchError) : this(jsonPatchError, null)
 	{
 	}
 
-	public JsonPatchException(string message, Exception? innerException)
-		: base(message, innerException)
+	public JsonPatchException(string message, Exception? innerException) : base(message, innerException)
 	{
 	}
 
-	protected JsonPatchException(
-		System.Runtime.Serialization.SerializationInfo serializationInfo,
-		System.Runtime.Serialization.StreamingContext streamingContext
-	) : base(serializationInfo, streamingContext)
+	protected JsonPatchException(System.Runtime.Serialization.SerializationInfo serializationInfo,
+		System.Runtime.Serialization.StreamingContext streamingContext) : base(serializationInfo, streamingContext)
 	{
 	}
 }

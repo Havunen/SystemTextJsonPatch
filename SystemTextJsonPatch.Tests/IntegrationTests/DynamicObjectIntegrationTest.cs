@@ -54,13 +54,11 @@ public class DynamicObjectIntegrationTest
 		patchDocument.Add("DynamicProperty/OtherProperty/IntProperty", 1);
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() =>
-		{
-			patchDocument.ApplyTo(nestedObject);
-		});
+		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(nestedObject); });
 
 		// Assert
-		Assert.Equal("For operation 'add', the target location specified by path '/DynamicProperty/OtherProperty/IntProperty' was not found.", exception.Message);
+		Assert.Equal("For operation 'add', the target location specified by path '/DynamicProperty/OtherProperty/IntProperty' was not found.",
+			exception.Message);
 	}
 
 	[Fact]
@@ -154,10 +152,7 @@ public class DynamicObjectIntegrationTest
 		patchDocument.Remove("Simpleobject/stringProperty");
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() =>
-		{
-			patchDocument.ApplyTo(dynamicTestObject);
-		});
+		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(dynamicTestObject); });
 
 		// Assert
 		Assert.Equal("For operation 'remove', the target location specified by path '/Simpleobject/stringProperty' was not found.", exception.Message);
@@ -219,10 +214,7 @@ public class DynamicObjectIntegrationTest
 		patchDocument.Test("Nested/IntegerList/0", 2);
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() =>
-		{
-			patchDocument.ApplyTo(dynamicTestObject);
-		});
+		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(dynamicTestObject); });
 
 		// Assert
 		Assert.Equal("The current value '1' at position '0' is not equal to the test value '2'.", exception.Message);

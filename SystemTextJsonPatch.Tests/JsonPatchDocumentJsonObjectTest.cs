@@ -80,10 +80,7 @@ public class JsonPatchDocumentJsonObjectTest
 		var options = new JsonSerializerOptions() { };
 
 		var node = JsonSerializer.Deserialize<JsonArray>("[ 123 ]");
-		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
-			@"[ { ""op"": ""replace"", ""path"": ""/0"", ""value"": 456 } ]",
-			options
-		);
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""replace"", ""path"": ""/0"", ""value"": 456 } ]", options);
 
 		patch.ApplyTo(node);
 
@@ -97,10 +94,7 @@ public class JsonPatchDocumentJsonObjectTest
 		var options = new JsonSerializerOptions() { };
 
 		var node = JsonSerializer.Deserialize<JsonArray>("[ {\"a\": \"12\"}, {\"a\": \"13\"} ]");
-		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
-			@"[ { ""op"": ""replace"", ""path"": ""/0/a"", ""value"": ""456"" } ]",
-			options
-		);
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""replace"", ""path"": ""/0/a"", ""value"": ""456"" } ]", options);
 
 		patch.ApplyTo(node);
 
@@ -115,10 +109,7 @@ public class JsonPatchDocumentJsonObjectTest
 		var options = new JsonSerializerOptions() { };
 
 		var node = JsonSerializer.Deserialize<JsonArray>("[ {\"a\": \"12\"}, {\"a\": \"12\"}, {\"a\": \"13\"} ]");
-		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
-			@"[ { ""op"": ""replace"", ""path"": ""/1/a"", ""value"": ""456"" } ]",
-			options
-		);
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""replace"", ""path"": ""/1/a"", ""value"": ""456"" } ]", options);
 
 		patch.ApplyTo(node);
 
@@ -133,10 +124,7 @@ public class JsonPatchDocumentJsonObjectTest
 		var options = new JsonSerializerOptions() { };
 
 		var node = JsonSerializer.Deserialize<JsonArray>("[ {\"a\": \"12\"}, {\"a\": \"12\"}, {\"a\": \"13\"} ]");
-		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
-			@"[ { ""op"": ""replace"", ""path"": ""/-/a"", ""value"": ""456"" } ]",
-			options
-		);
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""replace"", ""path"": ""/-/a"", ""value"": ""456"" } ]", options);
 
 		patch.ApplyTo(node);
 
@@ -151,17 +139,11 @@ public class JsonPatchDocumentJsonObjectTest
 		var options = new JsonSerializerOptions() { };
 
 		var node = JsonSerializer.Deserialize<JsonArray>("[ {\"a\": \"12\"}, {\"a\": \"12\"}, {\"a\": \"13\"} ]");
-		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
-			@"[ { ""op"": ""replace"", ""path"": ""/1/a"", ""value"": ""456"" } ]",
-			options
-		);
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""replace"", ""path"": ""/1/a"", ""value"": ""456"" } ]", options);
 
 		patch.ApplyTo(node);
 
-		patch = JsonSerializer.Deserialize<JsonPatchDocument>(
-			@"[ { ""op"": ""replace"", ""path"": ""/1/a"", ""value"": ""33"" } ]",
-			options
-		);
+		patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""replace"", ""path"": ""/1/a"", ""value"": ""33"" } ]", options);
 
 		patch.ApplyTo(node);
 
@@ -176,10 +158,7 @@ public class JsonPatchDocumentJsonObjectTest
 		var options = new JsonSerializerOptions() { };
 
 		var node = JsonSerializer.Deserialize<JsonObject>("{\"a\": \"12\"}");
-		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(
-			@"[ { ""op"": ""replace"", ""path"": ""/a"", ""value"": 456 } ]",
-			options
-		);
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""replace"", ""path"": ""/a"", ""value"": 456 } ]", options);
 
 		patch.ApplyTo(node);
 
@@ -348,5 +327,4 @@ public class JsonPatchDocumentJsonObjectTest
 		// Assert
 		Assert.Null(model.CustomData["Email"]);
 	}
-
 }

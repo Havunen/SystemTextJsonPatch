@@ -14,10 +14,7 @@ public class ObjectAdapter : IObjectAdapterWithTest
 	/// </summary>
 	/// <param name="options">Json serializer options</param>
 	/// <param name="logErrorAction">The <see cref="Action"/> for logging <see cref="JsonPatchError"/>.</param>
-	public ObjectAdapter(
-		JsonSerializerOptions options,
-		Action<JsonPatchError> logErrorAction) :
-		this(options, logErrorAction, Adapters.AdapterFactory.Default)
+	public ObjectAdapter(JsonSerializerOptions options, Action<JsonPatchError> logErrorAction) : this(options, logErrorAction, Adapters.AdapterFactory.Default)
 	{
 	}
 
@@ -27,10 +24,7 @@ public class ObjectAdapter : IObjectAdapterWithTest
 	/// <param name="options">Json serializer options</param>
 	/// <param name="logErrorAction">The <see cref="Action"/> for logging <see cref="JsonPatchError"/>.</param>
 	/// <param name="adapterFactory">The <see cref="IAdapterFactory"/> to use when creating adaptors.</param>
-	public ObjectAdapter(
-	   JsonSerializerOptions options,
-	   Action<JsonPatchError>? logErrorAction,
-	   IAdapterFactory adapterFactory)
+	public ObjectAdapter(JsonSerializerOptions options, Action<JsonPatchError>? logErrorAction, IAdapterFactory adapterFactory)
 	{
 		ExceptionHelper.ThrowIfNull(options, nameof(options));
 		ExceptionHelper.ThrowIfNull(adapterFactory, nameof(adapterFactory));
@@ -64,12 +58,7 @@ public class ObjectAdapter : IObjectAdapterWithTest
 	/// Add is used by various operations (eg: add, copy, ...), yet through different operations;
 	/// This method allows code reuse yet reporting the correct operation on error
 	/// </summary>
-	private void Add(
-		string path,
-		object? value,
-		object objectToApplyTo,
-		Operation operation
-	)
+	private void Add(string path, object? value, object objectToApplyTo, Operation operation)
 	{
 		ExceptionHelper.ThrowIfNull(path, nameof(path));
 		ExceptionHelper.ThrowIfNull(objectToApplyTo, nameof(objectToApplyTo));
@@ -107,10 +96,7 @@ public class ObjectAdapter : IObjectAdapterWithTest
 			Remove(operation.From, objectToApplyTo, operation);
 
 			// add that value to the path location
-			Add(operation.Path,
-				propertyValue,
-				objectToApplyTo,
-				operation);
+			Add(operation.Path, propertyValue, objectToApplyTo, operation);
 		}
 	}
 
@@ -185,10 +171,7 @@ public class ObjectAdapter : IObjectAdapterWithTest
 			// Create deep copy
 			if (ConversionResultProvider.TryCopyTo(propertyValue, propertyValue?.GetType(), this.Options, out object? convertedValue))
 			{
-				Add(operation.Path,
-					convertedValue,
-					objectToApplyTo,
-					operation);
+				Add(operation.Path, convertedValue, objectToApplyTo, operation);
 			}
 			else
 			{
@@ -223,11 +206,7 @@ public class ObjectAdapter : IObjectAdapterWithTest
 		}
 	}
 
-	private bool TryGetValue(
-		string? fromLocation,
-		object objectToGetValueFrom,
-		Operation operation,
-		out object? propertyValue)
+	private bool TryGetValue(string? fromLocation, object objectToGetValueFrom, Operation operation, out object? propertyValue)
 	{
 		ExceptionHelper.ThrowIfNull(fromLocation, nameof(fromLocation));
 		ExceptionHelper.ThrowIfNull(operation, nameof(operation));
@@ -260,17 +239,11 @@ public class ObjectAdapter : IObjectAdapterWithTest
 
 	private static JsonPatchError CreateOperationFailedError(object target, string path, Operation operation, string errorMessage)
 	{
-		return new JsonPatchError(
-			target,
-			operation,
-			errorMessage ?? Resources.FormatCannotPerformOperation(operation.Op, path));
+		return new JsonPatchError(target, operation, errorMessage ?? Resources.FormatCannotPerformOperation(operation.Op, path));
 	}
 
 	private static JsonPatchError CreatePathNotFoundError(object target, string path, Operation operation, string errorMessage)
 	{
-		return new JsonPatchError(
-			target,
-			operation,
-			errorMessage ?? Resources.FormatTargetLocationNotFound(operation.Op, path));
+		return new JsonPatchError(target, operation, errorMessage ?? Resources.FormatTargetLocationNotFound(operation.Op, path));
 	}
 }

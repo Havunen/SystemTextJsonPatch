@@ -18,7 +18,9 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 			var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
 			options.PropertyNameCaseInsensitive = true;
 
-			var docJson = JsonSerializer.Deserialize<JsonPatchDocument<TestDoc>>("[{\"oP\":\"rEplAce\",\"pAtH\":\"/valUe\",\"fROm\":\"from\",\"value\":\"myValue\"},{\"op\":\"replace\",\"PATH\":\"/value\",\"VALUE\":\"myValue\"}]", options);
+			var docJson = JsonSerializer.Deserialize<JsonPatchDocument<TestDoc>>(
+				"[{\"oP\":\"rEplAce\",\"pAtH\":\"/valUe\",\"fROm\":\"from\",\"value\":\"myValue\"},{\"op\":\"replace\",\"PATH\":\"/value\",\"VALUE\":\"myValue\"}]",
+				options);
 
 			Assert.Equal(2, docJson.Operations.Count);
 		}
@@ -30,7 +32,10 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 			options.PropertyNameCaseInsensitive = false;
 			options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 
-			Assert.Throws<JsonPatchException>(() => JsonSerializer.Deserialize<JsonPatchDocument<TestDoc>>("[{\"oP\":\"rEplAce\",\"pAtH\":\"/valUe\",\"fROm\":\"from\",\"value\":\"myValue\"},{\"op\":\"replace\",\"PATH\":\"/value\",\"VALUE\":\"myValue\"}]", options));
+			Assert.Throws<JsonPatchException>(() =>
+				JsonSerializer.Deserialize<JsonPatchDocument<TestDoc>>(
+					"[{\"oP\":\"rEplAce\",\"pAtH\":\"/valUe\",\"fROm\":\"from\",\"value\":\"myValue\"},{\"op\":\"replace\",\"PATH\":\"/value\",\"VALUE\":\"myValue\"}]",
+					options));
 		}
 
 		[Fact]
@@ -40,10 +45,10 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 			options.PropertyNameCaseInsensitive = false;
 			options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 
-			var doc = JsonSerializer.Deserialize<JsonPatchDocument<TestDoc>>("[{\"op\":\"replace\",\"path\":\"/valUe\",\"from\":\"from\",\"value\":\"myValue\"}]", options);
+			var doc = JsonSerializer.Deserialize<JsonPatchDocument<TestDoc>>(
+				"[{\"op\":\"replace\",\"path\":\"/valUe\",\"from\":\"from\",\"value\":\"myValue\"}]", options);
 
 			Assert.Single(doc.Operations);
 		}
 	}
 }
-

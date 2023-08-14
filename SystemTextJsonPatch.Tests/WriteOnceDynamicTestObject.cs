@@ -21,7 +21,11 @@ public class WriteOnceDynamicTestObject : DynamicObject
 {
 	private Dictionary<string, object> _dictionary = new Dictionary<string, object>();
 
-	public object this[string key] { get => ((IDictionary<string, object>)_dictionary)[key]; set => SetValueForKey(key, value); }
+	public object this[string key]
+	{
+		get => ((IDictionary<string, object>)_dictionary)[key];
+		set => SetValueForKey(key, value);
+	}
 
 	public ICollection<string> Keys => ((IDictionary<string, object>)_dictionary).Keys;
 

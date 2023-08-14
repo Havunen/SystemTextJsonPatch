@@ -24,6 +24,7 @@ public class AdapterFactory : IAdapterFactory
 		{
 			return new JSonObjectAdapter();
 		}
+
 		if (target is IList)
 		{
 			return new ListAdapter();
@@ -32,4 +33,3 @@ public class AdapterFactory : IAdapterFactory
 		return new PocoAdapter();
 	}
 }
-

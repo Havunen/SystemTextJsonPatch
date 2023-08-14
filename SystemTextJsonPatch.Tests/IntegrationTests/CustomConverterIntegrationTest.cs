@@ -62,8 +62,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
 
 			var docJson = JsonSerializer.Serialize(doc, options);
-			var patchDoc =
-				JsonSerializer.Deserialize<JsonPatchDocument<TesterObject>>(docJson, options);
+			var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TesterObject>>(docJson, options);
 
 			patchDoc.ApplyTo(targetObject);
 
@@ -81,20 +80,16 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
 	public class DateOnlyConverter : JsonConverter<MyCustomDateOnly>
 	{
-
 		public DateOnlyConverter()
 		{
 		}
 
-		public override MyCustomDateOnly Read(ref Utf8JsonReader reader,
-			Type typeToConvert, JsonSerializerOptions options)
+		public override MyCustomDateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 		{
 			var value = reader.GetString();
 			return MyCustomDateOnly.Parse(value!);
 		}
 
-		public override void Write(Utf8JsonWriter writer, MyCustomDateOnly value,
-			JsonSerializerOptions options)
-			=> writer.WriteStringValue(value.ToString());
+		public override void Write(Utf8JsonWriter writer, MyCustomDateOnly value, JsonSerializerOptions options) => writer.WriteStringValue(value.ToString());
 	}
 }

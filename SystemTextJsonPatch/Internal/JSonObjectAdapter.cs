@@ -6,12 +6,7 @@ namespace SystemTextJsonPatch.Internal;
 
 public sealed class JSonObjectAdapter : IAdapter
 {
-	public bool TryAdd(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage)
+	public bool TryAdd(object target, string segment, JsonSerializerOptions options, object? value, out string? errorMessage)
 	{
 		var obj = (JsonObject)target;
 
@@ -21,12 +16,7 @@ public sealed class JSonObjectAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryGet(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out object? value,
-		out string? errorMessage)
+	public bool TryGet(object target, string segment, JsonSerializerOptions options, out object? value, out string? errorMessage)
 	{
 		var obj = (JsonObject)target;
 
@@ -42,11 +32,7 @@ public sealed class JSonObjectAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryRemove(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out string? errorMessage)
+	public bool TryRemove(object target, string segment, JsonSerializerOptions options, out string? errorMessage)
 	{
 		var obj = (JsonObject)target;
 
@@ -60,12 +46,7 @@ public sealed class JSonObjectAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryReplace(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage)
+	public bool TryReplace(object target, string segment, JsonSerializerOptions options, object? value, out string? errorMessage)
 	{
 		var obj = (JsonObject)target;
 
@@ -81,12 +62,7 @@ public sealed class JSonObjectAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryTest(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		object? value,
-		out string? errorMessage)
+	public bool TryTest(object target, string segment, JsonSerializerOptions options, object? value, out string? errorMessage)
 	{
 		var obj = (JsonObject)target;
 
@@ -111,7 +87,8 @@ public sealed class JSonObjectAdapter : IAdapter
 				return false;
 			}
 		}
-		else if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(value)?.ToString(), StringComparison.Ordinal))
+		else if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(value)?.ToString(),
+			         StringComparison.Ordinal))
 		{
 			errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
 			return false;
@@ -121,12 +98,7 @@ public sealed class JSonObjectAdapter : IAdapter
 		return true;
 	}
 
-	public bool TryTraverse(
-		object target,
-		string segment,
-		JsonSerializerOptions options,
-		out object? nextTarget,
-		out string? errorMessage)
+	public bool TryTraverse(object target, string segment, JsonSerializerOptions options, out object? nextTarget, out string? errorMessage)
 	{
 		var obj = (JsonObject)target;
 

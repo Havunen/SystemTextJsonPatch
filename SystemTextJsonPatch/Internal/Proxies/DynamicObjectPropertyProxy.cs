@@ -36,6 +36,7 @@ namespace SystemTextJsonPatch.Internal.Proxies
 
 		public bool CanRead => true;
 		public bool CanWrite => true;
+
 		public Type PropertyType
 		{
 			get

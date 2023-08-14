@@ -14,8 +14,7 @@ public class ObjectVisitor
 	private readonly JsonSerializerOptions _options;
 	private readonly ParsedPath _path;
 
-	public ObjectVisitor(ParsedPath path, JsonSerializerOptions options)
-		: this(path, options, AdapterFactory.Default)
+	public ObjectVisitor(ParsedPath path, JsonSerializerOptions options) : this(path, options, AdapterFactory.Default)
 	{
 	}
 

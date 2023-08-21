@@ -162,7 +162,7 @@ public class DictionaryTest
 		patchDocument.Test($"/DictionaryOfStringToCustomer/{key1}/Name", "Mike");
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(model); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(model); });
 
 		// Assert
 		Assert.Equal("The current value 'James' at path 'Name' is not equal to the test value 'Mike'.", exception.Message);

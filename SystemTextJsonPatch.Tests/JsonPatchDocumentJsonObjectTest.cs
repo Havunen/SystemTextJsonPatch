@@ -195,7 +195,7 @@ public class JsonPatchDocumentJsonObjectTest
 		patch.Operations.Add(new Operation<ObjectWithJsonNode>("add", "/CustomData/Name", null, "Bar Baz"));
 
 		// Act & Assert
-		Assert.Throws<JsonPatchException>(() => patch.ApplyTo(model));
+		Assert.Throws<JsonPatchTestOperationException>(() => patch.ApplyTo(model));
 	}
 
 	[Fact]

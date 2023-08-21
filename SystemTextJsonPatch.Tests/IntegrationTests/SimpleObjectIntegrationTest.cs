@@ -158,7 +158,7 @@ public class SimpleObjectIntegrationTest
 		target.Object = @object;
 
 		// Act
-		var ex = Assert.Throws<JsonPatchException>(() => document.ApplyTo(target));
+		var ex = Assert.Throws<JsonPatchTestOperationException>(() => document.ApplyTo(target));
 
 		// Assert
 		Assert.Equal("For operation 'move', the target location specified by path '/Object/goodbye' was not found.", ex.Message);

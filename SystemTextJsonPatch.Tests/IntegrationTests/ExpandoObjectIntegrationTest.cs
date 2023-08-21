@@ -142,7 +142,7 @@ public class ExpandoObjectIntegrationTest
 		patchDocument.Test("Test", "TestValue");
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal("The current value '' at path 'Test' is not equal to the test value 'TestValue'.", exception.Message);
@@ -159,7 +159,7 @@ public class ExpandoObjectIntegrationTest
 		patchDocument.Test("Test", "TestValue");
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal("The current value 'Value' at path 'Test' is not equal to the test value 'TestValue'.", exception.Message);

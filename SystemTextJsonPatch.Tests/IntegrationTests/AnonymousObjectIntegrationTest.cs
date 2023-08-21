@@ -15,7 +15,7 @@ public class AnonymousObjectIntegrationTest
 		patchDocument.Add("NewProperty", 4);
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal("The target location specified by path segment 'NewProperty' was not found.", exception.Message);
@@ -35,7 +35,7 @@ public class AnonymousObjectIntegrationTest
 		patchDocument.Add("Nested/NewInt", 1);
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal("The target location specified by path segment 'NewInt' was not found.", exception.Message);
@@ -54,7 +54,7 @@ public class AnonymousObjectIntegrationTest
 		patchDocument.Add("StringProperty", "B");
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal("The property at path 'StringProperty' could not be updated.", exception.Message);
@@ -73,7 +73,7 @@ public class AnonymousObjectIntegrationTest
 		patchDocument.Remove("Test");
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal("The property at path 'Test' could not be updated.", exception.Message);
@@ -93,7 +93,7 @@ public class AnonymousObjectIntegrationTest
 		patchDocument.Replace("StringProperty", "AnotherStringProperty");
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal("The property at path 'StringProperty' could not be updated.", exception.Message);
@@ -113,7 +113,7 @@ public class AnonymousObjectIntegrationTest
 		patchDocument.Move("StringProperty", "AnotherStringProperty");
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal("The property at path 'StringProperty' could not be updated.", exception.Message);
@@ -150,7 +150,7 @@ public class AnonymousObjectIntegrationTest
 		patchDocument.Test("StringProperty", "B");
 
 		// Act
-		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(targetObject); });
+		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(targetObject); });
 
 		// Assert
 		Assert.Equal("The current value 'A' at path 'StringProperty' is not equal to the test value 'B'.", exception.Message);

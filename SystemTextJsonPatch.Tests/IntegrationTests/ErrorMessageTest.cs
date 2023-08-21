@@ -37,7 +37,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
 			var existingEntity = new Test { UtcDateTime = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc) };
 
-			var exception = Assert.Throws<JsonPatchException>(() => { document.ApplyTo(existingEntity); });
+			var exception = Assert.Throws<JsonPatchTestOperationException>(() => { document.ApplyTo(existingEntity); });
 
 			Assert.Equal("The current value '2000-01-01T01:01:01Z' at path 'utcDateTime' is not equal to the test value '2000-01-01T01:01:01'.",
 				exception.Message);

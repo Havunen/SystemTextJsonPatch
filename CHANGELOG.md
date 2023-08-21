@@ -1,3 +1,7 @@
+## 3.0.1
+- All invalid patch operations now correctly throw JsonPatchTestOperationException and malformed patch documents throw JsonPatchException
+
+
 ## 3.0.0
 - Library runtime performance is improved by using throw helpers for throwing exceptions https://github.com/Havunen/SystemTextJsonPatch/issues/21
 - **Possibly breaking change**: `JsonPatchTestOperationException` type is now thrown for `test` -operation failures https://github.com/Havunen/SystemTextJsonPatch/issues/22

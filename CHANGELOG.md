@@ -1,3 +1,6 @@
+## 3.1.0
+- Added .NET 8 target framework
+
 ## 3.0.1
 - All invalid patch operations now correctly throw JsonPatchTestOperationException and malformed patch documents throw JsonPatchException
 

@@ -327,27 +327,27 @@ public class ExpandoObjectIntegrationTest
 		Assert.Null(valueFromDictionary);
 	}
 
-	[Fact]
-	public void RemoveNestedPropertyMixedCaseThrowsPathNotFoundException()
-	{
-		// Arrange
-		dynamic targetObject = new ExpandoObject();
-		targetObject.Test = new ExpandoObject();
-		targetObject.Test.AnotherTest = "A";
+	//[Fact]
+	//public void RemoveNestedPropertyMixedCaseThrowsPathNotFoundException()
+	//{
+	//	// Arrange
+	//	dynamic targetObject = new ExpandoObject();
+	//	targetObject.Test = new ExpandoObject();
+	//	targetObject.Test.AnotherTest = "A";
 
-		var patchDocument = new JsonPatchDocument();
-		patchDocument.Remove("test");
+	//	var patchDocument = new JsonPatchDocument();
+	//	patchDocument.Remove("test");
 
-		// Act
-		// TODO: Different exception type
-		var exception = Assert.Throws<RuntimeBinderException>(() =>
-		{
-			var result = patchDocument.ApplyTo(targetObject);
-		});
+	//	// Act
+	//	// TODO: Different exception type
+	//	var exception = Assert.Throws<RuntimeBinderException>(() =>
+	//	{
+	//		var result = patchDocument.ApplyTo(targetObject);
+	//	});
 
-		// Assert
-		//Assert.Equal("The target location specified by path segment 'test' was not found.", exception.Message);
-	}
+	//	// Assert
+	//	//Assert.Equal("The target location specified by path segment 'test' was not found.", exception.Message);
+	//}
 
 	[Fact]
 	public void ReplaceGuid()

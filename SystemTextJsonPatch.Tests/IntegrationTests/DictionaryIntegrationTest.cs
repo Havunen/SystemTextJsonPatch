@@ -169,6 +169,32 @@ public class DictionaryTest
 	}
 
 	[Fact]
+	public void AddPocoObjectSucceeds()
+	{
+		// Arrange
+		var key1 = 100;
+		var value1 = new Customer() { Name = "James" };
+		var key2 = 200;
+		var value2 = new Customer() { Name = "Mike" };
+		var model = new CustomerDictionary();
+		model.DictionaryOfStringToCustomer[key1] = value1;
+		var patchDocument = new JsonPatchDocument();
+		patchDocument.Add($"/DictionaryOfStringToCustomer/{key2}", value2);
+
+		// Act
+		patchDocument.ApplyTo(model);
+
+		// Assert
+		Assert.Equal(2, model.DictionaryOfStringToCustomer.Count);
+		var actualValue1 = model.DictionaryOfStringToCustomer[key1];
+		Assert.NotNull(actualValue1);
+		Assert.Equal("James", actualValue1.Name);
+		var actualValue2 = model.DictionaryOfStringToCustomer[key2];
+		Assert.NotNull(actualValue2);
+		Assert.Equal("Mike", actualValue2.Name);
+	}
+
+	[Fact]
 	public void AddReplacesPocoObjectSucceeds()
 	{
 		// Arrange

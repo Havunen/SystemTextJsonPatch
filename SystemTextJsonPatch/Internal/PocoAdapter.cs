@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using SystemTextJsonPatch.Internal.Proxies;
@@ -186,14 +188,25 @@ public sealed class PocoAdapter : IAdapter
 			return new DynamicObjectPropertyProxy(dyObj, propertyName);
 		}
 
+		var genericDictionaryType = target.GetType().GetInterfaces()
+			.FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>));
+		if (genericDictionaryType is not null)
+		{
+			var args = genericDictionaryType.GetGenericArguments();
+			var keyType = args[0];
+			var valueType = args[1];
+			var converter = TypeDescriptor.GetConverter(keyType);
+			if (converter.CanConvertFrom(typeof(string)))
+			{
+				var key = converter.ConvertFromInvariantString(propertyName);
+				var proxyType = typeof(DictionaryTypedPropertyProxy<,>).MakeGenericType(keyType, valueType);
+				return (IPropertyProxy)Activator.CreateInstance(proxyType, target, key)!;
+			}
+		}
+
 		if (target is IDictionary dictionary)
 		{
 			return new DictionaryPropertyProxy(dictionary, propertyName);
-		}
-
-		if (target is IDictionary<string, object?> typedDictionary)
-		{
-			return new DictionaryTypedPropertyProxy(typedDictionary, propertyName);
 		}
 
 		if (target is JsonArray jsonArray)

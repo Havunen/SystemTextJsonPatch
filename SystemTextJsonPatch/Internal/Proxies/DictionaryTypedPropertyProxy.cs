@@ -41,18 +41,6 @@ namespace SystemTextJsonPatch.Internal.Proxies
 		public bool CanRead => true;
 		public bool CanWrite => true;
 
-		public Type PropertyType
-		{
-			get
-			{
-				_dictionary.TryGetValue(_propertyName, out var val);
-				if (val == null)
-				{
-					return typeof(TValue);
-				}
-
-				return val.GetType();
-			}
-		}
+		public Type PropertyType => typeof(TValue);
 	}
 }

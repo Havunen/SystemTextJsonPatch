@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using SystemTextJsonPatch.Exceptions;
 using Xunit;
 
@@ -135,6 +137,27 @@ public class DictionaryTest
 		public IDictionary<int, Customer> DictionaryOfStringToCustomer { get; } = new Dictionary<int, Customer>();
 	}
 
+#if NET7_0_OR_GREATER
+	[JsonDerivedType(typeof(Dog), "dog")]
+	[JsonDerivedType(typeof(Cat), "cat")]
+	private abstract class Animal
+	{
+	}
+
+	private class Dog : Animal
+	{
+	}
+
+	private class Cat : Animal
+	{
+	}
+
+	private class AnimalDictionary
+	{
+		public IDictionary<int, Animal> DictionaryOfIntToAnimal { get; } = new Dictionary<int, Animal>();
+	}
+#endif
+
 	[Fact]
 	public void TestPocoObjectSucceeds()
 	{
@@ -217,6 +240,27 @@ public class DictionaryTest
 		Assert.NotNull(actualValue1);
 		Assert.Equal("James", actualValue1.Name);
 	}
+
+#if NET7_0_OR_GREATER
+	[Fact]
+	public void AddReplacesPocoObjectWithDifferentTypeSucceeds()
+	{
+		// Arrange
+		var key1 = 100;
+		var value1 = new Cat();
+		var model = new AnimalDictionary();
+		model.DictionaryOfIntToAnimal[key1] = value1;
+		var patchDocument = new JsonPatchDocument();
+		patchDocument.Add($"/DictionaryOfIntToAnimal/{key1}", new Dog());
+
+		// Act
+		patchDocument.ApplyTo(model);
+
+		// Assert
+		var actualValue1 = Assert.Single(model.DictionaryOfIntToAnimal).Value;
+		Assert.IsType<Dog>(actualValue1);
+	}
+#endif
 
 	[Fact]
 	public void RemovePocoObjectSucceeds()

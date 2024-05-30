@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace SystemTextJsonPatch.Internal.Proxies
 {
-	internal sealed class DictionaryTypedPropertyProxy : IPropertyProxy
+	internal sealed class DictionaryTypedPropertyProxy<TKey, TValue> : IPropertyProxy
 	{
-		private readonly IDictionary<string, object?> _dictionary;
-		private readonly string _propertyName;
+		private readonly IDictionary<TKey, TValue?> _dictionary;
+		private readonly TKey _propertyName;
 
-		internal DictionaryTypedPropertyProxy(IDictionary<string, object?> dictionary, string propertyName)
+		internal DictionaryTypedPropertyProxy(IDictionary<TKey, TValue?> dictionary, TKey propertyName)
 		{
 			_dictionary = dictionary;
 			_propertyName = propertyName;
@@ -25,11 +25,11 @@ namespace SystemTextJsonPatch.Internal.Proxies
 		{
 			if (_dictionary.ContainsKey(_propertyName))
 			{
-				_dictionary[_propertyName] = convertedValue;
+				_dictionary[_propertyName] = (TValue?)convertedValue;
 			}
 			else
 			{
-				_dictionary.Add(_propertyName, convertedValue);
+				_dictionary.Add(_propertyName, (TValue?)convertedValue);
 			}
 		}
 
@@ -41,18 +41,6 @@ namespace SystemTextJsonPatch.Internal.Proxies
 		public bool CanRead => true;
 		public bool CanWrite => true;
 
-		public Type PropertyType
-		{
-			get
-			{
-				_dictionary.TryGetValue(_propertyName, out var val);
-				if (val == null)
-				{
-					return typeof(object);
-				}
-
-				return val.GetType();
-			}
-		}
+		public Type PropertyType => typeof(TValue);
 	}
 }

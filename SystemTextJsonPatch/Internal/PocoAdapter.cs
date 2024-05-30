@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using SystemTextJsonPatch.Internal.Proxies;
@@ -200,7 +201,12 @@ public sealed class PocoAdapter : IAdapter
 			{
 				var key = converter.ConvertFromInvariantString(propertyName);
 				var proxyType = typeof(DictionaryTypedPropertyProxy<,>).MakeGenericType(keyType, valueType);
-				return (IPropertyProxy)Activator.CreateInstance(proxyType, target, key)!;
+				return (IPropertyProxy)Activator.CreateInstance(
+					proxyType,
+					BindingFlags.NonPublic | BindingFlags.Instance,
+					null,
+					[target, key],
+					null)!;
 			}
 		}
 

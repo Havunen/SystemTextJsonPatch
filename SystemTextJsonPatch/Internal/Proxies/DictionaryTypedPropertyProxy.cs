@@ -8,7 +8,7 @@ namespace SystemTextJsonPatch.Internal.Proxies
 		private readonly IDictionary<TKey, TValue?> _dictionary;
 		private readonly TKey _propertyName;
 
-		public DictionaryTypedPropertyProxy(IDictionary<TKey, TValue?> dictionary, TKey propertyName)
+		internal DictionaryTypedPropertyProxy(IDictionary<TKey, TValue?> dictionary, TKey propertyName)
 		{
 			_dictionary = dictionary;
 			_propertyName = propertyName;

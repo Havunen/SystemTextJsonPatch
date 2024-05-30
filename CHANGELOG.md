@@ -1,3 +1,7 @@
+## 3.2.0
+- Adds support for dictionary complex types https://github.com/Havunen/SystemTextJsonPatch/pull/29
+- Internal dependencies updated
+
 ## 3.1.0
 - Added .NET 8 target framework
 

@@ -72,12 +72,6 @@ public sealed class JSonObjectAdapter : IAdapter
 			return false;
 		}
 
-		if (currentValue == null || string.IsNullOrEmpty(currentValue.ToString()))
-		{
-			errorMessage = Resources.FormatValueForTargetSegmentCannotBeNullOrEmpty(segment);
-			return false;
-		}
-
 		// all numeric values are handled as decimals
 		if (ConversionResultProvider.IsNumericType(currentValue))
 		{

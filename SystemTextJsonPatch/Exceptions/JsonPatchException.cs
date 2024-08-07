@@ -13,9 +13,4 @@ public class JsonPatchException : JsonException
 	public JsonPatchException(string message, Exception? innerException) : base(message, innerException)
 	{
 	}
-
-	protected JsonPatchException(System.Runtime.Serialization.SerializationInfo serializationInfo,
-		System.Runtime.Serialization.StreamingContext streamingContext) : base(serializationInfo, streamingContext)
-	{
-	}
 }

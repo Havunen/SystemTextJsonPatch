@@ -8,7 +8,7 @@
     <LangVersion>11</LangVersion>
     <RepositoryUrl>https://github.com/Havunen/SystemTextJsonPatch.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AnalysisLevel>6.0-all</AnalysisLevel>
+    <AnalysisLevel>8.0-all</AnalysisLevel>
     <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
     <Nullable>disable</Nullable>
   </PropertyGroup>

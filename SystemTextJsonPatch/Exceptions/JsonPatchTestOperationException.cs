@@ -16,9 +16,5 @@ namespace SystemTextJsonPatch.Exceptions
 			FailedOperation = jsonPatchError.Operation;
 			AffectedObject = jsonPatchError.AffectedObject;
 		}
-
-		private JsonPatchTestOperationException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext) : base(serializationInfo, streamingContext)
-		{
-		}
 	}
 }

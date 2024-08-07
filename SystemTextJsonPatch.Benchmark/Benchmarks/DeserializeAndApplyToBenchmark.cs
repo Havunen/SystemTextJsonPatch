@@ -23,7 +23,8 @@ public class DeserializeAndApplyToBenchmark
 	                                                             "{{\"op\": \"replace\", \"path\": \"amount2\", \"value\": null}}," +
 	                                                             "{{\"op\": \"replace\", \"path\": \"subTestModel\", \"value\": {{\"id\": 91117, \"data\": 78}}}}," +
 	                                                             "{{\"op\": \"test\", \"path\": \"number\", \"value\": 86632}}," +
-	                                                             "{{\"op\": \"copy\", \"path\": \"amount2\", \"from\": \"amount\"}}," +
+																 "{{\"op\": \"test\", \"path\": \"text\", \"value\": \"testing-performance\"}}," +
+																 "{{\"op\": \"copy\", \"path\": \"amount2\", \"from\": \"amount\"}}," +
 	                                                             "{{\"op\": \"remove\", \"path\": \"text\"}}" + "]");
 
 

@@ -141,8 +141,7 @@ public sealed class PocoAdapter : IAdapter
 				return false;
 			}
 		}
-		else if (!string.Equals(JsonSerializer.SerializeToNode(currentValue)?.ToString(), JsonSerializer.SerializeToNode(convertedValue)?.ToString(),
-			         StringComparison.Ordinal))
+		else if (!ByteHelper.BytesEquals(JsonSerializer.SerializeToUtf8Bytes(currentValue), JsonSerializer.SerializeToUtf8Bytes(convertedValue)))
 		{
 			errorMessage = Resources.FormatValueNotEqualToTestValue(JsonSerializer.SerializeToNode(currentValue)?.ToString(), value, segment);
 			return false;

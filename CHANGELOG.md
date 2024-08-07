@@ -1,3 +1,6 @@
+## 3.2.1
+- Fixes an issue where null and empty string test operation of JsonNode was incorrectly handled https://github.com/Havunen/SystemTextJsonPatch/issues/31
+
 ## 3.2.0
 - Adds support for dictionary complex types https://github.com/Havunen/SystemTextJsonPatch/pull/29
 - Internal dependencies updated

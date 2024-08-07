@@ -50,5 +50,23 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
 			Assert.Single(doc.Operations);
 		}
+
+		[Fact]
+		public void Test()
+		{
+			Class1 obj = new();
+			var sourcePatch = new JsonPatchDocument<Class1>().Replace(c => c.Id, 1000);
+			var deserializedPatchDoc = JsonSerializer.Deserialize<JsonPatchDocument<Class1>>(JsonSerializer.Serialize(sourcePatch));
+
+			sourcePatch.ApplyTo(obj); // success
+			deserializedPatchDoc.ApplyTo(obj); // JsonPatchTestOperationException: The value '1000' is invalid for target location.
+
+			Assert.Equal(1000, obj.Id);
+		}
+
+		public class Class1
+		{
+			public int? Id { get; set; }
+		}
 	}
 }

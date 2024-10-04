@@ -49,6 +49,11 @@ public IHttpActionResult Patch(
 }
 ```
 
+## Deny access to properties
+If you need to stop JsonPatch from reading or writing to some properties,
+then you can decorate them with `[DenyPatch]`, if a patch occurs that happens to access the property then a `JsonPatchAccessDeniedException` is thrown.
+
+
 ## Migration from v1
 
 JsonPatchDocumentConverterFactory no longer needs to be set to JsonSerializerOptions.

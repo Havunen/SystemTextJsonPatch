@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Internal.Proxies;
 
 namespace SystemTextJsonPatch.Internal
@@ -39,21 +40,31 @@ namespace SystemTextJsonPatch.Internal
 			{
 				var jsonPropertyNameAttr = propertyInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
 				if (jsonPropertyNameAttr != null && string.Equals(jsonPropertyNameAttr.Name, propName, StringComparison.OrdinalIgnoreCase))
-				{
-					return new PropertyProxy(propertyInfo);
-				}
-			}
+                {
+                    EnsureAccessToProperty(propertyInfo);
+                    return new PropertyProxy(propertyInfo);
+                }
+            }
 
 			// If it didn't find match by JsonPropertyName then use property name
 			foreach (var propertyInfo in properties)
 			{
 				if (string.Equals(propertyInfo.Name, propName, StringComparison.OrdinalIgnoreCase))
-				{
-					return new PropertyProxy(propertyInfo);
+                {
+                    EnsureAccessToProperty(propertyInfo);
+                    return new PropertyProxy(propertyInfo);
 				}
 			}
 
 			return null;
 		}
-	}
+
+        private static void EnsureAccessToProperty(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo.GetCustomAttribute(typeof(DenyPatchAttribute), true) != null)
+            {
+                throw new JsonPatchAccessDeniedException(propertyInfo);
+            }
+        }
+    }
 }

@@ -40,31 +40,31 @@ namespace SystemTextJsonPatch.Internal
 			{
 				var jsonPropertyNameAttr = propertyInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
 				if (jsonPropertyNameAttr != null && string.Equals(jsonPropertyNameAttr.Name, propName, StringComparison.OrdinalIgnoreCase))
-                {
-                    EnsureAccessToProperty(propertyInfo);
-                    return new PropertyProxy(propertyInfo);
-                }
-            }
+				{
+					EnsureAccessToProperty(propertyInfo);
+					return new PropertyProxy(propertyInfo);
+				}
+			}
 
 			// If it didn't find match by JsonPropertyName then use property name
 			foreach (var propertyInfo in properties)
 			{
 				if (string.Equals(propertyInfo.Name, propName, StringComparison.OrdinalIgnoreCase))
-                {
-                    EnsureAccessToProperty(propertyInfo);
-                    return new PropertyProxy(propertyInfo);
+				{
+					EnsureAccessToProperty(propertyInfo);
+					return new PropertyProxy(propertyInfo);
 				}
 			}
 
 			return null;
 		}
 
-        private static void EnsureAccessToProperty(PropertyInfo propertyInfo)
-        {
-            if (propertyInfo.GetCustomAttribute(typeof(DenyPatchAttribute), true) != null)
-            {
-                throw new JsonPatchAccessDeniedException(propertyInfo);
-            }
-        }
-    }
+		private static void EnsureAccessToProperty(PropertyInfo propertyInfo)
+		{
+			if (propertyInfo.GetCustomAttribute(typeof(DenyPatchAttribute), true) != null)
+			{
+				throw new JsonPatchAccessDeniedException(propertyInfo);
+			}
+		}
+	}
 }

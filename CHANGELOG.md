@@ -1,3 +1,7 @@
+## 3.3.0
+- Adds support for `DenyPatch` attribute to deny access to annotated property https://github.com/Havunen/SystemTextJsonPatch/pull/34
+- Internal dependencies updated
+
 ## 3.2.1
 - Fixes an issue where null and empty string test operation of JsonNode was incorrectly handled https://github.com/Havunen/SystemTextJsonPatch/issues/31
 - Improved performance of JSON patch test operation

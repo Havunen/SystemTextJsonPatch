@@ -2,6 +2,7 @@ using System;
 using System.Dynamic;
 using System.Text.Json;
 using SystemTextJsonPatch.Exceptions;
+using SystemTextJsonPatch.Operations;
 using Xunit;
 
 namespace SystemTextJsonPatch.IntegrationTests;
@@ -56,6 +57,39 @@ public class NestedObjectIntegrationTest
 		// Assert
 		Assert.Equal("B", targetObject.NestedObject.StringProperty);
 	}
+	
+#if NET8_0
+	
+	[Fact]
+	public void ReplaceNestedObjectWithPlainStrings()
+	{
+		// Arrange
+		var targetObject = new SimpleObjectWithNestedObject()
+		{
+			IntegerValue = 1,
+			NestedObject = null
+		};
+		var options = new JsonSerializerOptions()
+		{
+			PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+		};
+
+		var newNested = new NestedObject { StringProperty = "B" };
+		var patchDocument = new JsonPatchDocument<SimpleObjectWithNestedObject>();
+		patchDocument.Operations.Add(new Operation<SimpleObjectWithNestedObject>("replace", "/nested_object", JsonSerializer.Serialize(newNested, options)));
+		patchDocument.Options = options;
+
+		var serialized = JsonSerializer.Serialize(patchDocument, options);
+		var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObjectWithNestedObject>>(serialized, options);
+
+		// Act
+		deserialized.ApplyTo(targetObject);
+
+		// Assert
+		Assert.Equal("B", targetObject.NestedObject.StringProperty);
+	}
+	
+#endif
 
 	[Fact]
 	public void TestStringPropertyInNestedObject()

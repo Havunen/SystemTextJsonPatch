@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemTextJsonPatch.Benchma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemTextJsonPatch.Console", "SystemTextJsonPatch.Console\SystemTextJsonPatch.Console.csproj", "{4DA8A38B-D595-4A5E-962A-C382EA7D8906}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemTextJsonPatch.ApiTest", "SystemTextJsonPatch.ApiTest\SystemTextJsonPatch.ApiTest.csproj", "{F62A2CB9-99E6-430C-ADF8-2D83D04722CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{4DA8A38B-D595-4A5E-962A-C382EA7D8906}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DA8A38B-D595-4A5E-962A-C382EA7D8906}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DA8A38B-D595-4A5E-962A-C382EA7D8906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F62A2CB9-99E6-430C-ADF8-2D83D04722CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F62A2CB9-99E6-430C-ADF8-2D83D04722CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F62A2CB9-99E6-430C-ADF8-2D83D04722CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F62A2CB9-99E6-430C-ADF8-2D83D04722CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

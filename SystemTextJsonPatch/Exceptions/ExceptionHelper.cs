@@ -26,22 +26,6 @@ namespace SystemTextJsonPatch.Exceptions
 #if !NETSTANDARD2_0
 		[DoesNotReturn]
 #endif
-		internal static void ThrowInvalidOperationException(string message)
-		{
-			throw new InvalidOperationException(message);
-		}
-
-#if !NETSTANDARD2_0
-		[DoesNotReturn]
-#endif
-		internal static void ThrowNotSupportedException(string message)
-		{
-			throw new NotSupportedException(message);
-		}
-
-#if !NETSTANDARD2_0
-		[DoesNotReturn]
-#endif
 		internal static void ThrowJsonPatchException(string message)
 		{
 			throw new JsonPatchException(message, null);

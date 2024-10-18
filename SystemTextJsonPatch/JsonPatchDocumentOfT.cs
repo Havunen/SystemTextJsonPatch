@@ -592,7 +592,7 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 				return listOfSegments;
 
 			default:
-				ExceptionHelper.ThrowInvalidOperationException(Resources.FormatExpressionTypeNotSupported(expr));
+				ExceptionHelper.ThrowJsonPatchException(Resources.FormatExpressionTypeNotSupported(expr));
 				return listOfSegments;
 		}
 	}

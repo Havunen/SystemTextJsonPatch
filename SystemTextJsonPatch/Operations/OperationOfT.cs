@@ -50,7 +50,7 @@ public class Operation<TModel> : Operation where TModel : class
 				ExceptionHelper.ThrowJsonPatchTestException(new JsonPatchError(objectToApplyTo, this, Resources.TestOperationNotSupported));
 				break;
 			case OperationType.Invalid:
-				ExceptionHelper.ThrowJsonPatchException(Resources.FormatInvalidJsonPatchOperation(Op));
+				ExceptionHelper.ThrowJsonPatchTestException(new JsonPatchError(objectToApplyTo, this, Resources.FormatInvalidJsonPatchOperation(Op)));
 				break;
 			default:
 				break;

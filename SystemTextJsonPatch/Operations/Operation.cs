@@ -51,7 +51,7 @@ public class Operation : OperationBase
 					break;
 				}
 
-				ExceptionHelper.ThrowNotSupportedException(Resources.TestOperationNotSupported);
+				ExceptionHelper.ThrowJsonPatchTestException(new JsonPatchError(objectToApplyTo, this, Resources.TestOperationNotSupported));
 				break;
 			default:
 				break;

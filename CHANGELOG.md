@@ -1,3 +1,19 @@
+## 4.0.0
+
+**BREAKING CHANGE:** SystemTextJsonPatch now supports different property naming policies!
+f.e. `JsonNamingPolicy.SnakeCaseLower`. Fixes https://github.com/Havunen/SystemTextJsonPatch/issues/36
+
+- This means that the **path** and **from** of the system text json patch document needs to match the JSON serializer options property naming policy.
+For example, if the JSON serializer options are set to use camelCase, the patch path should also be in camelCase.
+
+**BREAKING CHANGE:** Exception types have been changed.
+
+- `JsonPatchException` -base exception type now contains `FailedOperation` and `AffectedObject` properties.
+These properties are populated with the failed operation when the operation is available.
+This change is to provide more information about the failed operation and the affected object. Fixes: https://github.com/Havunen/SystemTextJsonPatch/issues/26
+- `NotSupportedException` and `InvalidOperationException` are not thrown anymore. Instead, `JsonPatchException` is thrown with the appropriate message.
+- `JsonPatchTestOperationException` is now thrown only when the test operation fails. Fixes https://github.com/Havunen/SystemTextJsonPatch/issues/22
+
 ## 3.3.0
 - Adds support for `DenyPatch` attribute to deny access to annotated property https://github.com/Havunen/SystemTextJsonPatch/pull/34
 - Internal dependencies updated

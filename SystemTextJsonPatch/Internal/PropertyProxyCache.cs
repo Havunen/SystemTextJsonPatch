@@ -61,7 +61,7 @@ namespace SystemTextJsonPatch.Internal
 
 		private static void EnsureAccessToProperty(PropertyInfo propertyInfo)
 		{
-			if (propertyInfo.GetCustomAttribute(typeof(DenyPatchAttribute), true) != null)
+			if (propertyInfo.GetCustomAttribute<DenyPatchAttribute>(true) != null)
 			{
 				throw new JsonPatchAccessDeniedException(propertyInfo);
 			}

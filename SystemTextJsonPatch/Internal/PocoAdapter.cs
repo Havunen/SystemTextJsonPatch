@@ -225,6 +225,6 @@ public sealed class PocoAdapter : IAdapter
 		}
 
 
-		return PropertyProxyCache.GetPropertyProxy(target.GetType(), propertyName);
+		return PropertyProxyCache.GetPropertyProxy(target.GetType(), propertyName, options.PropertyNamingPolicy);
 	}
 }

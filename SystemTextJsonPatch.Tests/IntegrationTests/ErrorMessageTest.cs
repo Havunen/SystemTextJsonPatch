@@ -30,6 +30,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 
 			var jsonOptions = new JsonSerializerOptions()
 			{
+				PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 			};
 
 			var incomingJson = JsonSerializer.Serialize(incomingOperations, jsonOptions);

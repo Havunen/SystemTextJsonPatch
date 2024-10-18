@@ -36,6 +36,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 		{
 			var serializerOptions = new JsonSerializerOptions()
 			{
+				PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 				Converters =
 				{
 					new CustomJsonConverter()
@@ -56,6 +57,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 		{
 			var serializerOptions = new JsonSerializerOptions()
 			{
+				PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 			};
 
 			var model = new TestModel();

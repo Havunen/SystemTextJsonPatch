@@ -1,4 +1,5 @@
-﻿using SystemTextJsonPatch.Exceptions;
+﻿using System.Text.Json;
+using SystemTextJsonPatch.Exceptions;
 using Xunit;
 
 namespace SystemTextJsonPatch.IntegrationTests;
@@ -32,6 +33,7 @@ public class AnonymousObjectIntegrationTest
 		};
 
 		var patchDocument = new JsonPatchDocument();
+		patchDocument.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 		patchDocument.Add("Nested/NewInt", 1);
 
 		// Act

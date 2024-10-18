@@ -61,7 +61,7 @@ public class NestedObjectIntegrationTest
 #if NET8_0
 	
 	[Fact]
-	public void ReplaceNestedObjectWithPlainStrings()
+	public void SnakeCaseOpMatchesProperty()
 	{
 		// Arrange
 		var targetObject = new SimpleObjectWithNestedObject()
@@ -76,7 +76,7 @@ public class NestedObjectIntegrationTest
 
 		var newNested = new NestedObject { StringProperty = "B" };
 		var patchDocument = new JsonPatchDocument<SimpleObjectWithNestedObject>();
-		patchDocument.Operations.Add(new Operation<SimpleObjectWithNestedObject>("replace", "/nested_object", JsonSerializer.Serialize(newNested, options)));
+		patchDocument.Operations.Add(new Operation<SimpleObjectWithNestedObject>("replace", "/nested_object", null, newNested));
 		patchDocument.Options = options;
 
 		var serialized = JsonSerializer.Serialize(patchDocument, options);
@@ -88,8 +88,102 @@ public class NestedObjectIntegrationTest
 		// Assert
 		Assert.Equal("B", targetObject.NestedObject.StringProperty);
 	}
-	
+
 #endif
+
+	[Fact]
+	public void CamelCaseOpMatchesExactProperty()
+	{
+		// Arrange
+		var targetObject = new NameCasingTestObject()
+		{
+			PropertyName = 1, // This is before propertyName and camelCase matches it so it is used.
+			propertyName = 1
+		};
+		var options = new JsonSerializerOptions()
+		{
+			PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+		};
+
+		var patchDocument = new JsonPatchDocument<NameCasingTestObject>();
+		patchDocument.Operations.Add(new Operation<NameCasingTestObject>("replace", "/propertyName", null, 2));
+		patchDocument.Options = options;
+
+		var serialized = JsonSerializer.Serialize(patchDocument, options);
+		var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<NameCasingTestObject>>(serialized, options);
+
+		// Act
+		deserialized.ApplyTo(targetObject);
+
+		// Assert
+		Assert.Equal(2, targetObject.PropertyName);
+		Assert.Equal(1, targetObject.propertyName);
+	}
+
+	[Fact]
+	public void MatchesExactProperty()
+	{
+		// Arrange
+		var targetObject = new NameCasingTestObject()
+		{
+			PropertyName = 1,
+			propertyName = 1 // exact match
+		};
+		var options = new JsonSerializerOptions()
+		{
+		};
+
+		var patchDocument = new JsonPatchDocument<NameCasingTestObject>();
+		patchDocument.Operations.Add(new Operation<NameCasingTestObject>("replace", "/propertyName", null, 2));
+		patchDocument.Options = options;
+
+		var serialized = JsonSerializer.Serialize(patchDocument, options);
+		var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<NameCasingTestObject>>(serialized, options);
+
+		// Act
+		deserialized.ApplyTo(targetObject);
+
+		// Assert
+		Assert.Equal(1, targetObject.PropertyName);
+		Assert.Equal(2, targetObject.propertyName);
+	}
+
+	[Fact]
+	public void MatchesExactPropertyTestCache()
+	{
+		CamelCaseOpMatchesExactPropertyAttributeOverride();
+		CamelCaseOpMatchesExactProperty();
+		MatchesExactProperty();
+	}
+
+	[Fact]
+	public void CamelCaseOpMatchesExactPropertyAttributeOverride()
+	{
+		// Arrange
+		var targetObject = new AttrNameCasingTestObject()
+		{
+			PropertyName = 1,
+			propertyName = 1
+		};
+		var options = new JsonSerializerOptions()
+		{
+			PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+		};
+
+		var patchDocument = new JsonPatchDocument<AttrNameCasingTestObject>();
+		patchDocument.Operations.Add(new Operation<AttrNameCasingTestObject>("replace", "/propertyName", null, 2));
+		patchDocument.Options = options;
+
+		var serialized = JsonSerializer.Serialize(patchDocument, options);
+		var deserialized = JsonSerializer.Deserialize<JsonPatchDocument<AttrNameCasingTestObject>>(serialized, options);
+
+		// Act
+		deserialized.ApplyTo(targetObject);
+
+		// Assert
+		Assert.Equal(2, targetObject.PropertyName); // attribute takes precedence
+		Assert.Equal(1, targetObject.propertyName);
+	}
 
 	[Fact]
 	public void TestStringPropertyInNestedObject()

@@ -214,7 +214,7 @@ public class ListIntegrationTest
 			}
 		};
 
-		var json = "[{\"op\":\"replace\",\"path\":\"/simpleobjectList\",\"value\":[{\"AnotherIntegerValue\": 6}]}]";
+		var json = "[{\"op\":\"replace\",\"path\":\"/SimpleObjectList\",\"value\":[{\"AnotherIntegerValue\": 6}]}]";
 		var docJson = JsonSerializer.Deserialize<JsonPatchDocument<SimpleObjectWithNestedObject>>(json);
 
 

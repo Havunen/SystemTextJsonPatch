@@ -25,8 +25,10 @@ namespace SystemTextJsonPatch.Converters
 			}
 
 
-			return (JsonConverter)Activator.CreateInstance(typeof(GenericJsonPatchDocumentConverter<>).MakeGenericType(typeToConvert.GenericTypeArguments[0]),
-				Array.Empty<object>())!;
+			return (JsonConverter)Activator.CreateInstance(
+				typeof(GenericJsonPatchDocumentConverter<>).MakeGenericType(typeToConvert.GenericTypeArguments[0]),
+				[]
+			)!;
 		}
 	}
 }

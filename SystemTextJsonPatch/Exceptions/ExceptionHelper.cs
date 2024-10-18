@@ -31,6 +31,14 @@ namespace SystemTextJsonPatch.Exceptions
 			throw new JsonPatchException(message, null);
 		}
 
+#if !NETSTANDARD2_0
+		[DoesNotReturn]
+#endif
+		internal static void ThrowJsonPatchException(JsonPatchError jsonPatchError)
+		{
+			throw new JsonPatchException(jsonPatchError);
+		}
+
 
 #if !NETSTANDARD2_0
 		[DoesNotReturn]

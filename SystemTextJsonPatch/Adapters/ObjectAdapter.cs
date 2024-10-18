@@ -203,14 +203,14 @@ public class ObjectAdapter : IObjectAdapterWithTest
 		if (!visitor.TryVisit(ref target, out var adapter, out var errorMessage))
 		{
 			var error = CreatePathNotFoundError(objectToApplyTo, operation.Path, operation, errorMessage);
-			ErrorReporter(error);
+			TestErrorReporter(error);
 			return;
 		}
 
 		if (!adapter.TryTest(target, parsedPath.LastSegment, Options, operation.Value, out errorMessage))
 		{
 			var error = CreateOperationFailedError(objectToApplyTo, operation.Path, operation, errorMessage);
-			ErrorReporter(error);
+			TestErrorReporter(error);
 			return;
 		}
 	}
@@ -245,6 +245,8 @@ public class ObjectAdapter : IObjectAdapterWithTest
 	}
 
 	private Action<JsonPatchError> ErrorReporter => LogErrorAction ?? Internal.ErrorReporter.Default;
+
+	private Action<JsonPatchError> TestErrorReporter => LogErrorAction ?? Internal.ErrorReporter.TestDefault;
 
 	private static JsonPatchError CreateOperationFailedError(object target, string path, Operation operation, string errorMessage)
 	{

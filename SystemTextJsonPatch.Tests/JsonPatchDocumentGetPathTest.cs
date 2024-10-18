@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SystemTextJsonPatch.Exceptions;
 using Xunit;
 
 namespace SystemTextJsonPatch;
@@ -91,7 +92,7 @@ public class JsonPatchDocumentGetPathTest
 		var patchDocument = new JsonPatchDocument<SimpleObject>();
 
 		// Act
-		var exception = Assert.Throws<InvalidOperationException>(() => { patchDocument.GetPath(p => p.IntegerValue >= 4, null); });
+		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.GetPath(p => p.IntegerValue >= 4, null); });
 
 		// Assert
 		Assert.Equal("The expression '(p.IntegerValue >= 4)' is not supported. Supported expressions include member access and indexer expressions.",

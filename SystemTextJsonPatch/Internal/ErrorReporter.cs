@@ -5,5 +5,6 @@ namespace SystemTextJsonPatch.Internal;
 
 internal static class ErrorReporter
 {
-	public static readonly Action<JsonPatchError> Default = error => ExceptionHelper.ThrowJsonPatchTestException(error);
+	public static readonly Action<JsonPatchError> Default = error => ExceptionHelper.ThrowJsonPatchException(error);
+	public static readonly Action<JsonPatchError> TestDefault = error => ExceptionHelper.ThrowJsonPatchTestException(error);
 }

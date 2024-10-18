@@ -15,7 +15,7 @@ namespace SystemTextJsonPatch.Tests
 			patchDocument.Replace("NewInt", 1);
 
 			// Act
-			var exc = Assert.Throws<JsonPatchTestOperationException>(() => patchDocument.ApplyTo(targetObject));
+			var exc = Assert.Throws<JsonPatchException>(() => patchDocument.ApplyTo(targetObject));
 
 			Assert.Equal("The target location specified by path segment 'NewInt' was not found.", exc.Message);
 			Assert.NotNull(exc.FailedOperation);

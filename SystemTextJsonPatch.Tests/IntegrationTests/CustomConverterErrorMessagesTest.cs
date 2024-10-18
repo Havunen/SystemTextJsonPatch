@@ -48,7 +48,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 			var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(patchString, serializerOptions);
 
 
-			var ex = Assert.Throws<JsonPatchTestOperationException>(() => patchDoc.ApplyTo(model));
+			var ex = Assert.Throws<JsonPatchException>(() => patchDoc.ApplyTo(model));
 			Assert.Equal("My Custom Error Message", ex.Message);
 		}
 
@@ -65,7 +65,7 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 			var patchDoc = JsonSerializer.Deserialize<JsonPatchDocument<TestModel>>(patchString, serializerOptions);
 
 			// This is to keep consistent with Microsoft.AspNetCore.JsonPatch rather than with System.Text.Json
-			var ex = Assert.Throws<JsonPatchTestOperationException>(() => patchDoc.ApplyTo(model));
+			var ex = Assert.Throws<JsonPatchException>(() => patchDoc.ApplyTo(model));
 			Assert.Equal("The value 'true' is invalid for target location.", ex.Message);
 		}
 	}

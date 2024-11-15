@@ -21,7 +21,9 @@ Build a patch document on the client.
 You can use the operations as described in the IETF document: Add, Remove, Replace, Copy, Move and Test.
 
 ```cs
-JsonPatchDocument<DTO.Expense> expensePatch = new JsonPatchDocument<DTO.Expense>();
+List<Operation<DTO.Expense>> operations = [];
+JsonSerializerOptions jsonOptions = new JsonSerializerOptions();
+JsonPatchDocument<DTO.Expense> expensePatch = new JsonPatchDocument<DTO.Expense>(operations,  jsonOptions);
 expensePatch.Replace(e => e.Description, expense.Description);
 
 // serialize it to JSON

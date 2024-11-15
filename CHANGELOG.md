@@ -1,3 +1,7 @@
+## 4.1.0
+
+- Adds .NET 9 support
+
 ## 4.0.0
 
 **BREAKING CHANGE:** SystemTextJsonPatch now supports different property naming policies!

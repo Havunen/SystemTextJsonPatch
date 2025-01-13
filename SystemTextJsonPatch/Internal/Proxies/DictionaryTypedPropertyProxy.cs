@@ -17,12 +17,11 @@ namespace SystemTextJsonPatch.Internal.Proxies
 
 		public object? GetValue(object target)
 		{
-			try
+			if (_dictionary.TryGetValue(_propertyName, out var value))
 			{
-				var value = _dictionary[_propertyName];
 				return value;
 			}
-			catch (KeyNotFoundException)
+			else
 			{
 				throw new JsonPatchException(Resources.FormatTargetLocationAtPathSegmentNotFound(_propertyName), null);
 			}

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using SystemTextJsonPatch.Exceptions;
+using SystemTextJsonPatch.Operations;
 using Xunit;
 
 namespace SystemTextJsonPatch.IntegrationTests;
@@ -130,11 +132,13 @@ public class DictionaryTest
 	private class IntDictionary
 	{
 		public IDictionary<string, int> DictionaryOfStringToInteger { get; } = new Dictionary<string, int>();
+		public IDictionary NonGenericDictionary { get; } = new NonGenericDictionary();
 	}
 
 	private class CustomerDictionary
 	{
-		public IDictionary<int, Customer> DictionaryOfStringToCustomer { get; } = new Dictionary<int, Customer>();
+		public IDictionary<int, Customer> DictionaryOfIntegerToCustomer { get; } = new Dictionary<int, Customer>();
+		public IDictionary NonGenericDictionary { get; } = new NonGenericDictionary();
 	}
 
 #if NET7_0_OR_GREATER
@@ -165,9 +169,9 @@ public class DictionaryTest
 		var key1 = 100;
 		var value1 = new Customer() { Name = "James" };
 		var model = new CustomerDictionary();
-		model.DictionaryOfStringToCustomer[key1] = value1;
+		model.DictionaryOfIntegerToCustomer[key1] = value1;
 		var patchDocument = new JsonPatchDocument();
-		patchDocument.Test($"/DictionaryOfStringToCustomer/{key1}/Name", "James");
+		patchDocument.Test($"/DictionaryOfIntegerToCustomer/{key1}/Name", "James");
 
 		// Act & Assert
 		patchDocument.ApplyTo(model);
@@ -180,9 +184,9 @@ public class DictionaryTest
 		var key1 = 100;
 		var value1 = new Customer() { Name = "James" };
 		var model = new CustomerDictionary();
-		model.DictionaryOfStringToCustomer[key1] = value1;
+		model.DictionaryOfIntegerToCustomer[key1] = value1;
 		var patchDocument = new JsonPatchDocument();
-		patchDocument.Test($"/DictionaryOfStringToCustomer/{key1}/Name", "Mike");
+		patchDocument.Test($"/DictionaryOfIntegerToCustomer/{key1}/Name", "Mike");
 
 		// Act
 		var exception = Assert.Throws<JsonPatchTestOperationException>(() => { patchDocument.ApplyTo(model); });
@@ -200,19 +204,19 @@ public class DictionaryTest
 		var key2 = 200;
 		var value2 = new Customer() { Name = "Mike" };
 		var model = new CustomerDictionary();
-		model.DictionaryOfStringToCustomer[key1] = value1;
+		model.DictionaryOfIntegerToCustomer[key1] = value1;
 		var patchDocument = new JsonPatchDocument();
-		patchDocument.Add($"/DictionaryOfStringToCustomer/{key2}", value2);
+		patchDocument.Add($"/DictionaryOfIntegerToCustomer/{key2}", value2);
 
 		// Act
 		patchDocument.ApplyTo(model);
 
 		// Assert
-		Assert.Equal(2, model.DictionaryOfStringToCustomer.Count);
-		var actualValue1 = model.DictionaryOfStringToCustomer[key1];
+		Assert.Equal(2, model.DictionaryOfIntegerToCustomer.Count);
+		var actualValue1 = model.DictionaryOfIntegerToCustomer[key1];
 		Assert.NotNull(actualValue1);
 		Assert.Equal("James", actualValue1.Name);
-		var actualValue2 = model.DictionaryOfStringToCustomer[key2];
+		var actualValue2 = model.DictionaryOfIntegerToCustomer[key2];
 		Assert.NotNull(actualValue2);
 		Assert.Equal("Mike", actualValue2.Name);
 	}
@@ -226,17 +230,17 @@ public class DictionaryTest
 		var key2 = 200;
 		var value2 = new Customer() { Name = "Mike" };
 		var model = new CustomerDictionary();
-		model.DictionaryOfStringToCustomer[key1] = value1;
-		model.DictionaryOfStringToCustomer[key2] = value2;
+		model.DictionaryOfIntegerToCustomer[key1] = value1;
+		model.DictionaryOfIntegerToCustomer[key2] = value2;
 		var patchDocument = new JsonPatchDocument();
-		patchDocument.Add($"/DictionaryOfStringToCustomer/{key1}/Name", "James");
+		patchDocument.Add($"/DictionaryOfIntegerToCustomer/{key1}/Name", "James");
 
 		// Act
 		patchDocument.ApplyTo(model);
 
 		// Assert
-		Assert.Equal(2, model.DictionaryOfStringToCustomer.Count);
-		var actualValue1 = model.DictionaryOfStringToCustomer[key1];
+		Assert.Equal(2, model.DictionaryOfIntegerToCustomer.Count);
+		var actualValue1 = model.DictionaryOfIntegerToCustomer[key1];
 		Assert.NotNull(actualValue1);
 		Assert.Equal("James", actualValue1.Name);
 	}
@@ -271,16 +275,16 @@ public class DictionaryTest
 		var key2 = 200;
 		var value2 = new Customer() { Name = "Mike" };
 		var model = new CustomerDictionary();
-		model.DictionaryOfStringToCustomer[key1] = value1;
-		model.DictionaryOfStringToCustomer[key2] = value2;
+		model.DictionaryOfIntegerToCustomer[key1] = value1;
+		model.DictionaryOfIntegerToCustomer[key2] = value2;
 		var patchDocument = new JsonPatchDocument();
-		patchDocument.Remove($"/DictionaryOfStringToCustomer/{key1}/Name");
+		patchDocument.Remove($"/DictionaryOfIntegerToCustomer/{key1}/Name");
 
 		// Act
 		patchDocument.ApplyTo(model);
 
 		// Assert
-		var actualValue1 = model.DictionaryOfStringToCustomer[key1];
+		var actualValue1 = model.DictionaryOfIntegerToCustomer[key1];
 		Assert.Null(actualValue1.Name);
 	}
 
@@ -293,16 +297,16 @@ public class DictionaryTest
 		var key2 = 200;
 		var value2 = new Customer() { Name = "Mike" };
 		var model = new CustomerDictionary();
-		model.DictionaryOfStringToCustomer[key1] = value1;
-		model.DictionaryOfStringToCustomer[key2] = value2;
+		model.DictionaryOfIntegerToCustomer[key1] = value1;
+		model.DictionaryOfIntegerToCustomer[key2] = value2;
 		var patchDocument = new JsonPatchDocument();
-		patchDocument.Move($"/DictionaryOfStringToCustomer/{key1}/Name", $"/DictionaryOfStringToCustomer/{key2}/Name");
+		patchDocument.Move($"/DictionaryOfIntegerToCustomer/{key1}/Name", $"/DictionaryOfIntegerToCustomer/{key2}/Name");
 
 		// Act
 		patchDocument.ApplyTo(model);
 
 		// Assert
-		var actualValue2 = model.DictionaryOfStringToCustomer[key2];
+		var actualValue2 = model.DictionaryOfIntegerToCustomer[key2];
 		Assert.NotNull(actualValue2);
 		Assert.Equal("James", actualValue2.Name);
 	}
@@ -316,17 +320,17 @@ public class DictionaryTest
 		var key2 = 200;
 		var value2 = new Customer() { Name = "Mike" };
 		var model = new CustomerDictionary();
-		model.DictionaryOfStringToCustomer[key1] = value1;
-		model.DictionaryOfStringToCustomer[key2] = value2;
+		model.DictionaryOfIntegerToCustomer[key1] = value1;
+		model.DictionaryOfIntegerToCustomer[key2] = value2;
 		var patchDocument = new JsonPatchDocument();
-		patchDocument.Copy($"/DictionaryOfStringToCustomer/{key1}/Name", $"/DictionaryOfStringToCustomer/{key2}/Name");
+		patchDocument.Copy($"/DictionaryOfIntegerToCustomer/{key1}/Name", $"/DictionaryOfIntegerToCustomer/{key2}/Name");
 
 		// Act
 		patchDocument.ApplyTo(model);
 
 		// Assert
-		Assert.Equal(2, model.DictionaryOfStringToCustomer.Count);
-		var actualValue2 = model.DictionaryOfStringToCustomer[key2];
+		Assert.Equal(2, model.DictionaryOfIntegerToCustomer.Count);
+		var actualValue2 = model.DictionaryOfIntegerToCustomer[key2];
 		Assert.NotNull(actualValue2);
 		Assert.Equal("James", actualValue2.Name);
 	}
@@ -340,17 +344,17 @@ public class DictionaryTest
 		var key2 = 200;
 		var value2 = new Customer() { Name = "Mike" };
 		var model = new CustomerDictionary();
-		model.DictionaryOfStringToCustomer[key1] = value1;
-		model.DictionaryOfStringToCustomer[key2] = value2;
+		model.DictionaryOfIntegerToCustomer[key1] = value1;
+		model.DictionaryOfIntegerToCustomer[key2] = value2;
 		var patchDocument = new JsonPatchDocument();
-		patchDocument.Replace($"/DictionaryOfStringToCustomer/{key1}/Name", "James");
+		patchDocument.Replace($"/DictionaryOfIntegerToCustomer/{key1}/Name", "James");
 
 		// Act
 		patchDocument.ApplyTo(model);
 
 		// Assert
-		Assert.Equal(2, model.DictionaryOfStringToCustomer.Count);
-		var actualValue1 = model.DictionaryOfStringToCustomer[key1];
+		Assert.Equal(2, model.DictionaryOfIntegerToCustomer.Count);
+		var actualValue1 = model.DictionaryOfIntegerToCustomer[key1];
 		Assert.NotNull(actualValue1);
 		Assert.Equal("James", actualValue1.Name);
 	}
@@ -378,5 +382,119 @@ public class DictionaryTest
 		var actualValue2 = model.DictionaryOfStringToInteger[key2];
 		Assert.Equal(300, actualValue1);
 		Assert.Equal(200, actualValue2);
+	}
+
+	[Theory]
+	[InlineData("test", "DictionaryOfStringToInteger")]
+	[InlineData("move", "DictionaryOfStringToInteger")]
+	[InlineData("copy", "DictionaryOfStringToInteger")]
+	[InlineData("test", "NonGenericDictionary")]
+	[InlineData("move", "NonGenericDictionary")]
+	[InlineData("copy", "NonGenericDictionary")]
+	public void ReadIntegerValueOfMissingKeyThrowsJsonPatchExceptionWithDefaultErrorReporter(string op, string dictionaryPropertyName)
+	{
+		// Arrange
+		var model = new IntDictionary();
+		var missingKey = "eight";
+		var operation = new Operation<IntDictionary>(
+			op,
+			path: $"/{dictionaryPropertyName}/{missingKey}",
+			from: $"/{dictionaryPropertyName}/{missingKey}",
+			value: 8);
+
+		var patchDocument = new JsonPatchDocument<IntDictionary>();
+		patchDocument.Operations.Add(operation);
+
+		// Act
+		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(model); });
+
+		// Assert
+		Assert.Equal($"The target location specified by path segment '{missingKey}' was not found.", exception.Message);
+	}
+
+	[Theory]
+	[InlineData("test", "DictionaryOfStringToInteger")]
+	[InlineData("move", "DictionaryOfStringToInteger")]
+	[InlineData("copy", "DictionaryOfStringToInteger")]
+	[InlineData("test", "NonGenericDictionary")]
+	[InlineData("move", "NonGenericDictionary")]
+	[InlineData("copy", "NonGenericDictionary")]
+	public void ReadIntegerValueOfMissingKeyDoesNotThrowExceptionWithCustomErrorReporter(string op, string dictionaryPropertyName)
+	{
+		// Arrange
+		var patchErrorLogger = new TestErrorLogger<DictionaryTest>();
+		var model = new IntDictionary();
+		var missingKey = "eight";
+		var operation = new Operation<IntDictionary>(
+			op,
+			path: $"/{dictionaryPropertyName}/{missingKey}",
+			from: $"/{dictionaryPropertyName}/{missingKey}",
+			value: 8);
+
+		var patchDocument = new JsonPatchDocument<IntDictionary>();
+		patchDocument.Operations.Add(operation);
+
+		// Act
+		patchDocument.ApplyTo(model, patchErrorLogger.LogErrorMessage);
+
+		// Assert
+		Assert.Equal($"The target location specified by path segment '{missingKey}' was not found.", patchErrorLogger.ErrorMessage);
+	}
+
+	[Theory]
+	[InlineData("test", "DictionaryOfIntegerToCustomer")]
+	[InlineData("move", "DictionaryOfIntegerToCustomer")]
+	[InlineData("copy", "DictionaryOfIntegerToCustomer")]
+	[InlineData("test", "NonGenericDictionary")]
+	[InlineData("move", "NonGenericDictionary")]
+	[InlineData("copy", "NonGenericDictionary")]
+	public void ReadPocoObjectValueOfMissingKeyThrowsJsonPatchExceptionWithDefaultErrorReporter(string op, string dictionaryPropertyName)
+	{
+		// Arrange
+		var model = new CustomerDictionary();
+		var missingKey = 8;
+		var operation = new Operation<CustomerDictionary>(
+			op,
+			path: $"/{dictionaryPropertyName}/{missingKey}/Address/City",
+			from: $"/{dictionaryPropertyName}/{missingKey}/Address/City",
+			value: "Nowhere");
+
+		var patchDocument = new JsonPatchDocument<CustomerDictionary>();
+		patchDocument.Operations.Add(operation);
+
+		// Act
+		var exception = Assert.Throws<JsonPatchException>(() => { patchDocument.ApplyTo(model); });
+
+		// Assert
+		Assert.Equal($"The target location specified by path segment '{missingKey}' was not found.", exception.Message);
+	}
+
+	[Theory]
+	[InlineData("test", "DictionaryOfIntegerToCustomer")]
+	[InlineData("move", "DictionaryOfIntegerToCustomer")]
+	[InlineData("copy", "DictionaryOfIntegerToCustomer")]
+	[InlineData("test", "NonGenericDictionary")]
+	[InlineData("move", "NonGenericDictionary")]
+	[InlineData("copy", "NonGenericDictionary")]
+	public void ReadPocoObjectValueOfMissingKeyDoesNotThrowExceptionWithCustomErrorReporter(string op, string dictionaryPropertyName)
+	{
+		// Arrange
+		var patchErrorLogger = new TestErrorLogger<DictionaryTest>();
+		var model = new CustomerDictionary();
+		var missingKey = 8;
+		var operation = new Operation<CustomerDictionary>(
+			op,
+			path: $"/{dictionaryPropertyName}/{missingKey}/Address/City",
+			from: $"/{dictionaryPropertyName}/{missingKey}/Address/City",
+			value: "Nowhere");
+
+		var patchDocument = new JsonPatchDocument<CustomerDictionary>();
+		patchDocument.Operations.Add(operation);
+
+		// Act
+		patchDocument.ApplyTo(model, patchErrorLogger.LogErrorMessage);
+
+		// Assert
+		Assert.Equal($"The target location specified by path segment '{missingKey}' was not found.", patchErrorLogger.ErrorMessage);
 	}
 }

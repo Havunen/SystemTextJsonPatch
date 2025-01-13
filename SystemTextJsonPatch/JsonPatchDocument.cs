@@ -167,11 +167,18 @@ public sealed class JsonPatchDocument : IJsonPatchDocument
 			}
 			catch (JsonPatchException jsonPatchException)
 			{
-				var errorReporter = logErrorAction ?? ErrorReporter.Default;
-				errorReporter(new JsonPatchError(objectToApplyTo, op, jsonPatchException.Message));
+				var jsonPatchError = new JsonPatchError(objectToApplyTo, op, jsonPatchException.Message);
+				if (logErrorAction is null)
+				{
+					ErrorReporter.Default(jsonPatchError);
 
-				// As per JSON Patch spec if an operation results in error, further operations should not be executed.
-				break;
+					// As per JSON Patch spec if an operation results in error, further operations should not be executed.
+					break;
+				}
+				else
+				{
+					logErrorAction(jsonPatchError);
+				}
 			}
 		}
 	}

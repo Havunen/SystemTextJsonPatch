@@ -37,11 +37,13 @@ namespace SystemTextJsonPatch.Internal
 
 		private static PropertyProxy? FindPropertyInfo(PropertyInfo[] properties, string propName, JsonNamingPolicy? namingPolicy, bool? propertyNameCaseInsensitive)
 		{
+			var comparison = propertyNameCaseInsensitive == true ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+
 			// First check through all properties if property name matches JsonPropertyNameAttribute
 			foreach (var propertyInfo in properties)
 			{
 				var jsonPropertyNameAttr = propertyInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
-				if (jsonPropertyNameAttr != null && string.Equals(jsonPropertyNameAttr.Name, propName, StringComparison.Ordinal))
+				if (jsonPropertyNameAttr != null && string.Equals(jsonPropertyNameAttr.Name, propName, comparison))
 				{
 					EnsureAccessToProperty(propertyInfo);
 					return new PropertyProxy(propertyInfo);
@@ -52,8 +54,6 @@ namespace SystemTextJsonPatch.Internal
 			foreach (var propertyInfo in properties)
 			{
 				var propertyName = namingPolicy != null ? namingPolicy.ConvertName(propertyInfo.Name) : propertyInfo.Name;
-
-				var comparison = propertyNameCaseInsensitive == true ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
 				if (string.Equals(propertyName, propName, comparison))
 				{

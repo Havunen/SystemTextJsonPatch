@@ -327,4 +327,36 @@ public class JsonPatchDocumentJsonObjectTest
 		// Assert
 		Assert.Null(model.CustomData["Email"]);
 	}
+
+	[Fact]
+	public void ApplyToModelReplaceWithIgnoringCasing()
+	{
+		// Arrange
+		var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Email = "foo@bar.com", Name = "Bar" }) };
+		var patch = new JsonPatchDocument<ObjectWithJsonNode>();
+		patch.Options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+
+		patch.Operations.Add(new Operation<ObjectWithJsonNode>("replace", "/customdata/email", null, "foo@baz.com"));
+
+		// Act
+		patch.ApplyTo(model);
+
+		// Assert
+		Assert.Equal("foo@baz.com", model.CustomData["Email"].GetValue<string>());
+	}
+
+
+	[Fact]
+	public void ApplyToModelReplaceWithInvalidCasing()
+	{
+		// Arrange
+		var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Email = "foo@bar.com", Name = "Bar" }) };
+		var patch = new JsonPatchDocument<ObjectWithJsonNode>();
+
+		patch.Operations.Add(new Operation<ObjectWithJsonNode>("replace", "/CustomData/email", null, "foo@baz.com"));
+
+		// Assert
+		var exception = Assert.Throws<JsonPatchException>(() => patch.ApplyTo(model));
+		Assert.Equal("The target location specified by path segment 'email' was not found.", exception.Message);
+	}
 }

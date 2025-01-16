@@ -10,7 +10,9 @@ public sealed class JSonObjectAdapter : IAdapter
 	{
 		var obj = (JsonObject)target;
 
-		obj[segment] = value != null ? JsonSerializer.SerializeToNode(value, options) : null;
+		var propertyName = FindPropertyName(obj, segment, options);
+
+		obj[propertyName] = value != null ? JsonSerializer.SerializeToNode(value, options) : null;
 
 		errorMessage = null;
 		return true;
@@ -20,7 +22,9 @@ public sealed class JSonObjectAdapter : IAdapter
 	{
 		var obj = (JsonObject)target;
 
-		if (!obj.TryGetPropertyValue(segment, out var valueAsToken))
+		var propertyName = FindPropertyName(obj, segment, options);
+
+		if (!obj.TryGetPropertyValue(propertyName, out var valueAsToken))
 		{
 			value = null;
 			errorMessage = Resources.FormatTargetLocationAtPathSegmentNotFound(segment);
@@ -36,7 +40,9 @@ public sealed class JSonObjectAdapter : IAdapter
 	{
 		var obj = (JsonObject)target;
 
-		if (!obj.Remove(segment))
+		var propertyName = FindPropertyName(obj, segment, options);
+
+		if (!obj.Remove(propertyName))
 		{
 			errorMessage = Resources.FormatTargetLocationAtPathSegmentNotFound(segment);
 			return false;
@@ -50,13 +56,15 @@ public sealed class JSonObjectAdapter : IAdapter
 	{
 		var obj = (JsonObject)target;
 
-		if (obj[segment] == null)
+		var propertyName = FindPropertyName(obj, segment, options);
+
+		if (obj[propertyName] == null)
 		{
 			errorMessage = Resources.FormatTargetLocationAtPathSegmentNotFound(segment);
 			return false;
 		}
 
-		obj[segment] = value != null ? JsonSerializer.SerializeToNode(value, options) : null;
+		obj[propertyName] = value != null ? JsonSerializer.SerializeToNode(value, options) : null;
 
 		errorMessage = null;
 		return true;
@@ -66,7 +74,9 @@ public sealed class JSonObjectAdapter : IAdapter
 	{
 		var obj = (JsonObject)target;
 
-		if (!obj.TryGetPropertyValue(segment, out var currentValue))
+		var propertyName = FindPropertyName(obj, segment, options);
+
+		if (!obj.TryGetPropertyValue(propertyName, out var currentValue))
 		{
 			errorMessage = Resources.FormatTargetLocationAtPathSegmentNotFound(segment);
 			return false;
@@ -95,7 +105,9 @@ public sealed class JSonObjectAdapter : IAdapter
 	{
 		var obj = (JsonObject)target;
 
-		if (!obj.TryGetPropertyValue(segment, out JsonNode? nextTargetToken))
+		var propertyName = FindPropertyName(obj, segment, options);
+
+		if (!obj.TryGetPropertyValue(propertyName, out JsonNode? nextTargetToken))
 		{
 			nextTarget = null;
 			errorMessage = null;
@@ -105,5 +117,22 @@ public sealed class JSonObjectAdapter : IAdapter
 		nextTarget = nextTargetToken;
 		errorMessage = null;
 		return true;
+	}
+
+	private static string FindPropertyName(JsonObject? obj, string segment, JsonSerializerOptions options)
+	{
+		if (!options.PropertyNameCaseInsensitive || obj == null)
+			return segment;
+
+		if (obj.ContainsKey(segment))
+			return segment;
+
+		foreach (var node in obj)
+		{
+			if (string.Equals(node.Key, segment, StringComparison.OrdinalIgnoreCase))
+				return node.Key;
+		}
+
+		return segment;
 	}
 }

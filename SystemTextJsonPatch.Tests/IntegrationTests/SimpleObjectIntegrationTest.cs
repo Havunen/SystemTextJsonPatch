@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Dynamic;
+using System.Text.Json;
 using SystemTextJsonPatch.Exceptions;
+using SystemTextJsonPatch.Operations;
 using Xunit;
 
 namespace SystemTextJsonPatch.IntegrationTests;
@@ -162,6 +164,54 @@ public class SimpleObjectIntegrationTest
 
 		// Assert
 		Assert.Equal("For operation 'move', the target location specified by path '/Object/goodbye' was not found.", ex.Message);
+	}
+
+	[Fact]
+	public void ShouldFollowCaseInsensitiveSettingOfSystemTextJsonOptions()
+	{
+		var options = new JsonSerializerOptions()
+		{
+			PropertyNameCaseInsensitive = true
+		};
+
+		// Arrange
+		var targetObject = new SimpleObject()
+		{
+			StringProperty = "old",
+		};
+
+		var patchDocument = new JsonPatchDocument<SimpleObject>();
+		patchDocument.Operations.Add(new Operation<SimpleObject>("replace", "/stringproperty", null, "test"));
+		patchDocument.Options = options;
+
+		// Act
+		patchDocument.ApplyTo(targetObject);
+
+		// Assert
+		Assert.Equal("test", targetObject.StringProperty);
+	}
+
+	[Fact]
+	public void FailsWhenPropertyCouldNotBeFoundBecauseOfCasing()
+	{
+		var options = new JsonSerializerOptions()
+		{
+			PropertyNameCaseInsensitive = false
+		};
+
+		// Arrange
+		var targetObject = new SimpleObject()
+		{
+			AnotherStringProperty = "old",
+		};
+
+		var patchDocument = new JsonPatchDocument<SimpleObject>();
+		patchDocument.Operations.Add(new Operation<SimpleObject>("replace", "/anotherstringproperty", null, "test"));
+		patchDocument.Options = options;
+
+		// Act
+		var excpetion = Assert.Throws<JsonPatchException>(() => patchDocument.ApplyTo(targetObject));
+		Assert.Equal("The target location specified by path segment 'anotherstringproperty' was not found.", excpetion.Message);
 	}
 
 	private class RegressionAspNetCore3634Object

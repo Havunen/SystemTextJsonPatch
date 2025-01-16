@@ -493,18 +493,11 @@ public class JsonPatchDocument<TModel> : IJsonPatchDocument where TModel : class
 			}
 			catch (JsonException jsonPatchException)
 			{
-				var jsonPatchError = new JsonPatchError(objectToApplyTo, op, jsonPatchException.Message);
-				if (logErrorAction is null)
-				{
-					ErrorReporter.Default(jsonPatchError);
+				var errorReporter = logErrorAction ?? ErrorReporter.Default;
+				errorReporter(new JsonPatchError(objectToApplyTo, op, jsonPatchException.Message));
 
-					// As per JSON Patch spec if an operation results in error, further operations should not be executed.
-					break;
-				}
-				else
-				{
-					logErrorAction(jsonPatchError);
-				}
+				// As per JSON Patch spec if an operation results in error, further operations should not be executed.
+				break;
 			}
 		}
 	}

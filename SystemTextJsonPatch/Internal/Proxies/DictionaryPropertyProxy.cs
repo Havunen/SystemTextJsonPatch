@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using SystemTextJsonPatch.Exceptions;
 
 namespace SystemTextJsonPatch.Internal.Proxies
@@ -42,12 +41,11 @@ namespace SystemTextJsonPatch.Internal.Proxies
 
 		public object? GetValue(object target)
 		{
-			try
+			if (_dictionary.Contains(_propertyName))
 			{
-				var value = _dictionary[_propertyName];
-				return value;
+				return _dictionary[_propertyName];
 			}
-			catch (KeyNotFoundException)
+			else
 			{
 				throw new JsonPatchException(Resources.FormatTargetLocationAtPathSegmentNotFound(_propertyName), null);
 			}

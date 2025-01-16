@@ -224,7 +224,6 @@ public sealed class PocoAdapter : IAdapter
 			return new JsonNodeProxy(jsonElement, propertyName);
 		}
 
-
-		return PropertyProxyCache.GetPropertyProxy(target.GetType(), propertyName, options.PropertyNamingPolicy);
+		return PropertyProxyCache.GetPropertyProxy(target.GetType(), propertyName, options.PropertyNamingPolicy, options.PropertyNameCaseInsensitive);
 	}
 }

@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Xml.Linq;
 using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Internal.Proxies;
 
@@ -15,7 +14,7 @@ namespace SystemTextJsonPatch.Internal
 		// Naming policy has to be part of the key because it can change the target property
 		private static readonly ConcurrentDictionary<(Type, string, JsonNamingPolicy?), PropertyProxy?> CachedPropertyProxies = new();
 
-		internal static PropertyProxy? GetPropertyProxy(Type type, string propName, JsonNamingPolicy? namingPolicy)
+		internal static PropertyProxy? GetPropertyProxy(Type type, string propName, JsonNamingPolicy? namingPolicy, bool? propertyNameCaseInsensitive)
 		{
 			var key = (type, propName, namingPolicy);
 
@@ -30,13 +29,13 @@ namespace SystemTextJsonPatch.Internal
 				CachedTypeProperties[type] = properties;
 			}
 
-			propertyProxy = FindPropertyInfo(properties, propName, namingPolicy);
+			propertyProxy = FindPropertyInfo(properties, propName, namingPolicy, propertyNameCaseInsensitive);
 			CachedPropertyProxies[key] = propertyProxy;
 
 			return propertyProxy;
 		}
 
-		private static PropertyProxy? FindPropertyInfo(PropertyInfo[] properties, string propName, JsonNamingPolicy? namingPolicy)
+		private static PropertyProxy? FindPropertyInfo(PropertyInfo[] properties, string propName, JsonNamingPolicy? namingPolicy, bool? propertyNameCaseInsensitive)
 		{
 			// First check through all properties if property name matches JsonPropertyNameAttribute
 			foreach (var propertyInfo in properties)
@@ -54,7 +53,9 @@ namespace SystemTextJsonPatch.Internal
 			{
 				var propertyName = namingPolicy != null ? namingPolicy.ConvertName(propertyInfo.Name) : propertyInfo.Name;
 
-				if (string.Equals(propertyName, propName, StringComparison.Ordinal))
+				var comparison = propertyNameCaseInsensitive == true ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+
+				if (string.Equals(propertyName, propName, comparison))
 				{
 					EnsureAccessToProperty(propertyInfo);
 					return new PropertyProxy(propertyInfo);

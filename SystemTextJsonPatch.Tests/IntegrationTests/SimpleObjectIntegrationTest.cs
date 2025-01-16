@@ -202,16 +202,16 @@ public class SimpleObjectIntegrationTest
 		// Arrange
 		var targetObject = new SimpleObject()
 		{
-			StringProperty = "old",
+			AnotherStringProperty = "old",
 		};
 
 		var patchDocument = new JsonPatchDocument<SimpleObject>();
-		patchDocument.Operations.Add(new Operation<SimpleObject>("replace", "/stringproperty", null, "test"));
+		patchDocument.Operations.Add(new Operation<SimpleObject>("replace", "/anotherstringproperty", null, "test"));
 		patchDocument.Options = options;
 
 		// Act
 		var excpetion = Assert.Throws<JsonPatchException>(() => patchDocument.ApplyTo(targetObject));
-		Assert.Equal("The target location specified by path segment 'stringproperty' was not found.", excpetion.Message);
+		Assert.Equal("The target location specified by path segment 'anotherstringproperty' was not found.", excpetion.Message);
 	}
 
 	private class RegressionAspNetCore3634Object

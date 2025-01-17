@@ -1,3 +1,9 @@
+## 4.2.0
+
+- Correctly handle key not found exception when applying patch document to dictionary https://github.com/Havunen/SystemTextJsonPatch/pull/40
+- Respect STJ options PropertyNameCaseInsensitive setting https://github.com/Havunen/SystemTextJsonPatch/pull/42
+- Internal dependencies updated
+
 ## 4.1.0
 
 - Adds .NET 9 support

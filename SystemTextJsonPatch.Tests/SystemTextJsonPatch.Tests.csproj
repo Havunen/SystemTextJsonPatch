@@ -15,11 +15,11 @@
 
   <ItemGroup>
     <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Net.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="Microsoft.Net.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
     <!-- use latest NewtonSoft package, hides Microsoft.Net.Test.Sdk -> Microsoft.TestPlatform.TestHost refs NewtonSoft.Json >= 9.0 -->
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

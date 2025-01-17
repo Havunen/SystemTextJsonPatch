@@ -67,16 +67,16 @@ This test deserializes a JSON patch document of 8 operations and applies the cha
 
 See [SystemTextJsonPatch.Benchmark](https://github.com/Havunen/SystemTextJsonPatch/tree/main/SystemTextJsonPatch.Benchmark) for more details.
 
-BenchmarkDotNet v0.14.0, Windows 11 (10.0.22631.4460/23H2/2023Update/SunValley3)
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.2605)
 AMD Ryzen 9 5950X, 1 CPU, 32 logical and 16 physical cores
-.NET SDK 9.0.100
+.NET SDK 9.0.200-preview.0.24575.35
   [Host]     : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
-  Job-ZXROHW : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
+  Job-ZCWSQV : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
 
 WarmupCount=2
 
 | Method              | Mean       | Error      | StdDev     | Gen0   | Gen1   | Allocated |
 |-------------------- |-----------:|-----------:|-----------:|-------:|-------:|----------:|
-| SystemTextJsonPatch |   3.641 us |  0.0168 us |  0.0149 us | 0.2747 |      - |   4.63 KB |
-| MarvinJsonPatch     | 701.319 us | 13.7540 us | 16.8912 us | 3.9063 | 1.9531 |   95.3 KB |
-| AspNetCoreJsonPatch |  14.871 us |  0.2871 us |  0.2820 us | 2.6245 | 0.0916 |  43.07 KB |
+| SystemTextJsonPatch |   3.909 us |  0.0616 us |  0.0576 us | 0.2747 |      - |   4.63 KB |
+| MarvinJsonPatch     | 741.280 us | 14.2699 us | 11.9160 us | 3.9063 | 1.9531 |  95.09 KB |
+| AspNetCoreJsonPatch |  15.268 us |  0.2227 us |  0.2084 us | 2.6245 | 0.0916 |  43.07 KB |

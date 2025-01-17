@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using SystemTextJsonPatch.Exceptions;
 
 namespace SystemTextJsonPatch.Internal.Proxies
 {
@@ -40,9 +41,14 @@ namespace SystemTextJsonPatch.Internal.Proxies
 
 		public object? GetValue(object target)
 		{
-			var value = _dictionary[_propertyName];
-
-			return value;
+			if (_dictionary.Contains(_propertyName))
+			{
+				return _dictionary[_propertyName];
+			}
+			else
+			{
+				throw new JsonPatchException(Resources.FormatTargetLocationAtPathSegmentNotFound(_propertyName), null);
+			}
 		}
 
 		public void SetValue(object target, object? convertedValue)
@@ -69,7 +75,7 @@ namespace SystemTextJsonPatch.Internal.Proxies
 		{
 			get
 			{
-				var val = _dictionary[_propertyName];
+				var val = _dictionary.Contains(_propertyName) ? _dictionary[_propertyName] : null;
 				if (val == null)
 				{
 					return typeof(object);

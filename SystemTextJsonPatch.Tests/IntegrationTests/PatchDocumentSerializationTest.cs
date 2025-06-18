@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Exceptions;
 using Xunit;
 
@@ -56,17 +57,21 @@ namespace SystemTextJsonPatch.Tests.IntegrationTests
 		{
 			Class1 obj = new();
 			var sourcePatch = new JsonPatchDocument<Class1>().Replace(c => c.Id, 1000);
-			var deserializedPatchDoc = JsonSerializer.Deserialize<JsonPatchDocument<Class1>>(JsonSerializer.Serialize(sourcePatch));
+			var patchJson = JsonSerializer.Serialize(sourcePatch);
+			var deserializedPatchDoc = JsonSerializer.Deserialize(patchJson, Class1SerializerContext.Default.JsonPatchDocumentClass1);
 
 			sourcePatch.ApplyTo(obj); // success
 			deserializedPatchDoc.ApplyTo(obj); // JsonPatchTestOperationException: The value '1000' is invalid for target location.
 
 			Assert.Equal(1000, obj.Id);
 		}
-
-		public class Class1
-		{
-			public int? Id { get; set; }
-		}
 	}
+
+	public class Class1
+	{
+		public int? Id { get; set; }
+	}
+
+	[JsonSerializable(typeof(JsonPatchDocument<Class1>))]
+	public sealed partial class Class1SerializerContext : JsonSerializerContext { }
 }

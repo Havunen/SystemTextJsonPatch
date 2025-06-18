@@ -105,6 +105,11 @@ public static class ConversionResultProvider
 	// fast-path for converting decimal to target types
 	private static bool TryConvertDecimalToNumber(decimal decimalValue, Type typeToConvertTo, out object? convertedValue)
 	{
+		if (typeToConvertTo.IsGenericType && typeToConvertTo.GetGenericTypeDefinition() == typeof(Nullable<>))
+		{
+			typeToConvertTo = typeToConvertTo.GetGenericArguments()[0];
+		}
+
 		switch (Type.GetTypeCode(typeToConvertTo))
 		{
 			case TypeCode.SByte:

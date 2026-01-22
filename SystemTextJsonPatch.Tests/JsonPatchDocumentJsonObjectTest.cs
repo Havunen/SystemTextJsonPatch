@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using SystemTextJsonPatch.Exceptions;
 using SystemTextJsonPatch.Operations;
 using Xunit;
@@ -326,6 +328,46 @@ public class JsonPatchDocumentJsonObjectTest
 
 		// Assert
 		Assert.Null(model.CustomData["Email"]);
+	}
+
+	[Fact]
+	public void ApplyToModelReplaceNonReferenceWithNull()
+	{
+		// Arrange
+		var model = new SimpleObject { IntegerValue = 123 };
+		var patch = new JsonPatchDocument<SimpleObject>()
+		{
+			Options = new() { Converters = { new IntJsonConverter() } },
+		};
+
+		patch.Operations.Add(new Operation<SimpleObject>("replace", "/IntegerValue", null, null));
+
+		// Act
+		patch.ApplyTo(model);
+
+		// Assert
+		Assert.Equal(999, model.IntegerValue);
+	}
+
+	class IntJsonConverter : JsonConverter<int>
+	{
+		public override bool HandleNull { get; } = true;
+
+		public override int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options
+		)
+		{
+			if (reader.TokenType == JsonTokenType.Null)
+			{
+				return 999;
+			}
+
+			return reader.GetInt32();
+		}
+
+		public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options)
+		{
+			writer.WriteNumberValue(value);
+		}
 	}
 
 	[Fact]

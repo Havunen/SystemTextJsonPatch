@@ -16,8 +16,11 @@ public static class ConversionResultProvider
 
 		if (value == null)
 		{
-			convertedValue = null;
-			return IsNullableType(typeToConvertTo);
+			if (IsNullableType(typeToConvertTo))
+			{
+				convertedValue = null;
+				return true;
+			}
 		}
 
 		if (typeToConvertTo.IsInstanceOfType(value))

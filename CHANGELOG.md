@@ -1,3 +1,10 @@
+## 5.0.0
+
+- .NET 10 support added
+- Try and convert from decimal to the underlying type value, if the type is nullable https://github.com/Havunen/SystemTextJsonPatch/pull/44
+- Support assigning null to non-reference types when HandleNull converter is registered https://github.com/Havunen/SystemTextJsonPatch/pull/46
+
+
 ## 4.2.0
 
 - Correctly handle key not found exception when applying patch document to dictionary https://github.com/Havunen/SystemTextJsonPatch/pull/40

@@ -170,6 +170,48 @@ public class JsonPatchDocumentJsonObjectTest
 	}
 
 	[Fact]
+	public void CopyJsonProp()
+	{
+		var options = new JsonSerializerOptions() { };
+
+		var node = JsonSerializer.Deserialize<JsonObject>("{\"a\": \"12\"}");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""copy"", ""path"": ""/b"", ""from"": ""/a"" } ]", options);
+
+		patch.ApplyTo(node);
+
+		node.TryGetPropertyValue("b", out var prop);
+
+		Assert.Equal("12", prop.ToString());
+	}
+
+	[Fact]
+	public void CopyJsonObjectProp()
+	{
+		var options = new JsonSerializerOptions() { };
+
+		var node = JsonSerializer.Deserialize<JsonObject>("{\"profile\": {\"email\": \"foo@bar.com\"}}");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""copy"", ""path"": ""/profileCopy"", ""from"": ""/profile"" } ]", options);
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("foo@bar.com", node["profileCopy"]["email"].GetValue<string>());
+	}
+
+	[Fact]
+	public void CopyJsonArrayProp()
+	{
+		var options = new JsonSerializerOptions() { };
+
+		var node = JsonSerializer.Deserialize<JsonObject>("{\"emails\": [\"foo@bar.com\", \"bar@baz.com\"]}");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""copy"", ""path"": ""/emailsCopy"", ""from"": ""/emails"" } ]", options);
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("foo@bar.com", node["emailsCopy"][0].GetValue<string>());
+		Assert.Equal("bar@baz.com", node["emailsCopy"][1].GetValue<string>());
+	}
+
+	[Fact]
 	public void ApplyToArrayAddAndRemove()
 	{
 		// Arrange
@@ -231,6 +273,39 @@ public class JsonPatchDocumentJsonObjectTest
 
 		// Assert
 		Assert.Equal("foo@bar.com", model.CustomData["UserName"].GetValue<string>());
+	}
+
+	[Fact]
+	public void ApplyToModelCopyJsonObjectNode()
+	{
+		// Arrange
+		var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Profile = new { Email = "foo@bar.com" } }) };
+		var patch = new JsonPatchDocument<ObjectWithJsonNode>();
+
+		patch.Operations.Add(new Operation<ObjectWithJsonNode>("copy", "/CustomData/ProfileCopy", "/CustomData/Profile"));
+
+		// Act
+		patch.ApplyTo(model);
+
+		// Assert
+		Assert.Equal("foo@bar.com", model.CustomData["ProfileCopy"]["Email"].GetValue<string>());
+	}
+
+	[Fact]
+	public void ApplyToModelCopyJsonArrayNode()
+	{
+		// Arrange
+		var model = new ObjectWithJsonNode { CustomData = JsonSerializer.SerializeToNode(new { Emails = new[] { "foo@bar.com", "bar@baz.com" } }) };
+		var patch = new JsonPatchDocument<ObjectWithJsonNode>();
+
+		patch.Operations.Add(new Operation<ObjectWithJsonNode>("copy", "/CustomData/EmailsCopy", "/CustomData/Emails"));
+
+		// Act
+		patch.ApplyTo(model);
+
+		// Assert
+		Assert.Equal("foo@bar.com", model.CustomData["EmailsCopy"][0].GetValue<string>());
+		Assert.Equal("bar@baz.com", model.CustomData["EmailsCopy"][1].GetValue<string>());
 	}
 
 	[Fact]

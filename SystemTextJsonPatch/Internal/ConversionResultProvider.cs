@@ -70,6 +70,26 @@ public static class ConversionResultProvider
 			return true;
 		}
 
+#if NET10_0_OR_GREATER
+		if (value is JsonNode jsonNode)
+		{
+			convertedValue = jsonNode.DeepClone();
+			return true;
+		}
+#endif
+
+		if (value is JsonElement jsonElement)
+		{
+			convertedValue = jsonElement.Clone();
+			return true;
+		}
+
+		if (value is JsonDocument jsonDocument)
+		{
+			convertedValue = JsonDocument.Parse(jsonDocument.RootElement.GetRawText());
+			return true;
+		}
+
 		if (typeToConvertTo.IsInstanceOfType(value))
 		{
 			// Keep original type
@@ -92,7 +112,7 @@ public static class ConversionResultProvider
 
 		try
 		{
-			convertedValue = Deserialize(value, typeToConvertTo, options);
+			convertedValue = Deserialize(value, targetType, options);
 
 			return true;
 		}

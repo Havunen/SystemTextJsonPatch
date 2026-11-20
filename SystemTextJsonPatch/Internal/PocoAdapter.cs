@@ -37,7 +37,14 @@ public sealed class PocoAdapter : IAdapter
 			return false;
 		}
 
-		jsonProperty.SetValue(target, convertedValue);
+		if (jsonProperty is JsonArrayProxy jsonArrayProxy)
+		{
+			jsonArrayProxy.AddValue(convertedValue);
+		}
+		else
+		{
+			jsonProperty.SetValue(target, convertedValue);
+		}
 
 		errorMessage = null;
 		return true;

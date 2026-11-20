@@ -58,7 +58,7 @@ public sealed class JSonObjectAdapter : IAdapter
 
 		var propertyName = FindPropertyName(obj, segment, options);
 
-		if (obj[propertyName] == null)
+		if (!obj.TryGetPropertyValue(propertyName, out _))
 		{
 			errorMessage = Resources.FormatTargetLocationAtPathSegmentNotFound(segment);
 			return false;

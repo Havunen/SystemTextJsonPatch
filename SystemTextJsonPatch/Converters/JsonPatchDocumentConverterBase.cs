@@ -85,8 +85,13 @@ namespace SystemTextJsonPatch.Converters
 					}
 					else
 					{
-						ThrowJsonPatchException();
+						reader.Skip();
 					}
+				}
+
+				if (op == null || path == null)
+				{
+					ThrowJsonPatchException();
 				}
 
 				var operation = new TOperation
@@ -171,8 +176,13 @@ namespace SystemTextJsonPatch.Converters
 					}
 					else
 					{
-						ExceptionHelper.ThrowJsonPatchException(Resources.InvalidJsonPatchDocument);
+						reader.Skip();
 					}
+				}
+
+				if (op == null || path == null)
+				{
+					ThrowJsonPatchException();
 				}
 
 				var operation = new TOperation

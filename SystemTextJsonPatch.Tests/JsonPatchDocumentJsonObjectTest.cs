@@ -29,6 +29,125 @@ public class JsonPatchDocumentJsonObjectTest
 	}
 
 	[Fact]
+	public void AddAtExistingArrayIndexInsertsBeforeElement()
+	{
+		var node = JsonSerializer.Deserialize<JsonArray>("[\"foo\",\"sil\"]");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""add"", ""path"": ""/1"", ""value"": ""bar"" } ]");
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("[\"foo\",\"bar\",\"sil\"]", node.ToJsonString());
+	}
+
+	[Fact]
+	public void AddAtArrayIndexZeroInsertsBeforeElement()
+	{
+		var node = JsonSerializer.Deserialize<JsonArray>("[\"foo\",\"sil\"]");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""add"", ""path"": ""/0"", ""value"": ""bar"" } ]");
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("[\"bar\",\"foo\",\"sil\"]", node.ToJsonString());
+	}
+
+	[Fact]
+	public void AddArrayValueAtExistingIndexKeepsItAsOneElement()
+	{
+		var node = JsonSerializer.Deserialize<JsonArray>("[\"foo\",\"sil\"]");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""add"", ""path"": ""/1"", ""value"": [""bar"", ""baz""] } ]");
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("[\"foo\",[\"bar\",\"baz\"],\"sil\"]", node.ToJsonString());
+	}
+
+	[Fact]
+	public void AddAtArrayIndexFromRfcExampleInsertsBeforeElement()
+	{
+		var node = JsonSerializer.Deserialize<JsonObject>("{\"foo\":[\"bar\",\"baz\"]}");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""add"", ""path"": ""/foo/1"", ""value"": ""qux"" } ]");
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("{\"foo\":[\"bar\",\"qux\",\"baz\"]}", node.ToJsonString());
+	}
+
+	[Fact]
+	public void AddAtArrayLengthAppends()
+	{
+		var node = JsonSerializer.Deserialize<JsonArray>("[\"foo\",\"sil\"]");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""add"", ""path"": ""/2"", ""value"": ""bar"" } ]");
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("[\"foo\",\"sil\",\"bar\"]", node.ToJsonString());
+	}
+
+	[Fact]
+	public void AddBeyondArrayLengthFails()
+	{
+		var node = JsonSerializer.Deserialize<JsonArray>("[\"foo\",\"sil\"]");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""add"", ""path"": ""/3"", ""value"": ""bar"" } ]");
+
+		Assert.Throws<ArgumentOutOfRangeException>(() => patch.ApplyTo(node));
+	}
+
+	[Fact]
+	public void AddTrailingEmptyPointerTokenTargetsEmptyMember()
+	{
+		var node = JsonSerializer.Deserialize<JsonObject>("{\"foo\":{}}");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""add"", ""path"": ""/foo/"", ""value"": 1 } ]");
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("{\"foo\":{\"\":1}}", node.ToJsonString());
+	}
+
+	[Fact]
+	public void AddIgnoresUnrecognizedOperationMember()
+	{
+		var node = JsonNode.Parse("{\"foo\":\"bar\"}");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""add"", ""path"": ""/baz"", ""value"": ""qux"", ""xyz"": 123 } ]", new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("{\"foo\":\"bar\",\"baz\":\"qux\"}", node.ToJsonString());
+	}
+
+	[Fact]
+	public void TestIgnoresUnrecognizedOperationMember()
+	{
+		var node = JsonNode.Parse("{\"foo\":1}");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""test"", ""path"": ""/foo"", ""value"": 1, ""spurious"": 1 } ]");
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("{\"foo\":1}", node.ToJsonString());
+	}
+
+	[Fact]
+	public void AddIgnoresNestedUnrecognizedOperationMember()
+	{
+		var node = JsonNode.Parse("{\"foo\":\"bar\"}");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""add"", ""path"": ""/baz"", ""value"": ""qux"", ""extra"": { ""nested"": [1, { ""deep"": true }] } } ]");
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("{\"foo\":\"bar\",\"baz\":\"qux\"}", node.ToJsonString());
+	}
+
+	[Fact]
+	public void ReplaceExistingNullJsonProperty()
+	{
+		var node = JsonSerializer.Deserialize<JsonObject>("{\"foo\":null}");
+		var patch = JsonSerializer.Deserialize<JsonPatchDocument>(@"[ { ""op"": ""replace"", ""path"": ""/foo"", ""value"": ""truthy"" } ]");
+
+		patch.ApplyTo(node);
+
+		Assert.Equal("{\"foo\":\"truthy\"}", node.ToJsonString());
+	}
+
+	[Fact]
 	public void ReplaceJsonNodeWithNewJson()
 	{
 		// Arrange

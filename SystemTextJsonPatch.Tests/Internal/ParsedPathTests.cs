@@ -13,6 +13,8 @@ public class ParsedPathTests
 	[InlineData("foo/bar~1baz", new string[] { "foo", "bar/baz" })]
 	[InlineData("foo/bar~0/~0/~1~1/~0~0/baz", new string[] { "foo", "bar~", "~", "//", "~~", "baz" })]
 	[InlineData("~0~1foo", new string[] { "~/foo" })]
+	[InlineData("/foo/", new string[] { "foo", "" })]
+	[InlineData("/foo//bar", new string[] { "foo", "", "bar" })]
 	public void ParsingValidPathShouldSucceed(string path, string[] expected)
 	{
 		// Arrange & Act

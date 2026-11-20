@@ -39,6 +39,20 @@ namespace SystemTextJsonPatch.Internal.Proxies
 			}
 		}
 
+		public void AddValue(object? convertedValue)
+		{
+			var value = convertedValue == null ? null : JsonSerializer.SerializeToNode(convertedValue);
+
+			if (_propertyName == Consts.LastElement)
+			{
+				_jsonArray.Add(value);
+			}
+			else
+			{
+				_jsonArray.Insert(this.PropIndex, value);
+			}
+		}
+
 		public void RemoveValue(object target)
 		{
 			if (_propertyName == Consts.LastElement)

@@ -52,6 +52,10 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
 					strings.Add(sb.ToString());
 					sb.Length = 0;
 				}
+				else if (i > 0 && path[i - 1] == '/')
+				{
+					strings.Add(string.Empty);
+				}
 			}
 			else if (c == '~')
 			{
@@ -81,7 +85,7 @@ public readonly struct ParsedPath : IEquatable<ParsedPath>
 			}
 		}
 
-		if (sb.Length > 0)
+		if (sb.Length > 0 || path.EndsWith("/", StringComparison.Ordinal))
 		{
 			strings.Add(sb.ToString());
 		}
